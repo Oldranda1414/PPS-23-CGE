@@ -46,6 +46,6 @@ The user should have available the following premade demos:
 
 - briscola ([rules](https://www.pagat.com/aceten/briscola.html))
 - marafone ([rules](https://en.wikipedia.org/wiki/Marafon))
-- goon president ([rules](goon_president.md#rules))
+- goon president ([rules](goon_president.md))
 
 [Back to Product Backlog](product_backlog.md)
