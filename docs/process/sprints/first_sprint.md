@@ -1,12 +1,5 @@
 # First Sprint
 
-| Item | Sprint Task | Volunteer | Initial Size Estimate | Remaining Effort at the end of the day |
-|:----:|:-----------:|:---------:|:---------------------:|:--------------------------------------:|
-| <td rowspan="2" colspan="0">Project organization</td> | bla bla 1 | | | |
-| | bla bla 2 | | | |
-| | bla bla 3 | | | |
-| | bla bla 4 | | | |
-
 <table>
 <th>Item</th><th>Sprint Task</th><th>Volunteer</th><th>Initial Size Estimate</th><th>Remaining effort at the end of the day</th>
 <tr><td rowspan="2">Project organization</td><td>Requirements definition</td><td>Team</td><td>4</td></tr>
