@@ -2,14 +2,14 @@
 
 ## Style and coherence
 
-Scala formatter
-Wart Remover
-Scala style
+Scala formatter  
+Wart Remover  
+Scala style  
 
 ## flawed programming patterns
 
-Scala Fix
-Wart Remover
+Scala Fix  
+Wart Remover  
 
 ## DRY violation spotters
 
@@ -21,11 +21,11 @@ kinds:
  - integration
  - end-to-end
 
-Scalatest
-Scoverage - scala specific
-JaCoCo - JVM based
+Scalatest  
+Scoverage - scala specific  
+JaCoCo - JVM based  
 
 ## Gradle for QA
 
-test: test tasks
+test: test tasks  
 check: task that runs the whole QA suite
