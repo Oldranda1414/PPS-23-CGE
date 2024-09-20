@@ -15,7 +15,11 @@ plugins {
     // Add Scoverage plugin for code coverage.
     id("org.scoverage") version "8.1"
 
+    // Add Scalafmt plugin for code formatting.
     id("cz.alenkacz.gradle.scalafmt") version "1.16.2"
+
+    // Add Wartremover plugin for static analysis.
+    id("cz.augi.gradle.wartremover") version "0.17.1"
 }
 
 repositories {
