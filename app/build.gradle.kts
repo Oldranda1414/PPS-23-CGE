@@ -11,6 +11,9 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    // Add Scoverage plugin for code coverage.
+    id("org.scoverage") version "8.1"
 }
 
 repositories {
@@ -46,3 +49,13 @@ application {
     mainClass = "org.example.App"
 }
 
+// Configure Scoverage settings
+scoverage {
+    minimumRate.set(BigDecimal("0.80"))
+     excludedFiles.set(
+        listOf(
+            ".*/resources/.*",
+            ".*/build/*"
+        )
+    )
+}
