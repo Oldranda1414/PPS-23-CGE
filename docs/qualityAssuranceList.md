@@ -38,3 +38,7 @@ Doc: [Scoverage](https://github.com/scoverage/gradle-scoverage)
 - To execute it: `./gradlew reportScoverage` - to run only the unit tests and no other test tasks (e.g., integration tests): `reportTestScoverage`
 - To check the data produced by the coverage analysis: `./gradlew checkScoverage`
 - It's also possible to check scoverage reports in the browser: open the file `build/reports/scoverage/index.html`
+
+## Scalafmt
+Doc: [Scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
+- It should work flawlessly with the Metals plugin in VSCode installed.

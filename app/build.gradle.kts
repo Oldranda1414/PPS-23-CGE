@@ -14,6 +14,8 @@ plugins {
 
     // Add Scoverage plugin for code coverage.
     id("org.scoverage") version "8.1"
+
+    id("cz.alenkacz.gradle.scalafmt") version "1.16.2"
 }
 
 repositories {
