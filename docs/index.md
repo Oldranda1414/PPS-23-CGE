@@ -3,7 +3,7 @@
 ## Index
 
 - [Introduction](introduction/index.md)
-- [Development Process](development-process/index.md)
+- [Development Process](development_process/index.md)
 - [Requirements](requirements/index.md)
 - [Architectural Design](architectural-design/index.md)
 - [Detailed Design](detailed-design/index.md)
