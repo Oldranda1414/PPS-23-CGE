@@ -23,7 +23,7 @@ plugins {
 
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "3.5.0.2730"
-    id("jacoco")
+    // id("jacoco")
 }
 
 repositories {
@@ -97,9 +97,9 @@ sonarqube.properties {
     property("sonar.scala.coverage.reportPaths", "${project.buildDir}/reports/scoverage/scoverage.xml")
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
-}
+// tasks.test {
+//     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+// }
+// tasks.jacocoTestReport {
+//     dependsOn(tasks.test) // tests are required to run before generating the report
+// }

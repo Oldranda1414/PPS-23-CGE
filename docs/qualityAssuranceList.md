@@ -50,3 +50,8 @@ Doc: [Scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
     - `./gradlew scalafmtAll` formats scala code from all source sets
     - `./gradlew checkScalafmtAll` checks formatting of all source sets
 - Bug: I found that if you try to call twice the same gradle task for scalafmt it will ignore the second one and return ok by default. I currently don't know if there is a solution.
+
+## Wartremover
+Discovered things:
+- it should be better to use the library implemented by jhamim but it requires scala3
+- in order to update libs.scala.library version .toml file must be changed
