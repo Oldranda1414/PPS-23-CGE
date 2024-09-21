@@ -23,6 +23,7 @@ plugins {
 
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "3.5.0.2730"
+    id("jacoco")
 }
 
 repositories {
@@ -44,6 +45,9 @@ dependencies {
 
     // Need scala-xml at test runtime
     testRuntimeOnly(libs.scala.xml.v2.v13)
+
+    // scoverage dependencies
+    scoverage(libs.scala.library)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -91,4 +95,11 @@ sonarqube.properties {
     property("sonar.links.scm", githubUrl)
     property("sonar.links.issue", "$githubUrl/issues")
     property("sonar.scala.coverage.reportPaths", "${project.buildDir}/reports/scoverage/scoverage.xml")
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
