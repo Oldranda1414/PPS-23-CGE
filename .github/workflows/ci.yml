@@ -3,14 +3,14 @@ name: CI - Build, Test and Scoverage
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
       - 'develop'
     paths-ignore:
       - 'docs/**'
       - 'README.md'
   pull_request:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   Test:

@@ -39,12 +39,12 @@ Git flow branching model will be used.
 
 Two main branches will always exist:
 
-- `master` : for stable releases;
+- `main` : for stable releases;
 - `develop` : for feature integration;
 
-Feature branches can be created, branching from the `develop` branch, to implement new fetures. Once a new feature is implemented it should be merged into the `develop` branch. To create a new release the `develop` branch is merged into the `master` branch.
+Feature branches can be created, branching from the `develop` branch, to implement new fetures. Once a new feature is implemented it should be merged into the `develop` branch. To create a new release the `develop` branch is merged into the `main` branch.
 
-Hotfix and fix branches can be branched from the master and developd branches accordingly for bug fixes.
+Hotfix and fix branches can be branched from the `main` and `develop` branches accordingly for bug fixes.
 
 [gitflow](https://pypi.org/project/gitflow/) command line tool will be used for high-level repository operations
 
