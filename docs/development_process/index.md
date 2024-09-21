@@ -2,7 +2,7 @@
 
 ## Scrum
 
-The development process choosen for this project is SCRUM([SCRUM Primer 2.0](file:///home/leonardo/Documents/Download/scrumprimer20.pdf)), an agile project management framework.
+The development process choosen for this project is SCRUM([SCRUM Primer](https://scrumprimer.org/)), an agile project management framework.
 
 As per agile development, SCRUM defines a loose set of activities that enable the development team to embrace an iterative and incremental process.
 
