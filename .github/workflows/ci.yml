@@ -91,7 +91,7 @@ jobs:
           java-version: '11'
 
       - name: Run Scoverage
-        run: ./gradlew scoverage
+        run: ./gradlew scoverageClasses
 
       - name: Report Scoverage
         run: ./gradlew reportScoverage -PscoverageCompileOnly
