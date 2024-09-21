@@ -58,6 +58,13 @@ jobs:
           name: test-report
           path: build/reports/tests/test
 
+      - name: SonarCloud Analysis
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+        run: ./gradlew sonar
+
   Scoverage:
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -94,4 +101,3 @@ jobs:
         with:
           name: scoverage-report
           path: build/reports/scoverage
-
