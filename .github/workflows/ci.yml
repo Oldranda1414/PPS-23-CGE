@@ -1,0 +1,97 @@
+name: CI - Build, Test and Scoverage
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  Test:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.6
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Setup Gradle and run check
+        uses: gradle/gradle-build-action@v2.3.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          arguments: check
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: build/reports/tests/test
+
+  Scoverage:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ubuntu-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ubuntu-gradle-
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Run Scoverage
+        run: ./gradlew scoverage
+
+      - name: Report Scoverage
+        run: ./gradlew reportScoverage -PscoverageCompileOnly
+
+      - name: Upload Scoverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: scoverage-report
+          path: build/reports/scoverage
+
