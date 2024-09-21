@@ -66,7 +66,26 @@ scoverage {
     )
 }
 
-
 scalafmt {
     configFilePath = ".scalafmt.conf"
+}
+
+val organization = "CGE-PPS-LR"
+val githubUrl = "https://github.com/Oldranda1414/${rootProject.name}"
+
+sonarqube.properties {
+    property("sonar.organization", organization)
+    property("sonar.host.url", "https://sonarcloud.io")
+    property("sonar.projectName", rootProject.name)
+    property("sonar.projectKey", "${organization}_${rootProject.name}")
+    property("sonar.projectDescription", "Project for PPS.")
+    property("sonar.projectVersion", project.version.toString())
+    System.getenv()["SONARCLOUD_TOKEN"]?.let { property("sonar.login", it) }
+    property("sonar.scm.provider", "git")
+    property("sonar.verbose", "true")
+    property("sonar.links.homepage", githubUrl)
+    property("sonar.links.ci", "$githubUrl/actions")
+    property("sonar.links.scm", githubUrl)
+    property("sonar.links.issue", "$githubUrl/issues")
+    property("sonar.scala.coverage.reportPaths", "${project.buildDir}/reports/scoverage/scoverage.xml")
 }

@@ -13,7 +13,7 @@ class AppSuite extends AnyFunSuite with Matchers {
     App.greeting() should not be null
   }
 
-  test("App returns the correct greeting"){
+  test("App returns the correct greeting") {
     App.greeting() shouldBe "Hello, world!"
   }
 }
