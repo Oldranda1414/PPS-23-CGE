@@ -20,6 +20,9 @@ plugins {
 
     // Add Wartremover plugin for static analysis.
     // id("cz.augi.gradle.wartremover") version "0.17.1"
+
+    // Add sonarqube plugin for CI pipeline
+    id("org.sonarqube") version "3.5.0.2730"
 }
 
 repositories {
