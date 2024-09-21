@@ -84,6 +84,6 @@ To ensure code correctness and integrity a Continuous Integration pipeline has b
 
 [Renovate Bot](https://github.com/renovatebot) has been included in the project to automate dependency updates
 
-[Back to index](../index.md) | 
-[Previous Chapter](../1-introduction/index.md) | 
-[Next Chapter](../3-requirements/index.md)
+[Back to index](../index.md) |
+[Previous Chapter](../introduction/index.md) |
+[Next Chapter](../requirements/index.md)
