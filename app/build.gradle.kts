@@ -65,3 +65,8 @@ scoverage {
         )
     )
 }
+
+
+scalafmt {
+    configFilePath = ".scalafmt.conf"
+}
