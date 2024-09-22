@@ -31,23 +31,19 @@ repositories {
 }
 
 dependencies {
-    // Use Scala 3.5.1 in our library project
     implementation(libs.scala)
 
-    // This dependency is used by the application.
+    // Dependencies used by the application.
     implementation(libs.guava)
 
     // Use Scalatest for testing our library
     testImplementation(libs.scalatest)
     testImplementation(libs.scalatestplusjunit)
-
-    // scoverage dependencies
-    scoverage(libs.scala)
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
