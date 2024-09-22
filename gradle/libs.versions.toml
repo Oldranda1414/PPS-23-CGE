@@ -1,10 +1,11 @@
 [versions]
 guava-version = "33.2.1-jre"
-scala-version = "3.2.2"
+scala-version = "3.5.1"
 scalatest-version = "3.2.15"
 scalatestplus-version = "3.2.15.0"
 scalafmt-version = "3.7.1"
 wartremover-version = "3.0.11"
+semanticdb-version = "4.7.9"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava-version" }
@@ -14,6 +15,7 @@ scalatestplusjunit = { module = "org.scalatestplus:junit-4-13_3", version.ref = 
 scalafmt-cli = { module = "org.scalameta:scalafmt-cli_2.13", version.ref = "scalafmt-version" }
 scalafmt-config = { module = "org.scalameta:scalafmt-config_2.13", version.ref = "scalafmt-version" }
 wartremover = { module = "org.wartremover:wartremover_3.2.2", version.ref = "wartremover-version" }
+semanticdb = { module = "org.scalameta:semanticdb-scalac_3", version.ref = "semanticdb-version" }
 
 [bundles]
 scalafmt = [ "scalafmt-cli", "scalafmt-config" ]

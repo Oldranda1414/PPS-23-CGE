@@ -67,7 +67,7 @@ Doc: [Scalastyle](http://www.scalastyle.org/configuration.html)
 
 
 ## Scalafix
-Doc: [Scalafix](https://scalacenter.github.io/scalafix/docs/users/configuration.html) [Scalafix-gh](https://github.com/cosmicsilence/gradle-scalafix)
+Doc: [Scalafix](https://scalacenter.github.io/scalafix/docs/rules/overview.html) [Scalafix-gh](https://github.com/cosmicsilence/gradle-scalafix)
 - It must be executed from shell in order to see its result.
 - It adds new tasks to scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
 - It defines some custom commands:
