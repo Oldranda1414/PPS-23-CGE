@@ -28,7 +28,7 @@ plugins {
     id("io.github.cosmicsilence.scalafix") version "0.2.2"
 
     // Add sonarqube plugin for CI pipeline
-    id("org.sonarqube") version "4.0.0.2929"
+    id("org.sonarqube") version "5.1.0.4882"
     // id("jacoco")
 }
 
