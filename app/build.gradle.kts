@@ -18,8 +18,11 @@ plugins {
     // Add Scalafmt plugin for code formatting.
     id("cz.augi.gradle.scalafmt") version "1.21.3"
 
-    // Add Wartremover plugin for static analysis.
+    // Add Wartremover plugin to avoid code smells.
     id("io.github.jahrim.wartremover") version "0.1.3"
+
+    // Add Scalastyle plugin for better code style.
+    id("com.github.alisiikh.scalastyle") version "3.5.0"
 
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "3.5.0.2730"
@@ -44,9 +47,6 @@ dependencies {
 
     // scoverage dependencies
     scoverage(libs.scala)
-
-    // Add Wartremover dependencies
-    // scalaCompilerPlugins(libs.wartremover)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -79,6 +79,10 @@ scalafmt {
 
 wartremover {
     configFile("../.wartremover.conf")
+}
+
+scalastyle {
+    config = file("../scalastyle_config.xml")
 }
 
 val organization = "CGE-PPS-LR"

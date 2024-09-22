@@ -56,3 +56,10 @@ Doc: [WartRemover](https://www.wartremover.org/doc/warts.html)
 - It must be executed from shell in order to see its result.
 - It's added in the scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
 - I've set up some warts, the most took from Jahrim and some other decided by me. We should meet and decide together which we should enable/disable.
+
+## Scalastyle
+Doc: [Scalastyle](http://www.scalastyle.org/configuration.html)
+- It must be executed from shell in order to see its result.
+- It's added in the scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
+- I've set up some style rules. We should meet and decide together which we should enable/disable.
+- There is the chance to disable on demand style check using specific comments within code (see comment filters in the doc).
