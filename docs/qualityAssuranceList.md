@@ -52,6 +52,7 @@ Doc: [Scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
 - Bug: I found that if you try to call twice the same gradle task for scalafmt it will ignore the second one and return ok by default. I currently don't know if there is a solution.
 
 ## Wartremover
-Discovered things:
-- it should be better to use the library implemented by jharim but it requires scala3
-- in order to update libs.scala.library version .toml file must be changed
+Doc: [WartRemover](https://www.wartremover.org/doc/warts.html)
+- It must be executed from shell in order to see its result.
+- It's added in the scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
+- I've set up some warts, the most took from Jahrim and some other decided by me. We should meet and decide together which we should enable/disable.
