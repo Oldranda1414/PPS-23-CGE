@@ -24,6 +24,9 @@ plugins {
     // Add Scalastyle plugin for better code style.
     id("com.github.alisiikh.scalastyle") version "3.5.0"
 
+    // Add Scalafix plugin for code refactoring.
+    id("io.github.cosmicsilence.scalafix") version "0.2.2"
+
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "3.5.0.2730"
     // id("jacoco")
@@ -74,15 +77,19 @@ scoverage {
 }
 
 scalafmt {
-    configFilePath = ".scalafmt.conf"
+    configFilePath = "configs/.scalafmt.conf"
 }
 
 wartremover {
-    configFile("../.wartremover.conf")
+    configFile("configs/.wartremover.conf")
 }
 
 scalastyle {
-    config = file("../scalastyle_config.xml")
+    config = file("configs/scalastyle_config.xml")
+}
+
+scalafix {
+    configFile = file("configs/.scalafix.conf")
 }
 
 val organization = "CGE-PPS-LR"

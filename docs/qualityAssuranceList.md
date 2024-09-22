@@ -60,6 +60,20 @@ Doc: [WartRemover](https://www.wartremover.org/doc/warts.html)
 ## Scalastyle
 Doc: [Scalastyle](http://www.scalastyle.org/configuration.html)
 - It must be executed from shell in order to see its result.
-- It's added in the scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
+- It adds new tasks to scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
 - I've set up some style rules. We should meet and decide together which we should enable/disable.
 - There is the chance to disable on demand style check using specific comments within code (see comment filters in the doc).
+!- I found that scalastyle is compatible in some way with sonarqube [link](https://scalastyle.beautiful-scala.com/)
+
+
+## Scalafix
+Doc: [Scalafix](https://scalacenter.github.io/scalafix/docs/users/configuration.html) [Scalafix-gh](https://github.com/cosmicsilence/gradle-scalafix)
+- It must be executed from shell in order to see its result.
+- It adds new tasks to scala build pipeline. This means that you can just launch `./gradlew build` command in order to see the result.
+- It defines some custom commands:
+    - `scalafix` Runs rewrite and linter rules for all source sets. Rewrite rules may modify files in-place whereas linter rules will print diagnostics to Gradle's output.
+    - `checkScalafix` Checks that source files of all source sets are compliant to rewrite and linter rules. Any violation is printed to Gradle's output and the task exits with an error. No source file gets modified. This task is automatically triggered by the check task.
+
+## WARNING
+Wart remover behaves diffrently from scalastyle and scalafix. It's inserted directly into the scala building pipeline that means that no tasks will appear at the compilation.
+Still there will be showed warnings/errors if some warts would be found. Instead, scalafix and scalastyle will show thier custom tasks working in the background during the compilation.
