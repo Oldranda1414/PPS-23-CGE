@@ -53,5 +53,5 @@ Doc: [Scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
 
 ## Wartremover
 Discovered things:
-- it should be better to use the library implemented by jhamim but it requires scala3
+- it should be better to use the library implemented by jharim but it requires scala3
 - in order to update libs.scala.library version .toml file must be changed

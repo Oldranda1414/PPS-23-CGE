@@ -19,7 +19,7 @@ plugins {
     id("cz.augi.gradle.scalafmt") version "1.21.3"
 
     // Add Wartremover plugin for static analysis.
-    // id("cz.augi.gradle.wartremover") version "0.17.1"
+    id("io.github.jahrim.wartremover") version "0.1.3"
 
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "3.5.0.2730"
@@ -32,28 +32,27 @@ repositories {
 }
 
 dependencies {
-    // Use Scala 2.13 in our library project
-    implementation(libs.scala.library)
+    // Use Scala 3.2.2 in our library project
+    implementation(libs.scala)
 
     // This dependency is used by the application.
     implementation(libs.guava)
 
     // Use Scalatest for testing our library
-    testImplementation(libs.junit)
-    testImplementation(libs.scalatest.v2.v13)
-    testImplementation(libs.junit.v4.v13.v2.v13)
-
-    // Need scala-xml at test runtime
-    testRuntimeOnly(libs.scala.xml.v2.v13)
+    testImplementation(libs.scalatest)
+    testImplementation(libs.scalatestplusjunit)
 
     // scoverage dependencies
-    scoverage(libs.scala.library)
+    scoverage(libs.scala)
+
+    // Add Wartremover dependencies
+    // scalaCompilerPlugins(libs.wartremover)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -65,7 +64,8 @@ application {
 // Configure Scoverage settings
 scoverage {
     minimumRate.set(BigDecimal("0.80"))
-     excludedFiles.set(
+    // failOnMinimumRate.set(false)
+    excludedFiles.set(
         listOf(
             ".*/resources/.*",
             ".*/build/*"
@@ -75,6 +75,10 @@ scoverage {
 
 scalafmt {
     configFilePath = ".scalafmt.conf"
+}
+
+wartremover {
+    configFile("../.wartremover.conf")
 }
 
 val organization = "CGE-PPS-LR"

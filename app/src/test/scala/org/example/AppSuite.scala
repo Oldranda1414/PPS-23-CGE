@@ -9,9 +9,6 @@ import org.scalatestplus.junit.JUnitRunner
 import org.scalatest.matchers.should.Matchers
 
 class AppSuite extends AnyFunSuite with Matchers {
-  test("App has a greeting") {
-    App.greeting() should not be null
-  }
 
   test("App returns the correct greeting") {
     App.greeting() shouldBe "Hello, world!"
