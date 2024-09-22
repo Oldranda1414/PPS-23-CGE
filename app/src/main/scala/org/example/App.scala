@@ -6,7 +6,11 @@ package org.example
 object App {
   def main(args: Array[String]): Unit = {
     println(greeting())
+    println(greeting("test"))
+    println(sum("test"))
   }
 
-  def greeting(): String = "Hello, world!"
+  def greeting(message :String = "Hello, world!"): String = message
+
+  def sum(message :String = "Hello, world!"): String = message
 }

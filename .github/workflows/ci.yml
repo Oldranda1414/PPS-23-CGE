@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-java@v3.9.0
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
       - name: Setup Gradle and run check
         uses: gradle/gradle-build-action@v2.3.3
@@ -57,13 +57,6 @@ jobs:
         with:
           name: test-report
           path: build/reports/tests/test
-
-      - name: SonarCloud Analysis
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-        run: ./gradlew sonar
 
   Scoverage:
     timeout-minutes: 30
@@ -88,7 +81,7 @@ jobs:
         uses: actions/setup-java@v3.9.0
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
       - name: Run Scoverage
         run: ./gradlew scoverageClasses
