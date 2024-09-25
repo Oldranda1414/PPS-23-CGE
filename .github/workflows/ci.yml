@@ -88,9 +88,3 @@ jobs:
 
       - name: Report Scoverage
         run: ./gradlew reportScoverage -PscoverageCompileOnly
-
-      - name: Upload Scoverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: scoverage-report
-          path: build/reports/scoverage
