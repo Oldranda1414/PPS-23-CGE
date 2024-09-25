@@ -1,6 +1,6 @@
 package org.example
 
-object App:
+object app:
   def main(args: Array[String]): Unit =
     println(greeting()) // works after making sure parentheses are used
 
