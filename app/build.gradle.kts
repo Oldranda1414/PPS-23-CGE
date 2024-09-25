@@ -14,9 +14,6 @@ plugins {
     // Add Wartremover plugin to avoid code smells.
     id("io.github.jahrim.wartremover") version "0.1.3"
 
-    // Add Scalastyle plugin for better code style.
-    id("com.github.alisiikh.scalastyle") version "3.5.0"
-
     // Add Scalafix plugin for code refactoring.
     id("io.github.cosmicsilence.scalafix") version "0.2.2"
 
