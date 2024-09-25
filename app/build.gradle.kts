@@ -60,10 +60,6 @@ wartremover {
     configFile("configs/.wartremover.conf")
 }
 
-scalastyle {
-    config = file("configs/scalastyle_config.xml")
-}
-
 scalafix {
     configFile = file("configs/.scalafix.conf")
 }
