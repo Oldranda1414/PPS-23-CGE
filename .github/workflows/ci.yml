@@ -87,4 +87,7 @@ jobs:
         run: ./gradlew scoverageClasses
 
       - name: Report Scoverage
-        run: ./gradlew reportScoverage -PscoverageCompileOnly
+        run: ./gradlew reportScoverage
+
+      - name: Check Scoverage
+        run: ./gradlew checkScoverage
