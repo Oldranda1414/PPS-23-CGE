@@ -5,5 +5,8 @@ import org.scalatest.matchers.should.Matchers
 class AppTest extends AnyTest with Matchers:
   test("App returns the correct greeting"):
     val expectedGreeting = "Hello, world!"
-    val actualGreeting = app.greeting()
+    val actualGreeting = App.greeting()
     actualGreeting shouldEqual expectedGreeting
+
+  test("main"):
+    App.main(Array.empty)

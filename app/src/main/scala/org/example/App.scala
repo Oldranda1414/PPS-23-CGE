@@ -1,6 +1,6 @@
 package org.example
 
-object app:
+object App:
   def main(args: Array[String]): Unit =
     println(greeting())
 
