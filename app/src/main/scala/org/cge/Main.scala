@@ -1,6 +1,6 @@
-package org.example
+package org.cge
 
-object App:
+object Main:
   def main(args: Array[String]): Unit =
     println(greeting())
 

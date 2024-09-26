@@ -45,7 +45,7 @@ java {
 }
 
 application {
-    mainClass = "org.example.App"
+    mainClass = "org.cge.Main"
 }
 
 scoverage {
