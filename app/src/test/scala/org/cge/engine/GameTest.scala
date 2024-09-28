@@ -1,5 +1,6 @@
 package org.cge.engine
 
+import scala.collection.mutable.Set
 import org.cge.AnyTest
 import org.cge.engine.Game._
 import org.scalatest.matchers.should.Matchers._
@@ -18,3 +19,6 @@ class PlayerTest extends AnyTest:
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
+
+  test("SimplePlayer cards list should be empty after initialization"):
+    player.cards should be (Set[Card]())
