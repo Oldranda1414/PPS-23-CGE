@@ -1,6 +1,7 @@
 package org.cge.engine
 
 import org.cge.AnyTest
+import org.cge.engine.Game._
 import org.scalatest.matchers.should.Matchers._
 
 class CardTest extends AnyTest:
@@ -11,3 +12,9 @@ class CardTest extends AnyTest:
 
   test("SimpleCard suit should be \"suit\""):
     card.suit should be ("suit")
+
+class PlayerTest extends AnyTest:
+  private val player: Player = SimplePlayer("name")
+
+  test("SimplePlayer name should be \"name\""):
+    player.name should be ("name")

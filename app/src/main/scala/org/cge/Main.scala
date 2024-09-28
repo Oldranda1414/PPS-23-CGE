@@ -1,6 +1,6 @@
 package org.cge
 
-import engine.*
+import engine.Game._
 
 object Main:
   def main(args: Array[String]): Unit =
