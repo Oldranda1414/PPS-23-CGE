@@ -20,5 +20,14 @@ class PlayerTest extends AnyTest:
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
 
-  test("SimplePlayer cards list should be empty after initialization"):
+  test("SimplePlayer cards set should be empty after initialization"):
     player.cards should be (Set[Card]())
+  
+  test("SimplePlayer cards set must be non-empty after adding a card"):
+    player.addCard(SimpleCard("1", "spades"))
+    player.cards should not be (Set[Card]())
+
+  test("SimplePlayer cards set must contain a card after adding that card"):
+    val card = SimpleCard("1", "spades")
+    player.addCard(card)
+    player.cards should contain (card)
