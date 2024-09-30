@@ -21,3 +21,5 @@ The team did not manage to finish all the project configuration tasks, so they a
 The team has noted that the initial size estimate was underrated for the Quality Assurance Configuration task. The team is learning how to correctly estimate tasks.
 
 Also unexpected dependencies between tasks have arisen, slowing down work.
+
+[Back to process index](../../index.md)
