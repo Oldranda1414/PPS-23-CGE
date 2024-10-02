@@ -1,6 +1,5 @@
 package org.cge.engine
 
-import scala.collection.mutable.Set
 import org.cge.AnyTest
 import org.cge.engine.Game._
 import org.scalatest.matchers.should.Matchers._
@@ -30,15 +29,15 @@ class PlayerTest extends AnyTest with BeforeAndAfterEach:
     player.name should be ("name")
 
   test("SimplePlayer cards set should be empty after initialization"):
-    player.cards should be (Set[Card]())
+    player.deck.cards should be (List[Card]())
   
   test("SimplePlayer cards set should be non-empty after addCard"):
-    player.addCard(card)
-    player.cards should not be (Set[Card]())
+    player.deck.addCard(card)
+    player.deck.cards should not be (List[Card]())
 
   test("SimplePlayer cards set should contain the added card after addCard"):
-    player.addCard(card)
-    player.cards should contain (card)
+    player.deck.addCard(card)
+    player.deck.cards should contain (card)
 
 class DeckTest extends AnyTest with BeforeAndAfterEach:
   private var deck: Deck = SimpleDeck()

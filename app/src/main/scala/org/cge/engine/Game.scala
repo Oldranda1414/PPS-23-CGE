@@ -7,8 +7,7 @@ object Game:
 
   trait Player:
     def name: String
-    def cards: Set[Card]
-    def addCard(card: Card): Unit
+    def deck: Deck
 
   trait Deck:
     def cards: List[Card]
@@ -18,10 +17,7 @@ object Game:
   final case class SimpleCard(val value: String, val suit: String) extends Card
 
   final case class SimplePlayer(val name: String) extends Player:
-    private var _cards: Set[Card] = Set.empty
-
-    def cards: Set[Card] = _cards
-    def addCard(card: Card) = _cards += card
+    val deck: Deck = SimpleDeck()
 
   final case class SimpleDeck() extends Deck:
     private var _cards: List[Card] = List.empty
