@@ -28,9 +28,9 @@ object Game:
 
     def cards: List[Card] = _cards
     def addCard(card: Card): Unit =
-      _cards = card :: _cards
+      _cards = _cards :+ card
     
     def drawCards(numberOfCards: Int): List[Card] =
-      val ret: List[Card] = _cards.reverse.take(numberOfCards)
-      _cards.reverse.drop(numberOfCards)
+      val ret: List[Card] = _cards.take(numberOfCards)
+      _cards = _cards.drop(numberOfCards)
       ret
