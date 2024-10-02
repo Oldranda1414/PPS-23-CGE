@@ -55,3 +55,14 @@ class DeckTest extends AnyTest with BeforeAndAfterEach:
   test("SimpleDeck should contain the added card"):
     deck.addCard(card)
     deck.cards should contain (card)
+  
+  test("Drawing from a SimpleDeck returns the first N cards of the deck"):
+    val cards: List[Card] =
+      Range(1, 10)
+      .toList
+      .map(e => SimpleCard(e.toString, "Spades"))
+    val numberOfDrawnCards: Int = 3
+
+    cards.foreach(deck.addCard(_))
+    val drawnCards = deck.drawCards(numberOfDrawnCards)
+    drawnCards should be (cards.take(numberOfDrawnCards))

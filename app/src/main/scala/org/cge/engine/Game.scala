@@ -13,6 +13,7 @@ object Game:
   trait Deck:
     def cards: List[Card]
     def addCard(card: Card): Unit
+    def drawCards(numberOfCards: Int): List[Card]
 
   final case class SimpleCard(val value: String, val suit: String) extends Card
 
@@ -28,3 +29,8 @@ object Game:
     def cards: List[Card] = _cards
     def addCard(card: Card): Unit =
       _cards = card :: _cards
+    
+    def drawCards(numberOfCards: Int): List[Card] =
+      val ret: List[Card] = _cards.reverse.take(numberOfCards)
+      _cards.reverse.drop(numberOfCards)
+      ret
