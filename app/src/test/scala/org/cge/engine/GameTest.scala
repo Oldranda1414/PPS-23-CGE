@@ -33,8 +33,13 @@ class PlayerTest extends AnyTest:
     player.cards should contain (card)
 
 class DeckTest extends AnyTest:
+  private val deck: Deck = SimpleDeck()
+  private val card = SimpleCard("1", "Spades")
+
+  test("SimpleDeck should be non-empty after addCard"):
+    deck.addCard(card)
+    deck.cards should not be (List[Card]())
+
   test("SimpleDeck should contain the added card"):
-    val deck: Deck = SimpleDeck()
-    val card = SimpleCard("1", "Spades")
     deck.addCard(card)
     deck.cards should contain (card)
