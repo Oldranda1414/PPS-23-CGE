@@ -4,9 +4,13 @@ import scala.collection.mutable.Set
 import org.cge.AnyTest
 import org.cge.engine.Game._
 import org.scalatest.matchers.should.Matchers._
+import org.scalatest.BeforeAndAfterEach
 
-class CardTest extends AnyTest:
-  private val card: Card = SimpleCard("value", "suit")
+class CardTest extends AnyTest with BeforeAndAfterEach:
+  private var card: Card = SimpleCard("value", "suit")
+
+  override def beforeEach(): Unit =
+    card = SimpleCard("value", "suit")
 
   test("SimpleCard value should be \"value\""):
     card.value should be ("value")
@@ -14,9 +18,13 @@ class CardTest extends AnyTest:
   test("SimpleCard suit should be \"suit\""):
     card.suit should be ("suit")
 
-class PlayerTest extends AnyTest:
-  private val player: Player = SimplePlayer("name")
-  private val card: Card = SimpleCard("1", "Spades")
+class PlayerTest extends AnyTest with BeforeAndAfterEach:
+  private var player: Player = SimplePlayer("name")
+  private var card: Card = SimpleCard("1", "Spades")
+
+  override def beforeEach(): Unit =
+    player = SimplePlayer("name")
+    card = SimpleCard("1", "Spades")
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -32,9 +40,13 @@ class PlayerTest extends AnyTest:
     player.addCard(card)
     player.cards should contain (card)
 
-class DeckTest extends AnyTest:
-  private val deck: Deck = SimpleDeck()
-  private val card = SimpleCard("1", "Spades")
+class DeckTest extends AnyTest with BeforeAndAfterEach:
+  private var deck: Deck = SimpleDeck()
+  private var card: Card = SimpleCard("1", "Spades")
+
+  override def beforeEach(): Unit =
+    deck = SimpleDeck()
+    card = SimpleCard("1", "Spades")
 
   test("SimpleDeck should be non-empty after addCard"):
     deck.addCard(card)
