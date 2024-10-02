@@ -16,6 +16,7 @@ class CardTest extends AnyTest:
 
 class PlayerTest extends AnyTest:
   private val player: Player = SimplePlayer("name")
+  private val card: Card = SimpleCard("1", "Spades")
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -24,11 +25,10 @@ class PlayerTest extends AnyTest:
     player.cards should be (Set[Card]())
   
   test("SimplePlayer cards set should be non-empty after addCard"):
-    player.addCard(SimpleCard("1", "spades"))
+    player.addCard(card)
     player.cards should not be (Set[Card]())
 
   test("SimplePlayer cards set should contain the added card after addCard"):
-    val card = SimpleCard("1", "spades")
     player.addCard(card)
     player.cards should contain (card)
 
