@@ -42,11 +42,15 @@ class PlayerTest extends AnyTest with BeforeAndAfterEach:
 
 class DeckTest extends AnyTest with BeforeAndAfterEach:
   private var deck: Deck = SimpleDeck()
-  private var card: Card = SimpleCard("1", "Spades")
+  private val cards: List[Card] =
+      Range(1, 10)
+      .toList
+      .map(e => SimpleCard(e.toString, "Spades"))
+  private val card: Card = cards.head
+  private val numberOfDrawnCards: Int = 3
 
   override def beforeEach(): Unit =
     deck = SimpleDeck()
-    card = SimpleCard("1", "Spades")
 
   test("SimpleDeck should be non-empty after addCard"):
     deck.addCard(card)
@@ -57,32 +61,15 @@ class DeckTest extends AnyTest with BeforeAndAfterEach:
     deck.cards should contain (card)
   
   test("SimpleDeck should contain multiple added cards in order"):
-    val cards: List[Card] =
-      Range(1, 10)
-      .toList
-      .map(e => SimpleCard(e.toString, "Spades"))
-    
     cards.foreach(deck.addCard(_))
     deck.cards should be (cards)
   
   test("Drawing from a SimpleDeck returns the first N cards of the deck"):
-    val cards: List[Card] =
-      Range(1, 10)
-      .toList
-      .map(e => SimpleCard(e.toString, "Spades"))
-    val numberOfDrawnCards: Int = 3
-
     cards.foreach(deck.addCard(_))
     val drawnCards = deck.drawCards(numberOfDrawnCards)
     drawnCards should be (cards.take(numberOfDrawnCards))
 
   test("Drawing from a SimpleDeck removes the first N cards of the deck"):
-    val cards: List[Card] =
-      Range(1, 10)
-      .toList
-      .map(e => SimpleCard(e.toString, "Spades"))
-    val numberOfDrawnCards: Int = 3
-
     cards.foreach(deck.addCard(_))
     val drawnCards = deck.drawCards(numberOfDrawnCards)
     (drawnCards ++ deck.cards) should be (cards)
