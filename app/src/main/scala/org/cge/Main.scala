@@ -2,8 +2,7 @@ package org.cge
 
 import engine.Game._
 import engine.view.WindowStateImpl
-import engine.view.Monads.*, Monad.*
-import engine.view.extension_methods.Streams.*
+import engine.view.Monads.Monad.seqN
 
 object Main:
   def main(args: Array[String]): Unit =

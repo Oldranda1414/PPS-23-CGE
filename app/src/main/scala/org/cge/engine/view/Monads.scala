@@ -1,6 +1,6 @@
 package org.cge.engine.view
 
-import extension_methods.Streams.*, Stream.*
+import Streams.*, Stream.*
 
 object Monads:
 
@@ -11,8 +11,6 @@ object Monads:
       def map[B](f: A => B): M[B] = m.flatMap(a => unit(f(a)))
 
   object Monad:
-
-    // additional general-purpose operations on monads
 
     def map2[M[_]: Monad, A, B, C](m: M[A], m2: => M[B])(f: (A, B) => C): M[C] =
       m.flatMap(a => m2.map(b => f(a, b)))
@@ -25,5 +23,3 @@ object Monads:
         case Cons(h, t) => (h(), t()) match
           case (m, Empty()) => m
           case (m, s) => seq(m, seqN(s))
-
-    // ... many others exist

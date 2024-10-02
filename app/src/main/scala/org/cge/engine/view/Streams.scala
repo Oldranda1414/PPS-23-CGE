@@ -1,8 +1,10 @@
-package org.cge.engine.view.extension_methods
+package org.cge.engine.view
 
 object Streams:
 
-  import Sequences.*
+  enum Sequence[E]:
+    case Cons(head: E, tail: Sequence[E])
+    case Nil()
   
   enum Stream[A]:
     case Empty()
