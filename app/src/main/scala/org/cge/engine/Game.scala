@@ -1,6 +1,20 @@
 package org.cge.engine
 
+import org.cge.dsl.GameBuilder
+import org.cge.engine.Game.Player
+
+trait Game:
+  def players: List[Player]
+  def addPlayer(player: Player): Unit
+  def removePlayer(player: Player): Unit
+  def startGame(): Unit
+
 object Game:
+  export GameBuilder.*
+
+  def apply(builderConfiguration: GameBuilder ?=> GameBuilder): Game =
+    GameBuilder.configure(builderConfiguration).build
+
   trait Card:
     def value: String
     def suit: String
@@ -14,6 +28,17 @@ object Game:
     def addCard(card: Card): Unit
     def drawCards(numberOfCards: Int): List[Card]
 
+  final case class SimpleGame(val name: String) extends Game:
+    private var _players: List[Player] = List.empty
+
+    def players: List[Player] = _players
+    def addPlayer(player: Player): Unit =
+      _players = _players :+ player
+    def removePlayer(player: Player): Unit =
+      _players = _players.filterNot(_ == player)
+    def startGame(): Unit =
+      println("Game started")
+
   final case class SimpleCard(val value: String, val suit: String) extends Card
 
   final case class SimplePlayer(val name: String) extends Player:
@@ -25,7 +50,7 @@ object Game:
     def cards: List[Card] = _cards
     def addCard(card: Card): Unit =
       _cards = _cards :+ card
-    
+
     def drawCards(numberOfCards: Int): List[Card] =
       val ret: List[Card] = _cards.take(numberOfCards)
       _cards = _cards.drop(numberOfCards)
