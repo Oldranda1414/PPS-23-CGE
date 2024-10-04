@@ -1,6 +1,5 @@
 package org.cge.engine
 
-import org.cge.dsl.GameBuilder
 import org.cge.engine.Game.Player
 
 trait Game:
@@ -8,12 +7,9 @@ trait Game:
   def addPlayer(player: Player): Unit
   def removePlayer(player: Player): Unit
   def startGame(): Unit
+  val name: String
 
 object Game:
-  export GameBuilder.*
-
-  def apply(builderConfiguration: GameBuilder ?=> GameBuilder): Game =
-    GameBuilder.configure(builderConfiguration).build
 
   trait Card:
     def value: String
