@@ -24,12 +24,13 @@ trait GameBuilder:
   def addPlayer(name: String): GameBuilder
 
   /**
-    * Sets the number of cards in hand for each player.
+    * Sets the number of cards in hand for each player. Since this is a by-need parameter, 
+    * it will be evaluated every time it is used allowing for different values to be returned.
     *
     * @param numberOfCards the number of cards in hand
     * @return the GameBuilder instance
     */
-  def cardsInHand(numberOfCards: Int): GameBuilder
+  def cardsInHand(numberOfCards: () => Int): GameBuilder
 
   /**
    * Builds the game.
@@ -45,7 +46,7 @@ object GameBuilder:
   private class GameBuilderImpl extends GameBuilder:
     private var _gameName: String = ""
     private var _players: Set[String] = Set.empty
-    private var _cardsInHand: Int = 0
+    private var _cardsInHand: () => Int = () => 0
     private var _availableCards = StandardDeck.cards
     private var _executedMethods: Map[String, Boolean] = 
       Map(
@@ -69,9 +70,9 @@ object GameBuilder:
       _executedMethods += ("addPlayer" -> true)
       this
 
-    def cardsInHand(numberOfCards: Int): GameBuilder = 
-      require(numberOfCards > 0, "Number of cards in hand must be greater than 0")
-      require(this._cardsInHand == 0, "Number of cards in hand is already set")
+    def cardsInHand(numberOfCards: () => Int): GameBuilder = 
+      require(numberOfCards() > 0, "Number of cards in hand must be greater than 0")
+      require(this._cardsInHand() == 0, "Number of cards in hand is already set")
       this._cardsInHand = numberOfCards
       _executedMethods += ("cardsInHand" -> true)
       this
@@ -84,7 +85,7 @@ object GameBuilder:
         // create player
         val player = SimplePlayer(name)
         game.addPlayer(player)
-        for _ <- 1 to _cardsInHand do
+        for _ <- 1 to _cardsInHand() do
           // populate player's deck
           val card = _availableCards.head
           player.deck.addCard(card)
@@ -94,7 +95,7 @@ object GameBuilder:
 
     private def checkExecutedMethods() =
       if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
-      
+
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")

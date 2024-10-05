@@ -4,6 +4,7 @@ import engine.view.WindowStateImpl
 import engine.view.Monads.Monad.seqN
 import org.cge.engine.GameController
 import org.cge.engine.GameBuilder
+import scala.util.Random
 
 object Main:
 
@@ -14,7 +15,7 @@ object Main:
         .addPlayer("Andrea")
         .addPlayer("Filippo")
         .addPlayer("Leonardo")
-        .cardsInHand(5)
+        .cardsInHand(() => 1 + Random().nextInt(9))
         .build
     ).startGame
 
