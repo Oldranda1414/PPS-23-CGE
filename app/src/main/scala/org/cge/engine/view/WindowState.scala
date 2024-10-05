@@ -1,6 +1,6 @@
 package org.cge.engine.view
 
-import Monads.*, Monad.*, States.*, State.*
+import States.*
 import Streams.*
 
 trait WindowState:

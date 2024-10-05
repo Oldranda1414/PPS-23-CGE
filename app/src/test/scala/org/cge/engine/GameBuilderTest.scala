@@ -24,7 +24,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
   test("build should throw an exception if the number of players is not set"):
     _gameBuilder.setName("Game name")
-    _gameBuilder.cardsInHand(5)
+    _gameBuilder.cardsInHand(() => 5)
     intercept[IllegalStateException] {
       _gameBuilder.build
     }
@@ -33,7 +33,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     _gameBuilder.setName("Game name")
     _gameBuilder.addPlayer("Player 1")
     _gameBuilder.addPlayer("Player 2")
-    _gameBuilder.cardsInHand(5)
+    _gameBuilder.cardsInHand(() => 5)
     val game = _gameBuilder.build
     game.name should be ("Game name")
     game.players.size should be (2)
@@ -69,12 +69,12 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("cannot set the number of cards in hand twice"):
-    _gameBuilder.cardsInHand(5)
+    _gameBuilder.cardsInHand(() => 5)
     intercept[IllegalArgumentException] {
-      _gameBuilder.cardsInHand(5)
+      _gameBuilder.cardsInHand(() => 5)
     }
 
   test("cannot set the number of cards in hand under 1"):
     intercept[IllegalArgumentException] {
-      _gameBuilder.cardsInHand(0)
+      _gameBuilder.cardsInHand(() => 0)
     }
