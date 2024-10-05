@@ -1,5 +1,7 @@
 # Fourth Sprint
 
+TO BE COMPLETED
+
 ## Sprint Planning
 
 The [sprint backlog](fourth_sprint_backlog.md) was drafted.

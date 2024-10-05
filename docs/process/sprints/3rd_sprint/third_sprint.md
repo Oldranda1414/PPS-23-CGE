@@ -14,10 +14,12 @@ The sprint deadline is 05/10/2024.
 
 ## Sprint review
 
-The team began to develop every item in the backlog, but did not manage to finish any of it.
+The team managed to complete only the frist item from the sprint backlog apart from the documentation. The Product Owner has considered redefining the product backlog, in light to the teams slow development but no definitive action has been taken yet.
+
+The stakeholders are happy with the first working demo of the project and hopefull for future sprint results.
 
 ## Sprint retrospective
 
-With a completely configured project, the team achieved to produce a general structure of the project, where the main concepts are expressed, but a working version of the system is not available yet.
+With a completely configured project, the team managed to produce a general structure of the project, although item time estimations seem to still be undershot, even if a speedup in development is foreseen by the team.
 
 [Back to process index](../../index.md)

@@ -1,6 +1,6 @@
 # Fourth Sprint
 
-DA COMPLETARE
+TO BE COMPLETED
 
 <table>
 <th>Item</th><th>Sprint Task</th><th>Volunteer</th><th>Initial Size Estimate</th><th colspan="7">Remaining effort at the end of the day</th>
