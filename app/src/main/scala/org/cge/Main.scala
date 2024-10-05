@@ -8,15 +8,15 @@ import org.cge.engine.GameBuilder
 object Main:
 
   def main(args: Array[String]): Unit =
-    // GameController(
-    //   GameBuilder()
-    //     .setName("Simple Game")
-    //     .addPlayer("Andrea")
-    //     .addPlayer("Filippo")
-    //     .addPlayer("Leonardo")
-    //     .cardsInHand(5)
-    //     .build
-    // ).startGame
+    GameController(
+      GameBuilder()
+        .setName("Simple Game")
+        .addPlayer("Andrea")
+        .addPlayer("Filippo")
+        .addPlayer("Leonardo")
+        .cardsInHand(5)
+        .build
+    ).startGame
 
     // Testing functional GUI with players and cards
     val windowCreation = for 
