@@ -17,9 +17,11 @@ class SwingFunctionalFacade {
         Frame addCardToPlayer(String playerName, String cardValue, String cardSuit);
         Frame show();
         Supplier<String> events();
+        Frame displayWinner(String winner);  // New method
+        Frame gameOver();                    // New method
     }
 
-    public static Frame createFrame(){
+    public static Frame createFrame() {
         return new FrameImpl();
     }
 
@@ -28,18 +30,18 @@ class SwingFunctionalFacade {
         private final Map<String, JPanel> playerPanels = new HashMap<>();
         private final LinkedBlockingQueue<String> eventQueue = new LinkedBlockingQueue<>();
         private final Supplier<String> events = () -> {
-            try{
+            try {
                 return eventQueue.take();
-            } catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 return "";
             }
         };
 
         private final Map<String, List<JPanel>> playerCards = new HashMap<>();
-        
+
         public FrameImpl() {
             this.jframe.setLayout(null);
-
+            this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.jframe.addComponentListener(new java.awt.event.ComponentAdapter() {
                 public void componentResized(java.awt.event.ComponentEvent evt) {
                     resizeCards();
@@ -81,7 +83,6 @@ class SwingFunctionalFacade {
                 }
             }
         }
-
 
         @Override
         public Frame setSize(int width, int height) {
@@ -126,6 +127,24 @@ class SwingFunctionalFacade {
         @Override
         public Supplier<String> events() {
             return events;
+        }
+
+        @Override
+        public Frame displayWinner(String winner) {
+            JLabel winnerLabel = new JLabel("The winner is: " + winner);
+            winnerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            winnerLabel.setBounds((jframe.getWidth() / 2) - 100, (jframe.getHeight() / 2) - 50, 200, 100);
+            jframe.getContentPane().add(winnerLabel);
+            jframe.repaint();
+            return this;
+        }
+
+        @Override
+        public Frame gameOver() {
+            jframe.dispose();
+            System.exit(0);
+            return this;
         }
     }
 }
