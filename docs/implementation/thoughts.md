@@ -20,7 +20,7 @@ val windowCreation = for
     _ <- controller3.setupUI(ui)
     ...
     _ <- show()
-    e <- eventStream()
+    e <- eventStream() //returns a State[Window, Stream[UIEvent]]
     _ <- controller1.setupEventHandling(e)
     _ <- controller2.setupEventHandling(e)
     _ <- controller3.setupEventHandling(e)
