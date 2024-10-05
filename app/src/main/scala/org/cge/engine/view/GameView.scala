@@ -33,6 +33,8 @@ object GameView:
         _ <- WindowStateImpl.addCardToPlayer("Player 3", "King", "Diamonds")
         _ <- WindowStateImpl.addCardToPlayer("Player 4", "7", "Clubs")
 
+        _ <- WindowStateImpl.addButton("Results", "EndGame")
+
         _ <- WindowStateImpl.show()
 
         e <- WindowStateImpl.eventStream()

@@ -13,6 +13,7 @@ class SwingFunctionalFacade {
 
     public static interface Frame {
         Frame setSize(int width, int height);
+        Frame addButton(String text, String name);
         Frame addPlayer(String playerName);
         Frame addCardToPlayer(String playerName, String cardValue, String cardSuit);
         Frame show();
@@ -27,6 +28,7 @@ class SwingFunctionalFacade {
 
     private static class FrameImpl implements Frame {
         private final JFrame jframe = new JFrame();
+        private final Map<String, JButton> buttons = new HashMap<>();
         private final Map<String, JPanel> playerPanels = new HashMap<>();
         private final LinkedBlockingQueue<String> eventQueue = new LinkedBlockingQueue<>();
         private final Supplier<String> events = () -> {
@@ -47,6 +49,21 @@ class SwingFunctionalFacade {
                     resizeCards();
                 }
             });
+        }
+
+        @Override
+        public Frame addButton(String text, String name) {
+            JButton jb = new JButton(text);
+            jb.setBounds(300, 300, 100, 100);
+            jb.setActionCommand(name);
+            this.buttons.put(name, jb);
+            jb.addActionListener(e -> {
+                try {
+                    eventQueue.put(name);
+                } catch (InterruptedException ex){}
+            });
+            this.jframe.getContentPane().add(jb);
+            return this;
         }
 
         private void resizeCards() {

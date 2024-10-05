@@ -7,6 +7,7 @@ trait WindowState:
   type Window
   def initialWindow: Window
   def setSize(width: Int, height: Int): State[Window, Unit]
+  def addButton(text: String, name: String): State[Window, Unit] 
   def addPlayer(playerName: String): State[Window, Unit]
   def addCardToPlayer(playerName: String, cardValue: String, cardSuit: String): State[Window, Unit]
   def show(): State[Window, Unit]
@@ -22,6 +23,9 @@ object WindowStateImpl extends WindowState:
 
   def setSize(width: Int, height: Int): State[Window, Unit] = 
     State(w => (w.setSize(width, height), {}))
+
+  def addButton(text: String, name: String): State[Window, Unit] =
+    State(w => (w.addButton(text, name), {}))
   
   def addPlayer(playerName: String): State[Window, Unit] =
     State(w => (w.addPlayer(playerName), {}))
