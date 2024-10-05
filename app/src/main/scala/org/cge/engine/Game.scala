@@ -6,7 +6,6 @@ trait Game:
   def players: List[Player]
   def addPlayer(player: Player): Unit
   def removePlayer(player: Player): Unit
-  def startGame(): Unit
   val name: String
 
 object Game:
@@ -32,8 +31,6 @@ object Game:
       _players = _players :+ player
     def removePlayer(player: Player): Unit =
       _players = _players.filterNot(_ == player)
-    def startGame(): Unit =
-      println("Game started")
 
   final case class SimpleCard(val value: String, val suit: String) extends Card
 
