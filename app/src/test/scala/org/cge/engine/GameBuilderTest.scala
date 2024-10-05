@@ -39,7 +39,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     game.players.size should be (2)
     game.players.foreach(player => player.deck.cards.size should be (5))
 
-  test("cannot set the name with empty or blak strings"):
+  test("cannot set the name with empty or blank strings"):
     intercept[IllegalArgumentException] {
       _gameBuilder.setName("")
     }
