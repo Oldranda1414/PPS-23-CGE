@@ -46,4 +46,3 @@ object Streams:
     def generate[A](supplier: () => A): Stream[A] =
       cons(supplier(), generate(supplier))  
 
-  end Stream
