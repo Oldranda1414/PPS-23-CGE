@@ -32,10 +32,13 @@ object Main:
       _ <- WindowStateImpl.addCardToPlayer("Player 2", "10", "Hearts")
       _ <- WindowStateImpl.addCardToPlayer("Player 3", "King", "Diamonds")
       _ <- WindowStateImpl.addCardToPlayer("Player 4", "7", "Clubs")
+
+      _ <- WindowStateImpl.displayWinner("Player 4")
       
       _ <- WindowStateImpl.show()
       
       e <- WindowStateImpl.eventStream()
+
     yield e
 
     val windowEventsHandling = for

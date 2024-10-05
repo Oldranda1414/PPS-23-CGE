@@ -37,3 +37,9 @@ object WindowStateImpl extends WindowState:
   
   def eventStream(): State[Window, Stream[String]] =
     State(w => (w, Stream.generate(() => w.events().get)))
+
+  def displayWinner(winner: String): State[Window, Unit] = 
+    State(w => ((w.displayWinner(winner)), {}))
+
+  def gameOver(): State[Window, Unit] = 
+    State(w => ((w.gameOver()), {})) 
