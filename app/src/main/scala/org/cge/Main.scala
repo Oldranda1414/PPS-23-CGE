@@ -10,9 +10,10 @@ object Main:
     GameController(
       GameBuilder()
         .setName("Simple Game")
-        .addPlayer("Andrea")
-        .addPlayer("Filippo")
-        .addPlayer("Leonardo")
+        .addPlayer("Player 1")
+        .addPlayer("Player 2")
+        .addPlayer("Player 3")
+        .addPlayer("Player 4")
         .cardsInHand(() => 1 + Random().nextInt(9))
         .build
     ).startGame

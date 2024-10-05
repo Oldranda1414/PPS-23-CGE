@@ -8,6 +8,10 @@ trait GameView:
   /** Shows the game. */
   def show: State[Frame, Streams.Stream[String]]
 
+  def addPlayer(name: String): Unit
+
+  def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit
+
   /**
    * Ends the game displaying the winners.
    *
@@ -39,6 +43,16 @@ object GameView:
 
         e <- WindowStateImpl.eventStream()
       yield e
+
+    def addPlayer(name: String): Unit = 
+      for
+        _ <- WindowStateImpl.addPlayer(name)
+      yield ()
+    
+    def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit =
+      for
+        _ <- WindowStateImpl.addCardToPlayer(player, cardValue, cardSuit)
+      yield ()
 
     def endGame(winners: List[String]) =
       if winners.size == 0 then
