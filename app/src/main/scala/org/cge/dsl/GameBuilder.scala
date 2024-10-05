@@ -5,6 +5,10 @@ import org.cge.engine.Game.SimpleGame
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
+
+  /** Resets the builder to its initial state. */
+  def reset(): Unit
+
   /**
    * Sets the name of the game.
    *
@@ -21,29 +25,28 @@ trait GameBuilder:
   def build: Game
 
 object GameBuilder:
-  export GameBuilder.DSL.* // this let GameBuilder.DSL methods be accessible directly from GameBuilder
-
-  // Global variable to store the current game builder
-  private val currentGameBuilder: GameBuilder = GameBuilderImpl()
+  export DSL.*
+  
+  private val _gameBuilder: GameBuilder = GameBuilderImpl()
 
   private class GameBuilderImpl extends GameBuilder:
-    private var _game: Game = SimpleGame("")
+    private var _gameName: String = ""
+
+    def reset(): Unit = _gameName = ""
 
     def setName(name: String): this.type =
-      this._game = SimpleGame(name)
+      require(name.nonEmpty, "Game name cannot be empty")
+      require(name.trim.nonEmpty, "Game name cannot be blank")
+      require(_gameName.isEmpty, "Game name is already set")
+      this._gameName = name
       this
 
-    def build: Game = this._game
+    def build: Game = SimpleGame(this._gameName)
 
-  /** The DSL is meant to be used into a dedicated file so that the final return of that file should be the GameBuilder. */
   object DSL:
 
-    def Game: GameBuilder = currentGameBuilder
+    def Game: GameBuilder = _gameBuilder
 
     extension (game: GameBuilder)
       infix def is(name: String): GameBuilder =
         game.setName(name)
-
-      // def end: Game = game.build
-
-      // def start: Unit = game.build.startGame()
