@@ -7,9 +7,6 @@ import org.cge.engine.Game.SimplePlayer
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
 
-  /** Resets the builder to its initial state. */
-  def reset(): Unit
-
   /**
    * Sets the name of the game.
    *
@@ -50,33 +47,37 @@ object GameBuilder:
     private var _players: Set[String] = Set.empty
     private var _cardsInHand: Int = 0
     private var _availableCards = StandardDeck.cards
+    private var _executedMethods: Map[String, Boolean] = 
+      Map(
+        "setName" -> false,
+        "addPlayer" -> false,
+        "cardsInHand" -> false,
+      )
 
-    def reset(): Unit = 
-      _gameName = ""
-      _players = _players.empty
-      _cardsInHand = 0
-      _availableCards = StandardDeck.cards
-
-    def setName(name: String): this.type =
+    def setName(name: String): GameBuilder =
       stringRequirements(name, "Game name")
       require(_gameName.isEmpty, "Game name is already set")
       this._gameName = name
+      _executedMethods += ("setName" -> true)
       this
 
-    def addPlayer(name: String): this.type =
+    def addPlayer(name: String): GameBuilder =
       stringRequirements(name, "Player name")
       _players.contains(name) match
         case true => throw new IllegalArgumentException(s"Player $name already exists")
         case false => _players = _players + name
+      _executedMethods += ("addPlayer" -> true)
       this
 
     def cardsInHand(numberOfCards: Int): GameBuilder = 
       require(numberOfCards > 0, "Number of cards in hand must be greater than 0")
       require(this._cardsInHand == 0, "Number of cards in hand is already set")
       this._cardsInHand = numberOfCards
+      _executedMethods += ("cardsInHand" -> true)
       this
 
     def build: Game = 
+      checkExecutedMethods()
       //create game
       val game = SimpleGame(this._gameName)
       _players.foreach { name =>
@@ -89,8 +90,11 @@ object GameBuilder:
           player.deck.addCard(card)
           _availableCards = _availableCards.tail
       }
-      reset()
       game
+
+    private def checkExecutedMethods() =
+      if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
+      
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
