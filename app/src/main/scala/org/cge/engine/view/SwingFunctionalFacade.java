@@ -131,10 +131,12 @@ class SwingFunctionalFacade {
 
         @Override
         public Frame displayWinner(String winner) {
+            int width = 500;
+            int height = 100;
             JLabel winnerLabel = new JLabel("The winner is: " + winner);
             winnerLabel.setFont(new Font("Arial", Font.BOLD, 24));
             winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            winnerLabel.setBounds((jframe.getWidth() / 2) - 100, (jframe.getHeight() / 2) - 50, 200, 100);
+            winnerLabel.setBounds((jframe.getWidth() / 2) - width/2, (jframe.getHeight() / 2) - height/2, width, height);
             jframe.getContentPane().add(winnerLabel);
             jframe.repaint();
             return this;
