@@ -29,3 +29,8 @@ class GameDslTest extends AnyTest with BeforeAndAfterEach:
     val exception = intercept[IllegalArgumentException]:
       Game is "   "
     exception shouldBe a[IllegalArgumentException]
+
+  test("set cards in hand"):
+    Game is "Simple Game"
+    Game playersHave 3 cardsInHand
+    Game playersHave randomCardsInHand

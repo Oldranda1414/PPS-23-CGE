@@ -4,9 +4,9 @@ The Card Game Engine is a powerful domain-specific language (DSL) designed to em
 
 ```scala
 Game is "Simple Game"
-    has player called "Andrea"
-    has player called "Filippo"
-    has player called "Leonardo"
+Game has player called "Andrea"
+Game has player called "Filippo"
+Game has player called "Leonardo"
 
 Game players have 3 cards in hand
 Game players have random cards in hand
