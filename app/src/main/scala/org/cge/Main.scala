@@ -9,7 +9,7 @@ object Main:
   def main(args: Array[String]): Unit =
     GameController(
       GameBuilder()
-        .setName("Simple Game")
+        .setName("SimpleGame")
         .addPlayer("Player 1")
         .addPlayer("Player 2")
         .addPlayer("Player 3")

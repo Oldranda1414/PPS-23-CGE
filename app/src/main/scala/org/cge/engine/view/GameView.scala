@@ -8,8 +8,20 @@ trait GameView:
   /** Shows the game. */
   def show: State[Frame, Streams.Stream[String]]
 
+  /**
+    * Add a player to the game view
+    *
+    * @param name the player's name
+    */
   def addPlayer(name: String): Unit
 
+  /**
+    * Adds a card to a player
+    *
+    * @param player the name of the player to add the card to
+    * @param cardValue the value of the card
+    * @param cardSuit the suit of the card
+    */
   def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit
 
   /**
