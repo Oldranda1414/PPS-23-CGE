@@ -3,6 +3,7 @@ package org.cge.engine
 import org.cge.engine.view.GameView
 import org.cge.engine.view.Monads.Monad.seqN
 import org.cge.engine.view.WindowStateImpl
+import org.cge.engine.model.GameModel
 
 /** A controller for card game engine. */
 trait GameController:
@@ -10,9 +11,9 @@ trait GameController:
   def startGame: Unit
 
 object GameController:
-  def apply(game: Game): GameController = new GameControllerImpl(game)
+  def apply(game: GameModel): GameController = new GameControllerImpl(game)
 
-  private class GameControllerImpl(val game: Game) extends GameController:
+  private class GameControllerImpl(val game: GameModel) extends GameController:
 
     def startGame: Unit =
       val gameView = GameView(game.name)

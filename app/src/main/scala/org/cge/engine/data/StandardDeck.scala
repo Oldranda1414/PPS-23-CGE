@@ -1,6 +1,6 @@
 package org.cge.engine.data
 
-import org.cge.engine.Game.SimpleCard
+import org.cge.engine.model.GameModel.SimpleCard
 
 /** A standard deck of french cards. */
 object StandardDeck:

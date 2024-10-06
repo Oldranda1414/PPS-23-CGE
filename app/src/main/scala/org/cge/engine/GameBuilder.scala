@@ -1,8 +1,7 @@
 package org.cge.engine
 
-import org.cge.engine.Game.SimpleGame
+import org.cge.engine.model.GameModel, GameModel.*
 import org.cge.engine.data.StandardDeck
-import org.cge.engine.Game.SimplePlayer
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -37,7 +36,7 @@ trait GameBuilder:
    *
    * @return the game
    */
-  def build: Game
+  def build: GameModel
 
 object GameBuilder:
 
@@ -77,7 +76,7 @@ object GameBuilder:
       _executedMethods += ("cardsInHand" -> true)
       this
 
-    def build: Game = 
+    def build: GameModel = 
       checkExecutedMethods()
       //create game
       val game = SimpleGame(this._gameName)
