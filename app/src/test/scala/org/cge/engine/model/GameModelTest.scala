@@ -5,6 +5,32 @@ import org.cge.engine.model.GameModel._
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
+class GameModelTest extends AnyTest with BeforeAndAfterEach:
+  private var gameModel: GameModel = SimpleGame("simple game")
+  private val testPlayer = SimplePlayer("Test")
+
+  override def beforeEach(): Unit =
+    gameModel = SimpleGame("simple game")
+
+  test("GameModel should be able to add a named player"):
+    gameModel.addPlayer(testPlayer)
+    gameModel.players should be (List(testPlayer))
+
+  test("GameModel should be able to remove a named player"):
+    gameModel.addPlayer(testPlayer)
+    gameModel.removePlayer(testPlayer)
+    gameModel.players should be (List.empty[PlayerModel])
+
+  test("GameModel should be able to add multiple named players"):
+    val testPlayer2: SimplePlayer = SimplePlayer("Test2")
+
+    gameModel.addPlayer(testPlayer)
+    gameModel.addPlayer(testPlayer2)
+    gameModel.players should be (List(testPlayer, testPlayer2))
+
+  test("GameModel should have initialized name"):
+    gameModel.name should be ("simple game")
+
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
   private var card: CardModel = SimpleCard("value", "suit")
 
