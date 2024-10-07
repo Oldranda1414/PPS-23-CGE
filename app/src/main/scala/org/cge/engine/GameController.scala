@@ -22,6 +22,8 @@ object GameController:
         gameView.addPlayer(player.name)
         player.deck.cards.foreach: card =>
           gameView.addCardToPlayer(player.name, card.value, card.suit)
+      
+      gameView.addButton("Results", "EndGame")
 
       val windowCreation = gameView.show
       val windowEventsHandling = for

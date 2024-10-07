@@ -25,6 +25,14 @@ trait GameView:
   def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit
 
   /**
+    * Adds a button to gui
+    *
+    * @param text the text to appear on the button
+    * @param name the name of the button and event triggered by pressing the button
+    */
+  def addButton(text: String, name: String): Unit
+
+  /**
    * Ends the game displaying the winners.
    *
    * @param winners the winners of the game
@@ -60,6 +68,13 @@ object GameView:
         for
           _ <- windowCreation
           _ <- WindowStateImpl.addCardToPlayer(player, cardValue, cardSuit)
+        yield ()
+    
+    def addButton(text: String, name: String): Unit =
+      windowCreation = 
+        for
+          _ <- windowCreation
+          _ <- WindowStateImpl.addButton(text, name)
         yield ()
 
     def endGame(winners: List[String]) =
