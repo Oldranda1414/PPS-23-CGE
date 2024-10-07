@@ -16,7 +16,13 @@ object GameController:
   private class GameControllerImpl(val game: GameModel) extends GameController:
 
     def startGame: Unit =
-      val gameView = GameView(game.name)
+      val gameView = GameView(game.name, 1000, 1000)
+
+      game.players.foreach: player =>
+        gameView.addPlayer(player.name)
+        player.deck.cards.foreach: card =>
+          gameView.addCardToPlayer(player.name, card.value, card.suit)
+
       val windowCreation = gameView.show
       val windowEventsHandling = for
         e <- windowCreation

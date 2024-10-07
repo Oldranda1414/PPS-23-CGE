@@ -32,39 +32,35 @@ trait GameView:
   def endGame(winners: List[String]): State[Frame, Unit]
 
 object GameView:
-  def apply(gameName: String): GameView = new GameViewImpl(gameName)
+  def apply(gameName: String, width: Int, height: Int): GameView = new GameViewImpl(gameName, width, height)
 
-  private class GameViewImpl(val gameName: String) extends GameView:
+  private class GameViewImpl(val gameName: String, width: Int, height: Int) extends GameView:
+
+    var windowCreation: State[Frame, Unit] =
+      for
+        _ <- WindowStateImpl.setSize(width, height)
+      yield ()
+
     def show: State[Frame, Streams.Stream[String]] =
       for
-        _ <- WindowStateImpl.setSize(1000, 1000)
-
-        _ <- WindowStateImpl.addPlayer("Player 1")
-        _ <- WindowStateImpl.addPlayer("Player 2")
-        _ <- WindowStateImpl.addPlayer("Player 3")
-        _ <- WindowStateImpl.addPlayer("Player 4")
-
-        _ <- WindowStateImpl.addCardToPlayer("Player 1", "Ace", "Spades")
-        _ <- WindowStateImpl.addCardToPlayer("Player 2", "10", "Hearts")
-        _ <- WindowStateImpl.addCardToPlayer("Player 3", "King", "Diamonds")
-        _ <- WindowStateImpl.addCardToPlayer("Player 4", "7", "Clubs")
-
-        _ <- WindowStateImpl.addButton("Results", "EndGame")
-
+        _ <- windowCreation
         _ <- WindowStateImpl.show()
-
         e <- WindowStateImpl.eventStream()
       yield e
 
     def addPlayer(name: String): Unit = 
-      for
-        _ <- WindowStateImpl.addPlayer(name)
-      yield ()
+      windowCreation = 
+        for
+          _ <- windowCreation
+          _ <- WindowStateImpl.addPlayer(name)
+        yield ()
     
     def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit =
-      for
-        _ <- WindowStateImpl.addCardToPlayer(player, cardValue, cardSuit)
-      yield ()
+      windowCreation = 
+        for
+          _ <- windowCreation
+          _ <- WindowStateImpl.addCardToPlayer(player, cardValue, cardSuit)
+        yield ()
 
     def endGame(winners: List[String]) =
       if winners.size == 0 then
