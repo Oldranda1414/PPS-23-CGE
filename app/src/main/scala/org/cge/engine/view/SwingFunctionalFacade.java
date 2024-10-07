@@ -81,21 +81,21 @@ class SwingFunctionalFacade {
                     int x = 0, y = 0;
 
                     switch (player) {
-                        case "Player 1":
-                            x = 50 + i * (cardWidth + 5); // Adjust spacing between cards
-                            y = 50;
+                        case "Player 1": // Left player
+                            x = 20; // Fixed distance from the left
+                            y = height - cardHeight - 60 - (i * (cardHeight + 5)); // Increased margin to avoid cutting off
                             break;
-                        case "Player 2":
-                            x = width - 50 - (cards.size() - i) * (cardWidth + 5);
-                            y = 50;
+                        case "Player 2": // Right player
+                            x = width - cardWidth - 20; // Fixed distance from the right
+                            y = 20 + (i * (cardHeight + 5)); // Stack from the top down
                             break;
-                        case "Player 3":
-                            x = 50 + i * (cardWidth + 5);
-                            y = height - cardHeight - 50;
+                        case "Player 3": // Bottom player
+                            x = width - (i + 1) * (cardWidth + 5) - 20; // Stack horizontally from the right
+                            y = height - cardHeight - 60; // Fixed distance from the bottom (increased to avoid cutting off)
                             break;
-                        case "Player 4":
-                            x = width - 50 - (cards.size() - i) * (cardWidth + 5);
-                            y = height - cardHeight - 50;
+                        case "Player 4": // Top player
+                            x = 20 + i * (cardWidth + 5); // Stack horizontally from the left
+                            y = 20; // Fixed distance from the top
                             break;
                     }
                     card.setBounds(x, y, cardWidth, cardHeight);
@@ -103,6 +103,7 @@ class SwingFunctionalFacade {
                 }
             }
         }
+
 
         private void adjustCardFont(JPanel card, int cardWidth, int cardHeight) {
             // Calculate an appropriate font size based on card dimensions
