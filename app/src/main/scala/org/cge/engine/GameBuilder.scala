@@ -3,6 +3,7 @@ package org.cge.engine
 import org.cge.engine.data.StandardDeck
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
+import org.cge.engine.model.CardModel
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -93,7 +94,7 @@ object GameBuilder:
       }
       game
 
-    private def getRandomAvailableCard(): SimpleCard = 
+    private def getRandomAvailableCard(): CardModel = 
       val index = scala.util.Random.nextInt(_availableCards.size)
       val card = _availableCards(index)
       _availableCards = _availableCards.patch(index, Nil, 1)

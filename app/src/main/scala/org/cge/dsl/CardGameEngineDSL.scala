@@ -2,12 +2,16 @@ package org.cge.dsl
 
 import org.cge.engine.GameBuilder
 
-/**
- * DSL for the card game engine.
- * It will be used to create card games in a more readable way.
- */
-trait CardGameEngineDSL:
-    val todo: Unit = ???
-
 object CardGameEngineDSL:
-  implicit val game: GameBuilder = GameBuilder()
+
+  private var builder = GameBuilder() 
+
+  def apply(b: GameBuilder) = builder = b
+
+  /**
+   * The starting word for the DSL. It defines the start of a new game
+   */
+  implicit def game: GameBuilder = builder
+
+  extension (game: GameBuilder)
+    infix def is(name: String): GameBuilder = game.setName(name)
