@@ -1,7 +1,5 @@
 package org.cge.engine.model
 
-import org.cge.engine.model.GameModel.PlayerModel
-
 trait GameModel:
   def players: List[PlayerModel]
   def addPlayer(player: PlayerModel): Unit
@@ -9,19 +7,7 @@ trait GameModel:
   val name: String
 
 object GameModel:
-
-  trait CardModel:
-    def value: String
-    def suit: String
-
-  trait PlayerModel:
-    def name: String
-    def deck: DeckModel
-
-  trait DeckModel:
-    def cards: List[CardModel]
-    def addCard(card: CardModel): Unit
-    def drawCards(numberOfCards: Int): List[CardModel]
+  def apply(name: String): GameModel = SimpleGame(name)
 
   final case class SimpleGame(val name: String) extends GameModel:
     private var _players: List[PlayerModel] = List.empty
@@ -32,10 +18,32 @@ object GameModel:
     def removePlayer(player: PlayerModel): Unit =
       _players = _players.filterNot(_ == player)
 
+trait CardModel:
+  def value: String
+  def suit: String
+
+object CardModel:
+  def apply(value: String, suit: String): CardModel = SimpleCard(value, suit)
+  
   final case class SimpleCard(val value: String, val suit: String) extends CardModel
 
+trait PlayerModel:
+  def name: String
+  def deck: DeckModel
+
+object PlayerModel:
+  def apply(name: String): PlayerModel = SimplePlayer(name)
+
   final case class SimplePlayer(val name: String) extends PlayerModel:
-    val deck: DeckModel = SimpleDeck()
+    val deck: DeckModel = DeckModel()
+
+trait DeckModel:
+  def cards: List[CardModel]
+  def addCard(card: CardModel): Unit
+  def drawCards(numberOfCards: Int): List[CardModel]
+
+object DeckModel:
+  def apply(): DeckModel = SimpleDeck()
 
   final case class SimpleDeck() extends DeckModel:
     private var _cards: List[CardModel] = List.empty

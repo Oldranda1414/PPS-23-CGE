@@ -7,7 +7,7 @@ import org.scalatest.BeforeAndAfterEach
 
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private var gameModel: GameModel = SimpleGame("simple game")
-  private val testPlayer = SimplePlayer("Test")
+  private val testPlayer = PlayerModel("Test")
 
   override def beforeEach(): Unit =
     gameModel = SimpleGame("simple game")
@@ -22,7 +22,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     gameModel.players should be (List.empty[PlayerModel])
 
   test("GameModel should be able to add multiple named players"):
-    val testPlayer2: SimplePlayer = SimplePlayer("Test2")
+    val testPlayer2: PlayerModel = PlayerModel("Test2")
 
     gameModel.addPlayer(testPlayer)
     gameModel.addPlayer(testPlayer2)
@@ -32,10 +32,10 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     gameModel.name should be ("simple game")
 
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
-  private var card: CardModel = SimpleCard("value", "suit")
+  private var card: CardModel = CardModel("value", "suit")
 
   override def beforeEach(): Unit =
-    card = SimpleCard("value", "suit")
+    card = CardModel("value", "suit")
 
   test("SimpleCard value should be \"value\""):
     card.value should be ("value")
@@ -44,12 +44,12 @@ class CardModelTest extends AnyTest with BeforeAndAfterEach:
     card.suit should be ("suit")
 
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
-  private var player: PlayerModel = SimplePlayer("name")
-  private var card: CardModel = SimpleCard("1", "Spades")
+  private var player: PlayerModel = PlayerModel("name")
+  private var card: CardModel = CardModel("1", "Spades")
 
   override def beforeEach(): Unit =
-    player = SimplePlayer("name")
-    card = SimpleCard("1", "Spades")
+    player = PlayerModel("name")
+    card = CardModel("1", "Spades")
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -66,16 +66,16 @@ class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
     player.deck.cards should contain (card)
 
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
-  private var deck: DeckModel = SimpleDeck()
+  private var deck: DeckModel = DeckModel()
   private val cards: List[CardModel] =
       Range(1, 10)
       .toList
-      .map(e => SimpleCard(e.toString, "Spades"))
+      .map(e => CardModel(e.toString, "Spades"))
   private val card: CardModel = cards.head
   private val numberOfDrawnCards: Int = 3
 
   override def beforeEach(): Unit =
-    deck = SimpleDeck()
+    deck = DeckModel()
 
   test("SimpleDeck should be non-empty after addCard"):
     deck.addCard(card)
