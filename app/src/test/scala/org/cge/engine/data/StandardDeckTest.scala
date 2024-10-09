@@ -1,7 +1,7 @@
 package org.cge.engine.data
 
 import org.cge.AnyTest
-import org.cge.engine.model.GameModel.SimpleCard
+import org.cge.engine.model.CardModel
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
@@ -20,5 +20,5 @@ class StandardDeckTest extends AnyTest with BeforeAndAfterEach:
     val expectedCards = for
       suit <- StandardDeck.suits
       value <- StandardDeck.values
-    yield SimpleCard(value, suit)
+    yield CardModel(value, suit)
     StandardDeck.cards should be (expectedCards)

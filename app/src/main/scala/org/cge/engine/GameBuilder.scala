@@ -1,7 +1,8 @@
 package org.cge.engine
 
-import org.cge.engine.model.GameModel, GameModel.*
 import org.cge.engine.data.StandardDeck
+import org.cge.engine.model.GameModel
+import org.cge.engine.model.PlayerModel
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -79,10 +80,10 @@ object GameBuilder:
     def build: GameModel = 
       checkExecutedMethods()
       //create game
-      val game = SimpleGame(this._gameName)
+      val game = GameModel(this._gameName)
       _players.foreach { name =>
         // create player
-        val player = SimplePlayer(name)
+        val player = PlayerModel(name)
         game.addPlayer(player)
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
