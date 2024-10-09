@@ -7,6 +7,7 @@ Game is "Simple Game"
     has player called "Andrea"
     has player called "Filippo"
     has player called "Leonardo"
+    players have a number of cards equals to 5
 
 Game players have 3 cards in hand
 Game players have random cards in hand

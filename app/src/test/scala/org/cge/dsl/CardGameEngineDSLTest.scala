@@ -43,4 +43,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     g match 
       case g: PuppetBuilder => g.name shouldBe builder.name
       case _ => fail("game is not a PuppetBuilder")
-    
+
+  test("has word should create a PlayerBuilder"):
+    val g = game has
+    g shouldBe a [PlayerBuilder]    
