@@ -86,11 +86,17 @@ object GameBuilder:
         game.addPlayer(player)
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
-          val card = _availableCards.head
+          val card = getRandomAvailableCard()
           player.deck.addCard(card)
           _availableCards = _availableCards.tail
       }
       game
+
+    private def getRandomAvailableCard(): SimpleCard = 
+      val index = scala.util.Random.nextInt(_availableCards.size)
+      val card = _availableCards(index)
+      _availableCards = _availableCards.patch(index, Nil, 1)
+      card
 
     private def checkExecutedMethods() =
       if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
