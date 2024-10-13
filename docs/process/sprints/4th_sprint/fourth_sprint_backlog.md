@@ -10,10 +10,3 @@
 <tr><td>User can add winning conditions</td><td>Biagini</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
 <tr><td>Add new GUI features to show new rules implementations</td><td>Randacio</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
 </table>
-
-- card value for hand winning;
-- trump selection through player decision;
-- seed based card play restrictions;
-- win condition:
-  - number of hands won;
-  - score based on cards won;
