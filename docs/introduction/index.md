@@ -3,16 +3,14 @@
 The Card Game Engine is a powerful domain-specific language (DSL) designed to empower its users to easily define a given card game using easy to read syntax.
 
 ```scala
-Game is "Simple Game"
-    has player called "Andrea"
-    has player called "Filippo"
-    has player called "Leonardo"
-    players have a number of cards equals to 5
+game is "Simple Game"
+game has player called "Andrea"
+game has player called "Filippo"
+game has player called "Leonardo"
 
-Game players have 3 cards in hand
-Game players have random cards in hand
+game gives 5 cards to each player
+game gives random cards to each player
 
-Game start
 ------------------------------------------------------------------------------
 Game cards have 3 values called "one" "two" "three"
 Game cards have 3 suits called "clubs" "hearts" "diamonds"

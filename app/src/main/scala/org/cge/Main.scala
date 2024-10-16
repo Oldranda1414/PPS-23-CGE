@@ -1,19 +1,15 @@
 package org.cge
 
 import org.cge.engine.GameController
-import org.cge.engine.GameBuilder
-import scala.util.Random
+import org.cge.dsl.CardGameEngineDSL._
+import org.cge.dsl.SyntacticSugar._
 
 object Main:
 
   def main(args: Array[String]): Unit =
-    GameController(
-      GameBuilder()
-        .setName("SimpleGame")
-        .addPlayer("Player 1")
-        .addPlayer("Player 2")
-        .addPlayer("Player 3")
-        .addPlayer("Player 4")
-        .cardsInHand(() => 1 + Random().nextInt(9))
-        .build
-    ).startGame
+    game is "Simple Game"
+    game has player called "Filippo"
+    game has player called "Andrea"
+    game has player called "Leonardo"
+    game gives random cards to each player
+    GameController(game.build).startGame
