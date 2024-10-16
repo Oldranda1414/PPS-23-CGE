@@ -49,6 +49,8 @@ trait GameBuilder:
    */
   def build: GameModel
 
+  def currentGameCards: List[CardModel]
+
 object GameBuilder:
 
   def apply(): GameBuilder = GameBuilderImpl()
@@ -89,12 +91,15 @@ object GameBuilder:
       this
 
     def addSuit(suit: Suit): GameBuilder =
+      if (_suits.contains(suit)) then throw new IllegalArgumentException(s"Suit $suit already exists")
       _suits = _suits :+ suit
       this
 
+    def currentGameCards: List[CardModel] = computeDeck()
+
     def build: GameModel = 
       checkExecutedMethods()
-      if (!_suits.isEmpty) _availableCards = computeDeck(_suits)
+      _availableCards = computeDeck()
       
       //create game
       val game = GameModel(this._gameName)
@@ -124,10 +129,8 @@ object GameBuilder:
       require(s.nonEmpty, s"$name cannot be empty")
       require(s.trim.nonEmpty, s"$name cannot be blank")
 
-    private def computeDeck(suits: List[Suit]): List[CardModel] = 
-      val values = List("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K")
-      suits.flatMap { suit =>
-        values.map { value =>
-          CardModel(value, suit)
-        }
-      }
+    private def computeDeck(): List[CardModel] = 
+      if (_suits.isEmpty) then 
+        StandardDeck.cards
+      else
+        StandardDeck.cards.filter(card => _suits.contains(card.suit))
