@@ -7,9 +7,11 @@ trait GameModel:
   val name: String
 
 object GameModel:
-  def apply(name: String): GameModel = SimpleGame(name)
+  def apply(name: String, withTable: Boolean = false): GameModel = withTable match
+    case false => SimpleGame(name)
+    case true => TableGame(name)
 
-  final case class SimpleGame(val name: String) extends GameModel:
+  class SimpleGame(val name: String) extends GameModel:
     private var _players: List[PlayerModel] = List.empty
 
     def players: List[PlayerModel] = _players
@@ -17,6 +19,9 @@ object GameModel:
       _players = _players :+ player
     def removePlayer(player: PlayerModel): Unit =
       _players = _players.filterNot(_ == player)
+  
+  class TableGame(name: String) extends SimpleGame(name):
+    val table: TableModel = TableModel()
 
 trait CardModel:
   def value: String
@@ -56,3 +61,11 @@ object DeckModel:
       val ret: List[CardModel] = _cards.take(numberOfCards)
       _cards = _cards.drop(numberOfCards)
       ret
+
+trait TableModel:
+  def cardsOnTable: DeckModel
+
+object TableModel:
+  def apply(): TableModel = SimpleTable(DeckModel())
+
+  final case class SimpleTable(val cardsOnTable: DeckModel) extends TableModel
