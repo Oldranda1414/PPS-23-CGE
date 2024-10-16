@@ -96,8 +96,17 @@ object CardGameEngineDSL:
     /**
      * This method is used to set the number of cards in hand for each player.
      *
-     * @param random syntatcic sugar to enable 'game gives random cards to each player' syntax
+     * @param random syntactic sugar to enable 'game gives random cards to each player' syntax
      * @return The count card builder
      */
     infix def gives(random: RandomSyntacticSugar): CountCardBuilder =
       new CountCardBuilderImpl(game, -1)
+
+    /**
+      * This method is used to define what suits will be available in the game.
+      *
+      * @param are syntactic sugar to enable 'game suits are [ A, B, C, ... ]' syntax
+      */
+    infix def suits(are: AreSyntacticSugar): GameBuilder = 
+      are.suits.foreach(s => game.addSuit(s))
+      game

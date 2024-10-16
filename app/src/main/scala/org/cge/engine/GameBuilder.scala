@@ -1,9 +1,10 @@
 package org.cge.engine
 
-import org.cge.engine.data.StandardDeck
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
+import org.cge.engine.data._
+import org.cge.engine.model.Suit
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -34,6 +35,14 @@ trait GameBuilder:
   def cardsInHand(numberOfCards: () => Int): GameBuilder
 
   /**
+    * Sets the suits of the game.
+    *
+    * @param suit the suit to add
+    * @return the GameBuilder instance
+    */
+  def addSuit(suit: Suit): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -49,6 +58,7 @@ object GameBuilder:
     private var _players: Set[String] = Set.empty
     private var _cardsInHand: () => Int = () => 0
     private var _availableCards = StandardDeck.cards
+    private var _suits = List.empty[Suit]
     private var _executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
@@ -78,8 +88,14 @@ object GameBuilder:
       _executedMethods += ("cardsInHand" -> true)
       this
 
+    def addSuit(suit: Suit): GameBuilder =
+      _suits = _suits :+ suit
+      this
+
     def build: GameModel = 
       checkExecutedMethods()
+      if (!_suits.isEmpty) _availableCards = computeDeck(_suits)
+      
       //create game
       val game = GameModel(this._gameName)
       _players.foreach { name =>
@@ -107,3 +123,11 @@ object GameBuilder:
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
       require(s.trim.nonEmpty, s"$name cannot be blank")
+
+    private def computeDeck(suits: List[Suit]): List[CardModel] = 
+      val values = List("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K")
+      suits.flatMap { suit =>
+        values.map { value =>
+          CardModel(value, suit)
+        }
+      }
