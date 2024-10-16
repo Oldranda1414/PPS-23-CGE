@@ -74,7 +74,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       case _ => fail("game is not a PuppetBuilder")
 
   test("gives random cards to each player should use random values"):
-    val g = game gives random to each player
+    val g = game gives random cards to each player
     g match 
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
       case _ => fail("game is not a PuppetBuilder")
