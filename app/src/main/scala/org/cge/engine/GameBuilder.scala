@@ -88,7 +88,7 @@ object GameBuilder:
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
           val card = _availableCards.head
-          player.deck.addCard(card)
+          player.hand.addCard(card)
           _availableCards = _availableCards.tail
       }
       game

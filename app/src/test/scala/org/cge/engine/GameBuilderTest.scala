@@ -37,7 +37,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     val game = _gameBuilder.build
     game.name should be ("Game name")
     game.players.size should be (2)
-    game.players.foreach(player => player.deck.cards.size should be (5))
+    game.players.foreach(player => player.hand.cards.size should be (5))
 
   test("cannot set the name with empty or blank strings"):
     intercept[IllegalArgumentException] {

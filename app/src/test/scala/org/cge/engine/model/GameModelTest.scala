@@ -55,15 +55,15 @@ class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
     player.name should be ("name")
 
   test("SimplePlayer cards set should be empty after initialization"):
-    player.deck.cards should be (List[CardModel]())
+    player.hand.cards should be (List[CardModel]())
   
   test("SimplePlayer cards set should be non-empty after addCard"):
-    player.deck.addCard(card)
-    player.deck.cards should not be (List[CardModel]())
+    player.hand.addCard(card)
+    player.hand.cards should not be (List[CardModel]())
 
   test("SimplePlayer cards set should contain the added card after addCard"):
-    player.deck.addCard(card)
-    player.deck.cards should contain (card)
+    player.hand.addCard(card)
+    player.hand.cards should contain (card)
 
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private var deck: DeckModel = DeckModel()
@@ -91,10 +91,10 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   
   test("Drawing from a SimpleDeck returns the first N cards of the deck"):
     cards.foreach(deck.addCard(_))
-    val drawnCards = deck.drawCards(numberOfDrawnCards)
+    val drawnCards = deck.removeCards(numberOfDrawnCards)
     drawnCards should be (cards.take(numberOfDrawnCards))
 
   test("Drawing from a SimpleDeck removes the first N cards of the deck"):
     cards.foreach(deck.addCard(_))
-    val drawnCards = deck.drawCards(numberOfDrawnCards)
+    val drawnCards = deck.removeCards(numberOfDrawnCards)
     (drawnCards ++ deck.cards) should be (cards)

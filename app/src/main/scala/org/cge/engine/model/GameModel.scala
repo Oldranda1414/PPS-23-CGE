@@ -29,18 +29,18 @@ object CardModel:
 
 trait PlayerModel:
   def name: String
-  def deck: DeckModel
+  def hand: DeckModel
 
 object PlayerModel:
   def apply(name: String): PlayerModel = SimplePlayer(name)
 
   final case class SimplePlayer(val name: String) extends PlayerModel:
-    val deck: DeckModel = DeckModel()
+    val hand: DeckModel = DeckModel()
 
 trait DeckModel:
   def cards: List[CardModel]
   def addCard(card: CardModel): Unit
-  def drawCards(numberOfCards: Int): List[CardModel]
+  def removeCards(numberOfCards: Int): List[CardModel]
 
 object DeckModel:
   def apply(): DeckModel = SimpleDeck()
@@ -52,7 +52,7 @@ object DeckModel:
     def addCard(card: CardModel): Unit =
       _cards = _cards :+ card
 
-    def drawCards(numberOfCards: Int): List[CardModel] =
+    def removeCards(numberOfCards: Int): List[CardModel] =
       val ret: List[CardModel] = _cards.take(numberOfCards)
       _cards = _cards.drop(numberOfCards)
       ret
