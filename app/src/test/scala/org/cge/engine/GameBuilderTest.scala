@@ -3,6 +3,9 @@ package org.cge.engine
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
+import org.cge.engine.model.Clubs
+import org.cge.engine.model.Spades
+import org.cge.engine.data.StandardDeck
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -78,3 +81,24 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     intercept[IllegalArgumentException] {
       _gameBuilder.cardsInHand(() => 0)
     }
+
+  test("cannot add a suit twice"):
+    val suit = Clubs
+    _gameBuilder.addSuit(suit)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addSuit(suit)
+    }
+
+  test("add suits adds creates a deck with the specified suits"):
+    _gameBuilder.addSuit(Clubs)
+    _gameBuilder.addSuit(Spades)
+    val numberOfSuits = 2
+    val numOfCards = 13 * numberOfSuits
+    _gameBuilder.setName("Game name")
+    _gameBuilder.addPlayer("Player 1")
+    _gameBuilder.cardsInHand(() => 5)
+    _gameBuilder.currentGameCards.size should be (numOfCards)
+
+  test("not adding a suit will use the standard deck"):
+    _gameBuilder.currentGameCards should be (StandardDeck.cards)
+

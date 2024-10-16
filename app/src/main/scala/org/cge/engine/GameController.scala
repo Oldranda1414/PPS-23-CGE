@@ -21,7 +21,7 @@ object GameController:
       game.players.foreach: player =>
         gameView.addPlayer(player.name)
         player.hand.cards.foreach: card =>
-          gameView.addCardToPlayer(player.name, card.value, card.suit)
+          gameView.addCardToPlayer(player.name, card.value, card.suit.toString)
       
       gameView.addButton("Results", "EndGame")
 

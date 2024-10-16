@@ -1,8 +1,10 @@
 package org.cge.engine
 
-import org.cge.engine.data.StandardDeck
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
+import org.cge.engine.model.CardModel
+import org.cge.engine.data._
+import org.cge.engine.model.Suit
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -33,11 +35,21 @@ trait GameBuilder:
   def cardsInHand(numberOfCards: () => Int): GameBuilder
 
   /**
+    * Sets the suits of the game.
+    *
+    * @param suit the suit to add
+    * @return the GameBuilder instance
+    */
+  def addSuit(suit: Suit): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
    */
   def build: GameModel
+
+  def currentGameCards: List[CardModel]
 
 object GameBuilder:
 
@@ -48,6 +60,7 @@ object GameBuilder:
     private var _players: Set[String] = Set.empty
     private var _cardsInHand: () => Int = () => 0
     private var _availableCards = StandardDeck.cards
+    private var _suits = List.empty[Suit]
     private var _executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
@@ -77,8 +90,17 @@ object GameBuilder:
       _executedMethods += ("cardsInHand" -> true)
       this
 
+    def addSuit(suit: Suit): GameBuilder =
+      if (_suits.contains(suit)) then throw new IllegalArgumentException(s"Suit $suit already exists")
+      _suits = _suits :+ suit
+      this
+
+    def currentGameCards: List[CardModel] = computeDeck()
+
     def build: GameModel = 
       checkExecutedMethods()
+      _availableCards = computeDeck()
+      
       //create game
       val game = GameModel(this._gameName)
       _players.foreach { name =>
@@ -87,11 +109,17 @@ object GameBuilder:
         game.addPlayer(player)
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
-          val card = _availableCards.head
+          val card = getRandomAvailableCard()
           player.hand.addCard(card)
           _availableCards = _availableCards.tail
       }
       game
+
+    private def getRandomAvailableCard(): CardModel = 
+      val index = scala.util.Random.nextInt(_availableCards.size)
+      val card = _availableCards(index)
+      _availableCards = _availableCards.patch(index, Nil, 1)
+      card
 
     private def checkExecutedMethods() =
       if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
@@ -100,3 +128,9 @@ object GameBuilder:
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
       require(s.trim.nonEmpty, s"$name cannot be blank")
+
+    private def computeDeck(): List[CardModel] = 
+      if (_suits.isEmpty) then 
+        StandardDeck.cards
+      else
+        StandardDeck.cards.filter(card => _suits.contains(card.suit))

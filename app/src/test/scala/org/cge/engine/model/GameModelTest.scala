@@ -32,24 +32,24 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     gameModel.name should be ("simple game")
 
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
-  private var card: CardModel = CardModel("value", "suit")
+  private var card: CardModel = CardModel("value", Clubs)
 
   override def beforeEach(): Unit =
-    card = CardModel("value", "suit")
+    card = CardModel("value", Clubs)
 
   test("SimpleCard value should be \"value\""):
     card.value should be ("value")
 
-  test("SimpleCard suit should be \"suit\""):
-    card.suit should be ("suit")
+  test("SimpleCard suit should be Clubs"):
+    card.suit should be (Clubs)
 
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
   private var player: PlayerModel = PlayerModel("name")
-  private var card: CardModel = CardModel("1", "Spades")
+  private var card: CardModel = CardModel("1", Spades)
 
   override def beforeEach(): Unit =
     player = PlayerModel("name")
-    card = CardModel("1", "Spades")
+    card = CardModel("1", Spades)
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -70,7 +70,7 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private val cards: List[CardModel] =
       Range(1, 10)
       .toList
-      .map(e => CardModel(e.toString, "Spades"))
+      .map(e => CardModel(e.toString, Spades))
   private val card: CardModel = cards.head
   private val numberOfDrawnCards: Int = 3
 
