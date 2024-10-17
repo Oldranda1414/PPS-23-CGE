@@ -35,9 +35,6 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
   private var card: CardModel = CardModel(Two, Clubs)
 
-  override def beforeEach(): Unit =
-    card = CardModel(Two, Clubs)
-
   test("SimpleCard rank should be Two"):
     card.rank should be (Two)
 
@@ -50,7 +47,6 @@ class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
 
   override def beforeEach(): Unit =
     player = PlayerModel("name")
-    card = CardModel(Ace, Spades)
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -68,7 +64,8 @@ class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
 
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private var deck: DeckModel = DeckModel()
-  private val cards: List[CardModel] = StandardDeck.ranks.map(r => CardModel(r, Spades))
+  private val cards: List[CardModel] = StandardDeck.ranks
+    .map(r => CardModel(r, Spades))
   private val card: CardModel = cards.head
   private val numberOfDrawnCards: Int = 3
 
@@ -103,19 +100,22 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
   private class PuppetDeck() extends DeckModel:
     private var testValue: Int = 0
     def cards: List[CardModel] = testValue match
-      case 0 => List(card)
-      case 1 => List(card, card)
+      case 0 => List[CardModel]()
+      case 1 => List(card)
     def addCard(card: CardModel): Unit = testValue = 1
-    def removeCards(numberOfCards: Int): List[CardModel] = List(card)
+    def removeCards(numberOfCards: Int): List[CardModel] = List[CardModel]()
   
-  val table: TableModel = TableModel(PuppetDeck())
+  var table: TableModel = TableModel(PuppetDeck())
+
+  override def beforeEach(): Unit =
+    table = TableModel(PuppetDeck())
 
   test("Testing TableModel.cardsOnTable.cards"):
-    table.cardsOnTable.cards should be (List(card))
+    table.cardsOnTable.cards should be (List[CardModel]())
   
   test("Testing TableModel.cardsOnTable.addCard"):
     table.cardsOnTable.addCard(card)
-    table.cardsOnTable.cards should be (List(card, card))
+    table.cardsOnTable.cards should be (List(card))
   
   test("Testing TableModel.cardsOnTable.removeCards"):
-    table.cardsOnTable.removeCards(1) should be (List(card))
+    table.cardsOnTable.removeCards(1) should be (List[CardModel]())
