@@ -50,7 +50,7 @@ trait DeckModel:
 object DeckModel:
   def apply(): DeckModel = SimpleDeck()
 
-  final case class SimpleDeck() extends DeckModel:
+  class SimpleDeck() extends DeckModel:
     private var _cards: List[CardModel] = List.empty
 
     def cards: List[CardModel] = _cards
@@ -66,6 +66,6 @@ trait TableModel:
   def cardsOnTable: DeckModel
 
 object TableModel:
-  def apply(): TableModel = SimpleTable(DeckModel())
+  def apply(deck: DeckModel = DeckModel()): TableModel = SimpleTable(deck)
 
   final case class SimpleTable(val cardsOnTable: DeckModel) extends TableModel

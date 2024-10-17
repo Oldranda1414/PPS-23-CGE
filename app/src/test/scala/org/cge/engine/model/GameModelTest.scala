@@ -98,3 +98,26 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
     cards.foreach(deck.addCard(_))
     val drawnCards = deck.removeCards(numberOfDrawnCards)
     (drawnCards ++ deck.cards) should be (cards)
+
+class TableModelTest extends AnyTest with BeforeAndAfterEach:
+  private val card: CardModel = CardModel("1", "Spades")
+  
+  private class PuppetDeck() extends DeckModel:
+    private var testValue: Int = 0
+    def cards: List[CardModel] = testValue match
+      case 0 => List(card)
+      case 1 => List(card, card)
+    def addCard(card: CardModel): Unit = testValue = 1
+    def removeCards(numberOfCards: Int): List[CardModel] = List(card)
+  
+  val table: TableModel = TableModel(PuppetDeck())
+
+  test("Testing TableModel.cardsOnTable.cards"):
+    table.cardsOnTable.cards should be (List(card))
+  
+  test("Testing TableModel.cardsOnTable.addCard"):
+    table.cardsOnTable.addCard(card)
+    table.cardsOnTable.cards should be (List(card, card))
+  
+  test("Testing TableModel.cardsOnTable.removeCards"):
+    table.cardsOnTable.removeCards(1) should be (List(card))
