@@ -41,6 +41,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       cardSuits = cardSuits + suit
       this
 
+    override def addOrderedRanks(ranks: List[Rank]): GameBuilder = 
+      cardRanks = ranks
+      this
+
     override def build: GameModel = GameModel("Puppet")
 
   override def beforeEach(): Unit = 
@@ -92,7 +96,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
       case _ => fail("game is not a PuppetBuilder")
 
-  test("suits are should not be written without a suit"):
+  test("suits are should not be written without a suit or a rank"):
     assertThrows[CGESyntaxError] {
       game suits are
     }
@@ -103,18 +107,12 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
       case _ => fail("game is not a PuppetBuilder")
 
-  test("ranks are should not be written without a rank"):
-    assertThrows[CGESyntaxError] {
-      game ranks are
-    }
-
   test("ranks are should let you choose cards ranks"):
     val g = game ranks are ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
     g match
       case g: PuppetBuilder => g.cardRanks shouldBe List(Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King)
       case _ => fail("game is not a PuppetBuilder")
     
-
   /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =
     val results = (1 to trials).map(_ => f())

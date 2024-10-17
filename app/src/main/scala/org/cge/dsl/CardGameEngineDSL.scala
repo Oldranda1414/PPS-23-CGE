@@ -56,14 +56,14 @@ object CardGameEngineDSL:
     /**
       * This method is used to define what suits will be available in the game.
       *
-      * @param are syntactic sugar to enable 'game suits are [ A, B, C, ... ]' syntax
+      * @param are syntactic sugar to enable 'game suits are ( A, B, C, ... )' syntax
       */
     infix def suits(are: AreSyntacticSugar): GameBuilder = 
+      println("TESTTTT")
       if (are.suits.isEmpty) throw new CGESyntaxError("No suits defined")
       are.suits.foreach(s => game.addSuit(s))
       game
 
     infix def ranks(are: AreSyntacticSugar): GameBuilder =
       if (are.ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
-      // are.ranks.foreach(r => game.addRank(r))
-      game
+      game.addOrderedRanks((are.ranks))

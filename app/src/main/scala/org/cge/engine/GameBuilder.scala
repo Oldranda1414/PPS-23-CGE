@@ -5,6 +5,7 @@ import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
 import org.cge.engine.data._
 import org.cge.engine.model.Suit
+import org.cge.engine.model.Rank
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -43,6 +44,15 @@ trait GameBuilder:
   def addSuit(suit: Suit): GameBuilder
 
   /**
+   * Adds a list of ordered ranks to the game. It needs to be ordered to decide which rank is higher.
+   * 
+   * @param suits the suits to add
+   * @return the GameBuilder instance
+   * 
+    */
+  def addOrderedRanks(ranks: List[Rank]): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -60,7 +70,9 @@ object GameBuilder:
     private var _players: Set[String] = Set.empty
     private var _cardsInHand: () => Int = () => 0
     private var _availableCards = StandardDeck.cards
-    private var _suits = List.empty[Suit]
+    private var _suits = Set.empty[Suit]
+    private var _ranks = List.empty[Rank]
+
     private var _executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
@@ -92,7 +104,13 @@ object GameBuilder:
 
     def addSuit(suit: Suit): GameBuilder =
       if (_suits.contains(suit)) then throw new IllegalArgumentException(s"Suit $suit already exists")
-      _suits = _suits :+ suit
+      _suits = _suits + suit
+      this
+
+    def addOrderedRanks(ranks: List[Rank]): GameBuilder = 
+      if (ranks.isEmpty) then throw new IllegalArgumentException("Ranks cannot be empty")
+      if (_ranks.nonEmpty) then throw new IllegalArgumentException("Ranks are already set")
+      _ranks = ranks
       this
 
     def currentGameCards: List[CardModel] = computeDeck()
@@ -130,7 +148,13 @@ object GameBuilder:
       require(s.trim.nonEmpty, s"$name cannot be blank")
 
     private def computeDeck(): List[CardModel] = 
-      if (_suits.isEmpty) then 
-        StandardDeck.cards
-      else
-        StandardDeck.cards.filter(card => _suits.contains(card.suit))
+      var suits = StandardDeck.suits
+      var ranks = StandardDeck.ranks
+      if (_suits.nonEmpty) then 
+        suits = _suits
+      if (_ranks.nonEmpty) then
+        ranks = _ranks
+      for
+        suit <- suits.toList
+        rank <- ranks
+      yield CardModel(rank, suit)

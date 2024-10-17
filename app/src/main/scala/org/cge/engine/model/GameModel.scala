@@ -26,13 +26,13 @@ object GameModel:
     val table: TableModel = TableModel()
 
 trait CardModel:
-  def value: String
+  def rank: Rank
   def suit: Suit
 
 object CardModel:
-  def apply(value: String, suit: Suit): CardModel = SimpleCard(value, suit)
+  def apply(rank: Rank, suit: Suit): CardModel = SimpleCard(rank, suit)
   
-  final case class SimpleCard(val value: String, val suit: Suit) extends CardModel
+  final case class SimpleCard(val rank: Rank, val suit: Suit) extends CardModel
 
 trait PlayerModel:
   def name: String
