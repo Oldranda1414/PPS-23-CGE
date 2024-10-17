@@ -13,27 +13,33 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   override def beforeEach(): Unit =
     gameModel = SimpleGame("simple game")
 
-  test("GameModel should be able to add a named player"):
+  test("SimpleGame should be able to add a named player"):
     gameModel.addPlayer(testPlayer)
     gameModel.players should be (List(testPlayer))
 
-  test("GameModel should be able to remove a named player"):
+  test("SimpleGame should be able to remove a named player"):
     gameModel.addPlayer(testPlayer)
     gameModel.removePlayer(testPlayer)
     gameModel.players should be (List.empty[PlayerModel])
 
-  test("GameModel should be able to add multiple named players"):
+  test("SimpleGame should be able to add multiple named players"):
     val testPlayer2: PlayerModel = PlayerModel("Test2")
 
     gameModel.addPlayer(testPlayer)
     gameModel.addPlayer(testPlayer2)
     gameModel.players should be (List(testPlayer, testPlayer2))
 
-  test("GameModel should have initialized name"):
+  test("SimpleGame should have initialized name"):
     gameModel.name should be ("simple game")
 
+  test("TableGame should have a table"):
+    val g = GameModel("name", true)
+    g match
+      case g: TableGame => g.table mustBe a[TableModel]
+      case _ => fail("GameModel was not a TableGame, check apply() function.")
+
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
-  private var card: CardModel = CardModel(Two, Clubs)
+  private val card: CardModel = CardModel(Two, Clubs)
 
   test("SimpleCard rank should be Two"):
     card.rank should be (Two)
@@ -43,7 +49,7 @@ class CardModelTest extends AnyTest with BeforeAndAfterEach:
 
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
   private var player: PlayerModel = PlayerModel("name")
-  private var card: CardModel = CardModel(Ace, Spades)
+  private val card: CardModel = CardModel(Ace, Spades)
 
   override def beforeEach(): Unit =
     player = PlayerModel("name")

@@ -9,9 +9,10 @@ trait GameModel:
   val name: String
 
 object GameModel:
-  def apply(name: String, withTable: Boolean = false): GameModel = withTable match
-    case false => SimpleGame(name)
-    case true => TableGame(name)
+  def apply(name: String, withTable: Boolean = false): GameModel =
+    withTable match
+      case false => SimpleGame(name)
+      case true => TableGame(name)
 
   class SimpleGame(val name: String) extends GameModel:
     private var _players: List[PlayerModel] = List.empty
