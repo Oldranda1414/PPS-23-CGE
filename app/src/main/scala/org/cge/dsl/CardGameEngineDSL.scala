@@ -4,6 +4,7 @@ import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.dsl.exception.CGESyntaxError
 
 object CardGameEngineDSL:
 
@@ -58,5 +59,11 @@ object CardGameEngineDSL:
       * @param are syntactic sugar to enable 'game suits are [ A, B, C, ... ]' syntax
       */
     infix def suits(are: AreSyntacticSugar): GameBuilder = 
+      if (are.suits.isEmpty) throw new CGESyntaxError("No suits defined")
       are.suits.foreach(s => game.addSuit(s))
+      game
+
+    infix def ranks(are: AreSyntacticSugar): GameBuilder =
+      if (are.ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
+      // are.ranks.foreach(r => game.addRank(r))
       game

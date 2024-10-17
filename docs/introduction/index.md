@@ -11,7 +11,7 @@ game has player called "Leonardo"
 game gives 5 cards to each player
 game gives random cards to each player
 
-game suits are clubs, diamonds, hearts, spades 
+game suits are ( Clubs, Diamonds, Hhearts, Spades ) 
 game values are 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A 
 game trump is clubs
 

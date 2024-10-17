@@ -7,6 +7,10 @@ import org.cge.engine.GameBuilder
 import org.scalatest.BeforeAndAfterEach
 import org.cge.dsl.SyntacticSugar._
 import org.cge.engine.model._
+import org.cge.dsl.SyntacticBuilder.PlayerBuilder
+import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
+import org.cge.dsl.exception.CGESyntaxError
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
@@ -18,6 +22,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var players = List.empty[String]
     var numberOfCards = () => 0
     var cardSuits = Set.empty[Suit]
+    var cardRanks = List.empty[Rank]
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -87,15 +92,28 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
       case _ => fail("game is not a PuppetBuilder")
 
-  test("suits are should return the GameBuilder"):
-    val g = game suits are
-    g shouldBe a [GameBuilder]
+  test("suits are should not be written without a suit"):
+    assertThrows[CGESyntaxError] {
+      game suits are
+    }
 
   test("suits are should let you choose cards suits"):
     val g = game suits are ( Clubs, Diamonds, Hearts, Spades )
     g match
       case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
       case _ => fail("game is not a PuppetBuilder")
+
+  test("ranks are should not be written without a rank"):
+    assertThrows[CGESyntaxError] {
+      game ranks are
+    }
+
+  test("ranks are should let you choose cards ranks"):
+    val g = game ranks are ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
+    g match
+      case g: PuppetBuilder => g.cardRanks shouldBe List(Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King)
+      case _ => fail("game is not a PuppetBuilder")
+    
 
   /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =

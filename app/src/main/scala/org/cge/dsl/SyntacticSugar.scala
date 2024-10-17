@@ -1,6 +1,7 @@
 package org.cge.dsl
 
 import org.cge.engine.model._
+import scala.annotation.targetName
 
 /** Base trait for syntactic sugar */
 trait SyntacticSugar
@@ -44,7 +45,11 @@ object SyntacticSugar:
   /** Specific syntactic sugar for suits */
   trait AreSyntacticSugar extends SyntacticSugar:
     def suits: Set[Suit]
+    def ranks: List[Rank]
+    @targetName("applySuit")
     def apply(suits: Suit*): AreSyntacticSugar
+    @targetName("applyRank")
+    def apply(ranks: Rank*): AreSyntacticSugar
 
   /** Implementation objects for syntactic sugar */
   private object PlayerSyntacticSugar extends PlayerSyntacticSugar
@@ -52,8 +57,25 @@ object SyntacticSugar:
   private object RandomSyntacticSugar extends RandomSyntacticSugar
   private object AreSyntacticSugar extends AreSyntacticSugar:
     var s = Set.empty[Suit]
+    var r = List.empty[Rank]
+
+    @targetName("applySuit")
     def apply(suits: Suit*): AreSyntacticSugar = 
       s = suits.toSet
       this
 
-    def suits = s
+    @targetName("applyRank")
+    def apply(ranks: Rank*): AreSyntacticSugar =
+      r = ranks.toList
+      this
+
+    def suits =
+      val ret = s.toSet
+      s = s.empty
+      ret
+
+    def ranks = 
+      val ret = r.toList
+      r = r.empty
+      ret
+
