@@ -98,7 +98,7 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
     (drawnCards ++ deck.cards) should be (cards)
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:
-  private val card: CardModel = CardModel("1", "Spades")
+  private val card: CardModel = CardModel(Ace, Spades)
   
   private class PuppetDeck() extends DeckModel:
     private var testValue: Int = 0
