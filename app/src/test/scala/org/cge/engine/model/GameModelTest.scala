@@ -4,6 +4,7 @@ import org.cge.AnyTest
 import org.cge.engine.model.GameModel._
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
+import org.cge.engine.data.StandardDeck
 
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private var gameModel: GameModel = SimpleGame("simple game")
@@ -32,24 +33,24 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     gameModel.name should be ("simple game")
 
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
-  private var card: CardModel = CardModel("value", "suit")
+  private var card: CardModel = CardModel(Two, Clubs)
 
   override def beforeEach(): Unit =
-    card = CardModel("value", "suit")
+    card = CardModel(Two, Clubs)
 
-  test("SimpleCard value should be \"value\""):
-    card.value should be ("value")
+  test("SimpleCard rank should be Two"):
+    card.rank should be (Two)
 
-  test("SimpleCard suit should be \"suit\""):
-    card.suit should be ("suit")
+  test("SimpleCard suit should be Clubs"):
+    card.suit should be (Clubs)
 
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
   private var player: PlayerModel = PlayerModel("name")
-  private var card: CardModel = CardModel("1", "Spades")
+  private var card: CardModel = CardModel(Ace, Spades)
 
   override def beforeEach(): Unit =
     player = PlayerModel("name")
-    card = CardModel("1", "Spades")
+    card = CardModel(Ace, Spades)
 
   test("SimplePlayer name should be \"name\""):
     player.name should be ("name")
@@ -67,10 +68,7 @@ class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
 
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private var deck: DeckModel = DeckModel()
-  private val cards: List[CardModel] =
-      Range(1, 10)
-      .toList
-      .map(e => CardModel(e.toString, "Spades"))
+  private val cards: List[CardModel] = StandardDeck.ranks.map(r => CardModel(r, Spades))
   private val card: CardModel = cards.head
   private val numberOfDrawnCards: Int = 3
 

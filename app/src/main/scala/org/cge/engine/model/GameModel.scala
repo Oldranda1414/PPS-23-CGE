@@ -1,5 +1,7 @@
 package org.cge.engine.model
 
+import org.cge.engine._
+
 trait GameModel:
   def players: List[PlayerModel]
   def addPlayer(player: PlayerModel): Unit
@@ -24,13 +26,13 @@ object GameModel:
     val table: TableModel = TableModel()
 
 trait CardModel:
-  def value: String
-  def suit: String
+  def rank: Rank
+  def suit: Suit
 
 object CardModel:
-  def apply(value: String, suit: String): CardModel = SimpleCard(value, suit)
+  def apply(rank: Rank, suit: Suit): CardModel = SimpleCard(rank, suit)
   
-  final case class SimpleCard(val value: String, val suit: String) extends CardModel
+  final case class SimpleCard(val rank: Rank, val suit: Suit) extends CardModel
 
 trait PlayerModel:
   def name: String
