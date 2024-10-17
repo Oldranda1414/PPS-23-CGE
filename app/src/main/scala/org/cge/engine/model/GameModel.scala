@@ -66,9 +66,17 @@ object DeckModel:
       ret
 
 trait TableModel:
-  def cardsOnTable: DeckModel
+  def cardsOnTable: List[CardModel]
+  def playCard(card: CardModel): Unit
+  def takeCards(): List[CardModel] 
 
 object TableModel:
-  def apply(deck: DeckModel = DeckModel()): TableModel = SimpleTable(deck)
+  def apply(): TableModel = SimpleTable()
 
-  final case class SimpleTable(val cardsOnTable: DeckModel) extends TableModel
+  class SimpleTable() extends TableModel:
+    private val _cardsOnTable: DeckModel = DeckModel()
+
+    def cardsOnTable: List[CardModel] = _cardsOnTable.cards
+    def playCard(card: CardModel) = _cardsOnTable.addCard(card)
+    def takeCards(): List[CardModel] =
+      _cardsOnTable.removeCards(_cardsOnTable.cards.size)
