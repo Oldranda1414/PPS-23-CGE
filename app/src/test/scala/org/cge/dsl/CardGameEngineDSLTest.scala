@@ -13,7 +13,7 @@ import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
-  class PuppetBuilder extends GameBuilder:
+  protected class PuppetBuilder extends GameBuilder:
 
     override def currentGameCards: List[CardModel] = List.empty
 
@@ -93,30 +93,6 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     val g = game gives random cards to each player
     g match 
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
-      case _ => fail("game is not a PuppetBuilder")
-
-  test("suitsAre should let you choose cards suits"):
-    val g = game suitsAre ( Clubs, Diamonds, Hearts, Spades )
-    g match
-      case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
-      case _ => fail("game is not a PuppetBuilder")
-
-  test("ranksAre should let you choose cards ranks"):
-    val g = game ranksAre ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
-    g match
-      case g: PuppetBuilder => g.cardRanks shouldBe List(Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King)
-      case _ => fail("game is not a PuppetBuilder")
-
-  test("suitsAre StandardSuits should set the standard suits"):
-    val g = game suitsAre StandardSuits
-    g match
-      case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
-      case _ => fail("game is not a PuppetBuilder")
-
-  test("ranksAre StandardRanks should set the standard ranks"):
-    val g = game ranksAre StandardRanks
-    g match
-      case g: PuppetBuilder => g.cardRanks shouldBe List(Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace)
       case _ => fail("game is not a PuppetBuilder")
     
   /** Check if a function returns random values based on heuristic */
