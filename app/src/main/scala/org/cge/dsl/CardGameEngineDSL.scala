@@ -76,7 +76,7 @@ object CardGameEngineDSL:
       */
     infix def ranksAre(ranks: Rank*): GameBuilder =
       if (ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
-      game.addOrderedRanks(if (containsStdRanks(ranks)) then StandardDeck.ranks else ranks.toList)
+      game.addSortedRanks(if (containsStdRanks(ranks)) then StandardDeck.ranks else ranks.toList)
 
     private def containsStdSuits(suits: Seq[Suit]): Boolean = 
       if (suits.head == StandardSuits) then

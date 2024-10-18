@@ -40,7 +40,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       cardSuits = cardSuits + suit
       this
 
-    override def addOrderedRanks(ranks: List[Rank]): GameBuilder = 
+    override def addSortedRanks(ranks: List[Rank]): GameBuilder = 
       cardRanks = ranks
       this
 

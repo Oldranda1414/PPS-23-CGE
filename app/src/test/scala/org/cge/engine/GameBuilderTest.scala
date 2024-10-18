@@ -5,11 +5,12 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Clubs
 import org.cge.engine.model.Spades
-import org.cge.engine.data.StandardDeck
 import org.cge.engine.model.Two
 import org.cge.engine.model.Three
 import org.cge.engine.model.Jack
 import org.cge.engine.model.Queen
+import org.cge.engine.model.Hearts
+import org.cge.engine.model.Diamonds
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -36,12 +37,31 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       _gameBuilder.build
     }
 
-  test("build should return a game with the specified name, number of players, and number of cards in hand"):
+  test("build should throw an exception if suits are not set"):
     _gameBuilder.setName("Game name")
     _gameBuilder.addPlayer("Player 1")
-    _gameBuilder.addPlayer("Player 2")
     _gameBuilder.cardsInHand(() => 5)
-    val game = _gameBuilder.build
+    intercept[IllegalStateException] {
+      _gameBuilder.build
+    }
+
+  test("build should throw an exception if ranks are not set"):
+    _gameBuilder.setName("Game name")
+    _gameBuilder.addPlayer("Player 1")
+    _gameBuilder.cardsInHand(() => 5)
+    _gameBuilder.addSuit(Clubs)
+    intercept[IllegalStateException] {
+      _gameBuilder.build
+    }
+
+  test("build should return a valid game"):
+    val game = _gameBuilder.setName("Game name")
+      .addPlayer("Player 1")
+      .addPlayer("Player 2")
+      .cardsInHand(() => 5)
+      .addSuit(Clubs).addSuit(Spades).addSuit(Hearts).addSuit(Diamonds)
+      .addSortedRanks(List(Two, Three, Jack, Queen))
+      .build
     game.name should be ("Game name")
     game.players.size should be (2)
     game.players.foreach(player => player.hand.cards.size should be (5))
@@ -94,32 +114,31 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("add suits creates a deck with the specified suits"):
-    _gameBuilder.addSuit(Clubs)
-    _gameBuilder.addSuit(Spades)
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSuit(Clubs).addSuit(Spades)
+      .addSortedRanks(ranks)
     val numberOfSuits = 2
-    val numOfCards = 13 * numberOfSuits
+    val numOfCards = ranks.size * numberOfSuits
     _gameBuilder.setName("Game name")
     _gameBuilder.addPlayer("Player 1")
     _gameBuilder.cardsInHand(() => 5)
     _gameBuilder.currentGameCards.size should be (numOfCards)
 
-  test("not adding a suit will use the standard deck"):
-    _gameBuilder.currentGameCards should be (StandardDeck.cards)
-
   test("cannot add ranks twice"):
     val ranks = List(Two, Three, Jack, Queen)
-    _gameBuilder.addOrderedRanks(ranks)
+    _gameBuilder.addSortedRanks(ranks)
     intercept[IllegalArgumentException] {
-      _gameBuilder.addOrderedRanks(ranks)
+      _gameBuilder.addSortedRanks(ranks)
     }
   
   test("add ranks creates a deck with the specified ranks"):
     val ranks = List(Two, Three, Jack, Queen)
-    _gameBuilder.addOrderedRanks(ranks)
-    _gameBuilder.setName("Game name")
-    _gameBuilder.addPlayer("Player 1")
-    _gameBuilder.cardsInHand(() => 5)
-    val numOfSuits = 4
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(Clubs)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+    val numOfSuits = 1
     val numOfRanks = _gameBuilder.currentGameCards.size / numOfSuits
     numOfRanks should be (ranks.size)
 

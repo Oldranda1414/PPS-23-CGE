@@ -44,13 +44,13 @@ trait GameBuilder:
   def addSuit(suit: Suit): GameBuilder
 
   /**
-   * Adds a list of ordered ranks to the game. It needs to be ordered to decide which rank is higher.
+   * Adds a list of sorted ranks to the game. It needs to be sorted to decide which rank is higher.
    * 
    * @param suits the suits to add
    * @return the GameBuilder instance
    * 
     */
-  def addOrderedRanks(ranks: List[Rank]): GameBuilder
+  def addSortedRanks(ranks: List[Rank]): GameBuilder
 
   /**
    * Builds the game.
@@ -78,6 +78,8 @@ object GameBuilder:
         "setName" -> false,
         "addPlayer" -> false,
         "cardsInHand" -> false,
+        "addSuit" -> false,
+        "addSortedRanks" -> false
       )
 
     def setName(name: String): GameBuilder =
@@ -103,13 +105,15 @@ object GameBuilder:
       this
 
     def addSuit(suit: Suit): GameBuilder =
-      if (_suits.contains(suit)) then throw new IllegalArgumentException(s"Suit $suit already exists")
+      require(!_suits.contains(suit), s"Suit $suit already exists")
+      _executedMethods += ("addSuit" -> true)
       _suits = _suits + suit
       this
 
-    def addOrderedRanks(ranks: List[Rank]): GameBuilder = 
-      if (ranks.isEmpty) then throw new IllegalArgumentException("Ranks cannot be empty")
-      if (_ranks.nonEmpty) then throw new IllegalArgumentException("Ranks are already set")
+    def addSortedRanks(ranks: List[Rank]): GameBuilder = 
+      require(ranks.nonEmpty, "Ranks cannot be empty")
+      require(_ranks.isEmpty, "Ranks are already set")
+      _executedMethods += ("addSortedRanks" -> true)
       _ranks = ranks
       this
 
@@ -117,8 +121,7 @@ object GameBuilder:
 
     def build: GameModel = 
       checkExecutedMethods()
-      _availableCards = computeDeck()
-      
+      _availableCards = computeDeck()      
       //create game
       val game = GameModel(this._gameName)
       _players.foreach { name =>
@@ -127,13 +130,12 @@ object GameBuilder:
         game.addPlayer(player)
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
-          val card = getRandomAvailableCard()
-          player.hand.addCard(card)
-          _availableCards = _availableCards.tail
+          player.hand.addCard(getRandomAvailableCard())
       }
       game
 
     private def getRandomAvailableCard(): CardModel = 
+      require(_availableCards.nonEmpty, "No cards available")
       val index = scala.util.Random.nextInt(_availableCards.size)
       val card = _availableCards(index)
       _availableCards = _availableCards.patch(index, Nil, 1)
@@ -148,13 +150,9 @@ object GameBuilder:
       require(s.trim.nonEmpty, s"$name cannot be blank")
 
     private def computeDeck(): List[CardModel] = 
-      var suits = StandardDeck.suits
-      var ranks = StandardDeck.ranks
-      if (_suits.nonEmpty) then 
-        suits = _suits
-      if (_ranks.nonEmpty) then
-        ranks = _ranks
-      for
-        suit <- suits.toList
-        rank <- ranks
-      yield CardModel(rank, suit)
+      if (_suits.nonEmpty && _ranks.nonEmpty) then 
+        for
+          suit <- _suits.toList
+          rank <- _ranks
+        yield CardModel(rank, suit)
+      else List.empty
