@@ -12,6 +12,7 @@ import org.cge.engine.model.Queen
 import org.cge.engine.model.Hearts
 import org.cge.engine.model.Diamonds
 import org.cge.engine.model.King
+import org.cge.engine.model.Suit
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -153,3 +154,26 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .setTrump(trump)
     val game = _gameBuilder.build
     game.trump should be (Option(trump))
+
+  test("trump cannot be set to a suit that is not in the game"):
+    object InvalidTrump extends Suit
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addSuit(Clubs)
+        .setName("Game name")
+        .addPlayer("Player 1")
+        .cardsInHand(() => 5)
+        .addSortedRanks(List(Two, Three, Jack, Queen, King))
+        .setTrump(InvalidTrump)
+        .build
+    }
+
+  test("exception will throw if sum of cards in hand is greater than the number of cards in the deck"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(Clubs)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.build
+    }
