@@ -1,11 +1,13 @@
 # Andrea Biagini
 
-In the project implementation, I contributed working on:
+In the project implementation, I contributed working on `GameModel`, `PlayerModel`, `CardModel`, `DeckModel` and `TableModel`.
 
-- The `Game` object, representing the engine model
+## GameModel
 
-## Engine model
+The `GameModel` object is basically a container of other objects: a set of `PlayerModel`s, a `TableModel` and a `Suit` representing the trump card suit.
 
-Inside the `Game` object, three traits have been created: `Card`, `Player` and `Deck`. The implementation has been done incrementally, starting from `Card`: a `SimpleCard` case class has been created, with simple strings as fields, modelling the card value and the card suit. After that, a `SimplePlayer` case class has been added, initially having a set of cards as private variable field; `addCard` and `cards` defs have been added to the trait. But after introducing the `Deck` trait, and implementing it with the `SimpleDeck` case class, the varible field inside `Player` has been replaced with a `Deck` object.
+Every `PlayerModel` has a name and a hand, a `DeckModel` representing the cards that it has in its hand. A `DeckModel` is a simple List of `CardModel`s where it is possible to add or remove cards.
 
-The current implementation of the game engine supports players having a deck of cards each.
+A `TableModel` contains a `DeckModel` representing cards that have been played on the table. It is possible to see those cards and to play another card. Currently, there are no restrictions about how many cards a player can play, but it is possible to add a `PlayingRule`: it is basically a lambda predicate specifying if a card can be played based on the card itself and other cards currently on the table.
+
+The `Suit` object representing the trump card is trivial, and it is not used yet.
