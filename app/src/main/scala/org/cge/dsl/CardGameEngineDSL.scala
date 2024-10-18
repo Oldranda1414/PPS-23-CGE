@@ -78,6 +78,14 @@ object CardGameEngineDSL:
       if (ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
       game.addSortedRanks(if (containsStdRanks(ranks)) then StandardDeck.ranks else ranks.toList)
 
+    /**
+      * This method is used to set the trump suit for the game.
+      *
+      * @param suit the trump suit
+      * @return the GameBuilder instance
+      */
+    infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
+
     private def containsStdSuits(suits: Seq[Suit]): Boolean = 
       if (suits.head == StandardSuits) then
         if (suits.size > 1) then throw new CGESyntaxError("Standard suits must be used alone")
