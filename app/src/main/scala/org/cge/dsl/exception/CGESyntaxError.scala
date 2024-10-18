@@ -1,6 +1,7 @@
 package org.cge.dsl.exception
 
-class CGESyntaxError extends Exception:
-  def this(message: String) = 
-    this()
-    println(message)
+/**
+  * This class is used to represent a syntax error in the DSL.
+  */
+class CGESyntaxError(message: String) extends Exception():
+  println(message)
