@@ -7,6 +7,7 @@ import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.exception.CGESyntaxError
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.data.StandardDeck
 
 object CardGameEngineDSL:
 
@@ -63,7 +64,8 @@ object CardGameEngineDSL:
       */
     infix def suitsAre(suits: Suit*): GameBuilder = 
       if (suits.isEmpty) throw new CGESyntaxError("No suits defined")
-      suits.foreach(s => game.addSuit(s))
+      if (containsStdSuits(suits)) StandardDeck.suits.foreach(s => game.addSuit(s))
+      else suits.foreach(s => game.addSuit(s))
       game
 
     /**
@@ -74,4 +76,16 @@ object CardGameEngineDSL:
       */
     infix def ranksAre(ranks: Rank*): GameBuilder =
       if (ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
-      game.addOrderedRanks(ranks.toList)
+      game.addOrderedRanks(if (containsStdRanks(ranks)) then StandardDeck.ranks else ranks.toList)
+
+    private def containsStdSuits(suits: Seq[Suit]): Boolean = 
+      if (suits.head == StandardSuits) then
+        if (suits.size > 1) then throw new CGESyntaxError("Standard suits must be used alone")
+        else true
+      else false
+
+    private def containsStdRanks(ranks: Seq[Rank]): Boolean = 
+      if (ranks.head == StandardRanks) then
+        if (ranks.size > 1) then throw new CGESyntaxError("Standard ranks must be used alone")
+        else true
+      else false
