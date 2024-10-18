@@ -10,7 +10,6 @@ import org.cge.engine.model._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
-import org.cge.dsl.exception.CGESyntaxError
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
@@ -96,19 +95,14 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
       case _ => fail("game is not a PuppetBuilder")
 
-  test("suits are should not be written without a suit or a rank"):
-    assertThrows[CGESyntaxError] {
-      game suits are
-    }
-
-  test("suits are should let you choose cards suits"):
-    val g = game suits are ( Clubs, Diamonds, Hearts, Spades )
+  test("suitsAre should let you choose cards suits"):
+    val g = game suitsAre ( Clubs, Diamonds, Hearts, Spades )
     g match
       case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
       case _ => fail("game is not a PuppetBuilder")
 
-  test("ranks are should let you choose cards ranks"):
-    val g = game ranks are ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
+  test("ranksAre should let you choose cards ranks"):
+    val g = game ranksAre ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
     g match
       case g: PuppetBuilder => g.cardRanks shouldBe List(Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King)
       case _ => fail("game is not a PuppetBuilder")

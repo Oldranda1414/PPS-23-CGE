@@ -5,6 +5,8 @@ import org.cge.dsl.SyntacticSugar._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.exception.CGESyntaxError
+import org.cge.engine.model.Suit
+import org.cge.engine.model.Rank
 
 object CardGameEngineDSL:
 
@@ -55,15 +57,21 @@ object CardGameEngineDSL:
 
     /**
       * This method is used to define what suits will be available in the game.
-      *
-      * @param are syntactic sugar to enable 'game suits are ( A, B, C, ... )' syntax
+      * 
+      * @param suits the suits to add
+      * @return the GameBuilder instance
       */
-    infix def suits(are: AreSyntacticSugar): GameBuilder = 
-      println("TESTTTT")
-      if (are.suits.isEmpty) throw new CGESyntaxError("No suits defined")
-      are.suits.foreach(s => game.addSuit(s))
+    infix def suitsAre(suits: Suit*): GameBuilder = 
+      if (suits.isEmpty) throw new CGESyntaxError("No suits defined")
+      suits.foreach(s => game.addSuit(s))
       game
 
-    infix def ranks(are: AreSyntacticSugar): GameBuilder =
-      if (are.ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
-      game.addOrderedRanks((are.ranks))
+    /**
+      * This method is used to define the order of the ranks in the game.
+      *
+      * @param ranks sorted ranks
+      * @return the GameBuilder instance
+      */
+    infix def ranksAre(ranks: Rank*): GameBuilder =
+      if (ranks.isEmpty) throw new CGESyntaxError("No ranks defined")
+      game.addOrderedRanks(ranks.toList)
