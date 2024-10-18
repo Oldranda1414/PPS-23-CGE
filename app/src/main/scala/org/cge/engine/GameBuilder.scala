@@ -140,7 +140,7 @@ object GameBuilder:
       _trump match
         case Some(suit) => 
           require(_suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
-          game.setTrump(suit)
+          game.trump = suit
         case None => ()
       _players.foreach { name =>
         // create player
