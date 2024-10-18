@@ -7,6 +7,7 @@ import org.cge.dsl.CardGameEngineDSL.ranksAre
 import org.cge.engine.model._
 import org.cge.dsl.SyntacticSugar.StandardSuits
 import org.cge.dsl.SyntacticSugar.StandardRanks
+import org.cge.dsl.CardGameEngineDSL.trumpIs
 
 class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
 
@@ -65,4 +66,11 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
           King,
           Ace
         )
+      case _ => fail("game is not a PuppetBuilder")
+
+  test("trumpIs should set the trump suit"):
+    val g = game trumpIs Hearts
+    g match
+      case g: PuppetBuilder =>
+        g.trump shouldBe Some(Hearts)
       case _ => fail("game is not a PuppetBuilder")
