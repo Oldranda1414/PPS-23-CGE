@@ -106,6 +106,12 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     g match
       case g: PuppetBuilder => g.cardRanks shouldBe List(Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King)
       case _ => fail("game is not a PuppetBuilder")
+
+  // test("suitsAre Standard should set the standard suits"):
+    // val g = game suitsAre Standard
+    // g match
+    //   case g: PuppetBuilder => g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
+    //   case _ => fail("game is not a PuppetBuilder")
     
   /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =

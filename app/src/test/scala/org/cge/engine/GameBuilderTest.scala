@@ -6,6 +6,10 @@ import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Clubs
 import org.cge.engine.model.Spades
 import org.cge.engine.data.StandardDeck
+import org.cge.engine.model.Two
+import org.cge.engine.model.Three
+import org.cge.engine.model.Jack
+import org.cge.engine.model.Queen
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -89,7 +93,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       _gameBuilder.addSuit(suit)
     }
 
-  test("add suits adds creates a deck with the specified suits"):
+  test("add suits creates a deck with the specified suits"):
     _gameBuilder.addSuit(Clubs)
     _gameBuilder.addSuit(Spades)
     val numberOfSuits = 2
@@ -101,4 +105,23 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
   test("not adding a suit will use the standard deck"):
     _gameBuilder.currentGameCards should be (StandardDeck.cards)
+
+  test("cannot add ranks twice"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addOrderedRanks(ranks)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addOrderedRanks(ranks)
+    }
+  
+  test("add ranks creates a deck with the specified ranks"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addOrderedRanks(ranks)
+    _gameBuilder.setName("Game name")
+    _gameBuilder.addPlayer("Player 1")
+    _gameBuilder.cardsInHand(() => 5)
+    val numOfSuits = 4
+    val numOfRanks = _gameBuilder.currentGameCards.size / numOfSuits
+    numOfRanks should be (ranks.size)
+
+  
 
