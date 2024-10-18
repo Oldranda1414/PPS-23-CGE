@@ -9,6 +9,6 @@
 <tr><td>User can change deck composition</td><td>Gurioli</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
 <tr><td>User can add the possibility of selecting a trump card</td><td>Gurioli</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>0</td><td>0</td></tr>
 <tr><td>User can add restrictions on card being played</td><td>Biagini</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
-<tr><td>User can add winning conditions</td><td>Biagini</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td>User can add winning conditions</td><td>Biagini</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
 <tr><td>Add new GUI features to show new rules implementations</td><td>Randacio</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
 </table>
