@@ -6,6 +6,8 @@ trait GameModel:
   def players: List[PlayerModel]
   def addPlayer(player: PlayerModel): Unit
   def removePlayer(player: PlayerModel): Unit
+  def setTrump(suit: Suit): Unit
+  def trump: Option[Suit]
   val name: String
 
 object GameModel:
@@ -16,12 +18,16 @@ object GameModel:
 
   class SimpleGame(val name: String) extends GameModel:
     private var _players: List[PlayerModel] = List.empty
+    private var t: Option[Suit] = None
 
     def players: List[PlayerModel] = _players
     def addPlayer(player: PlayerModel): Unit =
       _players = _players :+ player
     def removePlayer(player: PlayerModel): Unit =
       _players = _players.filterNot(_ == player)
+    def setTrump(suit: Suit) = 
+      t = Some(suit)
+    def trump = t
   
   class TableGame(name: String) extends SimpleGame(name):
     val table: TableModel = TableModel()

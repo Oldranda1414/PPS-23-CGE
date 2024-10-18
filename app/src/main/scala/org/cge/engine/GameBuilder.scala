@@ -53,6 +53,14 @@ trait GameBuilder:
   def addSortedRanks(ranks: List[Rank]): GameBuilder
 
   /**
+    * Sets the trump suit of the game.
+    *
+    * @param suit the trump suit
+    * @return the GameBuilder instance
+    */
+  def setTrump(suit: Suit): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -72,6 +80,7 @@ object GameBuilder:
     private var _availableCards = StandardDeck.cards
     private var _suits = Set.empty[Suit]
     private var _ranks = List.empty[Rank]
+    private var _trump: Option[Suit] = None
 
     private var _executedMethods: Map[String, Boolean] = 
       Map(
@@ -117,13 +126,22 @@ object GameBuilder:
       _ranks = ranks
       this
 
+    def setTrump(suit: Suit): GameBuilder =
+      _trump = Some(suit)
+      this
+
     def currentGameCards: List[CardModel] = computeDeck()
 
     def build: GameModel = 
       checkExecutedMethods()
-      _availableCards = computeDeck()      
+      _availableCards = computeDeck()
       //create game
       val game = GameModel(this._gameName)
+      _trump match
+        case Some(suit) => 
+          require(_suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
+          game.setTrump(suit)
+        case None => ()
       _players.foreach { name =>
         // create player
         val player = PlayerModel(name)

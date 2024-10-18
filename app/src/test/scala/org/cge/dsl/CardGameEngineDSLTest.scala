@@ -22,6 +22,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var numberOfCards = () => 0
     var cardSuits = Set.empty[Suit]
     var cardRanks = List.empty[Rank]
+    var trump: Option[Suit] = None
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -42,6 +43,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
     override def addSortedRanks(ranks: List[Rank]): GameBuilder = 
       cardRanks = ranks
+      this
+
+    override def setTrump(suit: Suit): GameBuilder =
+      trump = Some(suit)
       this
 
     override def build: GameModel = GameModel("Puppet")

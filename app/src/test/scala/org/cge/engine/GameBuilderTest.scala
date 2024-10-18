@@ -11,6 +11,7 @@ import org.cge.engine.model.Jack
 import org.cge.engine.model.Queen
 import org.cge.engine.model.Hearts
 import org.cge.engine.model.Diamonds
+import org.cge.engine.model.King
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -142,5 +143,13 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     val numOfRanks = _gameBuilder.currentGameCards.size / numOfSuits
     numOfRanks should be (ranks.size)
 
-  
-
+  test("trump can be set"):
+    val trump = Clubs
+    _gameBuilder.addSuit(trump)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+      .addSortedRanks(List(Two, Three, Jack, Queen, King))
+      .setTrump(trump)
+    val game = _gameBuilder.build
+    game.trump should be (Option(trump))
