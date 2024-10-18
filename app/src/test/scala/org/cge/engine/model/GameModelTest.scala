@@ -7,10 +7,21 @@ import org.scalatest.BeforeAndAfterEach
 
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private var game: GameModel = SimpleGame("simple game")
+  private var tableGame = GameModel("table game", true)
   private val testPlayer = PlayerModel("Test")
+  private val winner1 = PlayerModel("winner1")
+  private val winner2 = PlayerModel("winner2")
+  private val looser1 = PlayerModel("looser1")
+  private val looser2 = PlayerModel("looser2")
+  private val winCondition: WinCondition =
+    (game, player) => player.name.contains("winner")
+
+  private def _addPlayersToTableGame(players: List[PlayerModel]) =
+    players.foreach(tableGame.addPlayer(_))
 
   override def beforeEach(): Unit =
-    game = SimpleGame("simple game")
+    game = GameModel("simple game")
+    tableGame = GameModel("table game", true)
 
   test("SimpleGame should be able to add a named player"):
     game.addPlayer(testPlayer)
@@ -19,7 +30,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   test("SimpleGame should be able to remove a named player"):
     game.addPlayer(testPlayer)
     game.removePlayer(testPlayer)
-    game.players should be (List.empty[PlayerModel])
+    game.players should be (List[PlayerModel]())
 
   test("SimpleGame should be able to add multiple named players"):
     val testPlayer2: PlayerModel = PlayerModel("Test2")
@@ -39,7 +50,49 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.trump should be (Some(Spades))
 
   test("TableGame should have a table"):
-    val g = GameModel("name", true)
-    g match
-      case g: TableGame => g.table mustBe a[TableModel]
+    tableGame match
+      case g: TableGameWithWinConditions => g.table mustBe a[TableModel]
       case _ => fail("GameModel was not a TableGame, check apply() function.")
+
+  test("TableGameWithWinConditions should start with an empty list of win conditions"):
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.winConditions should be (List[WinCondition]())
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")
+
+  test("TableGameWithWinConditions should be able to keep added win conditions"):
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.addWinCondition(winCondition)
+        g.winConditions should be (List(winCondition))
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")
+
+  test("TableGameWithWinConditions should output winners according to winConditions"):
+    _addPlayersToTableGame(List(winner1, winner2, looser1, looser2))
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.addWinCondition(winCondition)
+        g.winners should be (List(winner1, winner2))
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")
+
+  test("TableGameWithWinConditions should output no winners if there is no winner"):
+    _addPlayersToTableGame(List(looser1, looser2))
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.addWinCondition(winCondition)
+        g.winners should be (List[PlayerModel]())
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")
+
+  test("TableGameWithWinConditions should output no winners if there are no players"):
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.addWinCondition(winCondition)
+        g.winners should be (List[PlayerModel]())
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")
+
+  test("TableGameWithWinConditions should output every player as winner if there are no conditions"):
+    _addPlayersToTableGame(List(winner1, winner2, looser1, looser2))
+    tableGame match
+      case g: TableGameWithWinConditions =>
+        g.winners should be (List(winner1, winner2, looser1, looser2))
+      case _ => fail("GameModel was not a TableGameWithWinConditions, check apply() function.")

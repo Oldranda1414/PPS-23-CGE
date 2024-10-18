@@ -14,7 +14,7 @@ object GameModel:
   def apply(name: String, withTable: Boolean = false): GameModel =
     withTable match
       case false => SimpleGame(name)
-      case true => TableGame(name)
+      case true => TableGameWithWinConditions(name)
 
   class SimpleGame(val name: String) extends GameModel:
     private var _players: List[PlayerModel] = List.empty
@@ -31,6 +31,22 @@ object GameModel:
   
   class TableGame(name: String) extends SimpleGame(name):
     val table: TableModel = TableModel()
+
+  // A WinCondition takes as arguments the current game and a player,
+  //   and outputs true if the specified player is a winner.
+  type WinCondition = (GameModel, PlayerModel) => Boolean
+  class TableGameWithWinConditions(name:String) extends TableGame(name):
+    private var _winConditions: List[WinCondition] = List.empty
+
+    def addWinCondition(condition: WinCondition): Unit =
+      _winConditions = _winConditions :+ condition
+    def winConditions: List[WinCondition] = _winConditions
+
+    def winners: List[PlayerModel] =
+      players.filter(p => _satisfyEveryWinCondition(p))
+    
+    private def _satisfyEveryWinCondition(player: PlayerModel) =
+      winConditions.forall(cond => cond(this, player))
 
 trait CardModel:
   def rank: Rank
@@ -95,6 +111,7 @@ object TableModel:
 
     def addPlayingRule(rule: PlayingRule): Unit = _rules = _rules :+ rule
     def rules: List[PlayingRule] = _rules
-    override def playCard(card: CardModel) = _rules.map[Boolean](r => r(super.cardsOnTable, card)).forall(identity) match
-      case true => super.playCard(card)
-      case false => _rules = _rules
+    override def playCard(card: CardModel) =
+      _rules.map[Boolean](r => r(super.cardsOnTable, card)).forall(identity) match
+        case true => super.playCard(card)
+        case false => _rules = _rules
