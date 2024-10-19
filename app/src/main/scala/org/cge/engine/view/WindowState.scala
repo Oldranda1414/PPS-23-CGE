@@ -1,7 +1,7 @@
 package org.cge.engine.view
 
-import States.*
-import Streams.*
+import org.cge.engine.view.monads.States.State
+import org.cge.engine.view.monads.Streams.Stream
 
 /**
  * A trait that defines the state management interface for a window in the card game GUI.

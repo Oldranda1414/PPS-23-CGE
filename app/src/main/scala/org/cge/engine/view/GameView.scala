@@ -1,12 +1,13 @@
 package org.cge.engine.view
 
-import org.cge.engine.view.States.State
+import org.cge.engine.view.monads.States.State
+import org.cge.engine.view.monads.Streams.Stream
 import org.cge.engine.view.SwingFunctionalFacade.Frame
 
 /** A view for card engine game. */
 trait GameView:
   /** Shows the game. */
-  def show: State[Frame, Streams.Stream[String]]
+  def show: State[Frame, Stream[String]]
 
   /**
     * Add a player to the game view
@@ -49,7 +50,7 @@ object GameView:
         _ <- WindowStateImpl.setSize(width, height)
       yield ()
 
-    def show: State[Frame, Streams.Stream[String]] =
+    def show: State[Frame, Stream[String]] =
       for
         _ <- windowCreation
         _ <- WindowStateImpl.show()

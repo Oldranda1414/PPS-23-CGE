@@ -1,7 +1,7 @@
 package org.cge.engine
 
 import org.cge.engine.view.GameView
-import org.cge.engine.view.Monads.Monad.seqN
+import org.cge.engine.view.monads.Monads.Monad.seqN
 import org.cge.engine.view.WindowStateImpl
 import org.cge.engine.model.GameModel
 

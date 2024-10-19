@@ -1,4 +1,4 @@
-package org.cge.engine.view
+package org.cge.engine.view.monads
 
 object Streams:
 
