@@ -143,6 +143,9 @@ object WindowStateImpl extends WindowState:
   def addButton(jb: JButton, eventName: String): State[Window, Unit] =
     State { w => (w.addButton(jb, eventName), {}) }
 
+  def addLabel(text: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
+    State { w => (w.addLabel(text, x, y, width, height), {}) }
+
   def show(): State[Window, Unit] =
     State { w => (w.show(), {}) }
 

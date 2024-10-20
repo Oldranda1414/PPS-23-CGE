@@ -49,6 +49,13 @@ object GameView:
 
   private class GameViewImpl(val gameName: String, width: Int, height: Int) extends GameView:
 
+    val singleWinnerLabelPrefix: String = "The winner is "
+    val multiWinnerLabelPrefix: String = "The winners are "
+    val winnerLabelX = 400
+    val winnerLabelY = 500
+    val winnerLabelWidth = 500
+    val winnerLabelHeight = 100
+
     var windowCreation: State[Frame, Unit] =
       for
         _ <- WindowStateImpl.setSize(width, height)
@@ -77,8 +84,9 @@ object GameView:
       if winners.size == 0 then
         throw new IllegalArgumentException("No winners provided.")
       else if winners.size == 1 then
-        // for _ <- WindowStateImpl.displayWinner(winners.head) yield ()
-        ???
+        displayWinner(singleWinnerLabelPrefix + winners.head)
       else
-        // for _ <- WindowStateImpl.displayWinner(winners.mkString(", ")) yield ()
-        ???
+        displayWinner(multiWinnerLabelPrefix + winners.mkString(", "))
+    
+    def displayWinner(winnerText: String) =
+      for _ <- WindowStateImpl.addLabel(winnerText, winnerLabelX, winnerLabelY, winnerLabelWidth, winnerLabelHeight) yield ()

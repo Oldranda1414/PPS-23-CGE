@@ -16,6 +16,7 @@ class SwingFunctionalFacade {
         Frame addPanelTitle(String panelName, String title);
         Frame addComponentToPanel(String panelName, Component component);
         Frame addButton(JButton jb, String eventName);
+        Frame addLabel(String labelText, int x, int y, int width, int height);
         Frame show();
         Supplier<String> events();
         Frame addComponent(String name, Component component);
@@ -120,6 +121,18 @@ class SwingFunctionalFacade {
                 } catch (InterruptedException ex) {}
             });
             this.jframe.getContentPane().add(jb);
+            return this;
+        }
+
+
+        @Override
+        public Frame addLabel(String labelText, int x, int y, int width, int height) {
+            final JLabel jl = new JLabel(labelText);
+            jl.setFont(new Font("Arial", Font.BOLD, 24));
+            jl.setHorizontalAlignment(SwingConstants.CENTER);
+            jl.setBounds(x, y, width, height);
+            this.jframe.getContentPane().add(jl);
+            this.jframe.repaint();
             return this;
         }
 
