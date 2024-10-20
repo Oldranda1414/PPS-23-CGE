@@ -3,6 +3,16 @@ package org.cge.engine
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
+import org.cge.engine.model.Clubs
+import org.cge.engine.model.Spades
+import org.cge.engine.model.Two
+import org.cge.engine.model.Three
+import org.cge.engine.model.Jack
+import org.cge.engine.model.Queen
+import org.cge.engine.model.Hearts
+import org.cge.engine.model.Diamonds
+import org.cge.engine.model.King
+import org.cge.engine.model.Suit
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -29,15 +39,34 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       _gameBuilder.build
     }
 
-  test("build should return a game with the specified name, number of players, and number of cards in hand"):
+  test("build should throw an exception if suits are not set"):
     _gameBuilder.setName("Game name")
     _gameBuilder.addPlayer("Player 1")
-    _gameBuilder.addPlayer("Player 2")
     _gameBuilder.cardsInHand(() => 5)
-    val game = _gameBuilder.build
+    intercept[IllegalStateException] {
+      _gameBuilder.build
+    }
+
+  test("build should throw an exception if ranks are not set"):
+    _gameBuilder.setName("Game name")
+    _gameBuilder.addPlayer("Player 1")
+    _gameBuilder.cardsInHand(() => 5)
+    _gameBuilder.addSuit(Clubs)
+    intercept[IllegalStateException] {
+      _gameBuilder.build
+    }
+
+  test("build should return a valid game"):
+    val game = _gameBuilder.setName("Game name")
+      .addPlayer("Player 1")
+      .addPlayer("Player 2")
+      .cardsInHand(() => 5)
+      .addSuit(Clubs).addSuit(Spades).addSuit(Hearts).addSuit(Diamonds)
+      .addSortedRanks(List(Two, Three, Jack, Queen))
+      .build
     game.name should be ("Game name")
     game.players.size should be (2)
-    game.players.foreach(player => player.deck.cards.size should be (5))
+    game.players.foreach(player => player.hand.cards.size should be (5))
 
   test("cannot set the name with empty or blank strings"):
     intercept[IllegalArgumentException] {
@@ -77,4 +106,74 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("cannot set the number of cards in hand under 1"):
     intercept[IllegalArgumentException] {
       _gameBuilder.cardsInHand(() => 0)
+    }
+
+  test("cannot add a suit twice"):
+    val suit = Clubs
+    _gameBuilder.addSuit(suit)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addSuit(suit)
+    }
+
+  test("add suits creates a deck with the specified suits"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSuit(Clubs).addSuit(Spades)
+      .addSortedRanks(ranks)
+    val numberOfSuits = 2
+    val numOfCards = ranks.size * numberOfSuits
+    _gameBuilder.setName("Game name")
+    _gameBuilder.addPlayer("Player 1")
+    _gameBuilder.cardsInHand(() => 5)
+    _gameBuilder.currentGameCards.size should be (numOfCards)
+
+  test("cannot add ranks twice"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSortedRanks(ranks)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addSortedRanks(ranks)
+    }
+  
+  test("add ranks creates a deck with the specified ranks"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(Clubs)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+    val numOfSuits = 1
+    val numOfRanks = _gameBuilder.currentGameCards.size / numOfSuits
+    numOfRanks should be (ranks.size)
+
+  test("trump can be set"):
+    val trump = Clubs
+    _gameBuilder.addSuit(trump)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+      .addSortedRanks(List(Two, Three, Jack, Queen, King))
+      .setTrump(trump)
+    val game = _gameBuilder.build
+    game.trump should be (Option(trump))
+
+  test("trump cannot be set to a suit that is not in the game"):
+    object InvalidTrump extends Suit
+    intercept[IllegalArgumentException] {
+      _gameBuilder.addSuit(Clubs)
+        .setName("Game name")
+        .addPlayer("Player 1")
+        .cardsInHand(() => 5)
+        .addSortedRanks(List(Two, Three, Jack, Queen, King))
+        .setTrump(InvalidTrump)
+        .build
+    }
+
+  test("exception will throw if sum of cards in hand is greater than the number of cards in the deck"):
+    val ranks = List(Two, Three, Jack, Queen)
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(Clubs)
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.build
     }

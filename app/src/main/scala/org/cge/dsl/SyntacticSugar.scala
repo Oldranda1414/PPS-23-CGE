@@ -1,26 +1,41 @@
 package org.cge.dsl
 
+import org.cge.engine.model.Suit
+import org.cge.engine.model.Rank
+
 /** Base trait for syntactic sugar */
 trait SyntacticSugar
 
 object SyntacticSugar:
 
   /**
+    * Syntactic sugar to make the DSL more readable.
+    * It is used to enable 'game suitsAre StandardSuits' syntax
+    */
+  object StandardSuits extends Suit
+
+  /**
+    * Syntactic sugar to make the DSL more readable.
+    * It is used to enable 'game ranksAre StandardRanks' syntax
+    */
+  object StandardRanks extends Rank
+
+  /**
    * Syntactic sugar to make the DSL more readable.
-   * It is used to enable ' game has player called "blabla" ' and
+   * It is used to enable 'game has player called "blabla" ' and
    * ' game gives 5 cards to each player' syntaxes
    */
   implicit val player: PlayerSyntacticSugar = PlayerSyntacticSugar
 
   /**
    * Syntactic sugar to make the DSL more readable.
-   * It is used to enable ' game gives 5 cards to each player'
+   * It is used to enable 'game gives 5 cards to each player'
    */
   implicit val to: ToSyntacticSugar = ToSyntacticSugar
 
   /**
    * Syntactic sugar to make the DSL more readable.
-   * It is used to enable ' game gives random cards to each player'
+   * It is used to enable 'game gives random cards to each player'
    */
   implicit val random: RandomSyntacticSugar = RandomSyntacticSugar
 

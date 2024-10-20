@@ -31,8 +31,8 @@ object GameController:
 
       game.players.foreach: player =>
         gameView.addPlayer(player.name)
-        player.deck.cards.foreach: card =>
-          gameView.addCardToPlayer(player.name, card.value, card.suit)
+        player.hand.cards.foreach: card =>
+          gameView.addCardToPlayer(player.name, card.rank.toString, card.suit.toString)
       
       gameView.addButton("Results", "EndGame", buttonX, buttonY, buttonWidth, buttonHeight)
 
@@ -48,7 +48,7 @@ object GameController:
       windowEventsHandling.run(WindowStateImpl.initialWindow)
 
     def endGame(gameView: GameView) =
-      val maxCards = game.players.map(_.deck.cards.size).max
+      val maxCards = game.players.map(_.hand.cards.size).max
       gameView.endGame(
-        game.players.filter(_.deck.cards.size == maxCards).map(_.name)
+        game.players.filter(_.hand.cards.size == maxCards).map(_.name)
       )

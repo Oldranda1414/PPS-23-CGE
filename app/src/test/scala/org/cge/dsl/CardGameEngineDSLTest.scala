@@ -5,16 +5,24 @@ import org.scalatest.matchers.should.Matchers._
 import org.cge.dsl.CardGameEngineDSL._
 import org.cge.engine.GameBuilder
 import org.scalatest.BeforeAndAfterEach
-import org.cge.engine.model.GameModel
 import org.cge.dsl.SyntacticSugar._
+import org.cge.engine.model._
+import org.cge.dsl.SyntacticBuilder.PlayerBuilder
+import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
-  class PuppetBuilder extends GameBuilder:
+  protected class PuppetBuilder extends GameBuilder:
+
+    override def currentGameCards: List[CardModel] = List.empty
 
     var name = ""
     var players = List.empty[String]
     var numberOfCards = () => 0
+    var cardSuits = Set.empty[Suit]
+    var cardRanks = List.empty[Rank]
+    var trump: Option[Suit] = None
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -26,6 +34,19 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
     override def cardsInHand(numberOfCards: () => Int): GameBuilder = 
       this.numberOfCards = numberOfCards
+      this
+
+
+    override def addSuit(suit: Suit): GameBuilder = 
+      cardSuits = cardSuits + suit
+      this
+
+    override def addSortedRanks(ranks: List[Rank]): GameBuilder = 
+      cardRanks = ranks
+      this
+
+    override def setTrump(suit: Suit): GameBuilder =
+      trump = Some(suit)
       this
 
     override def build: GameModel = GameModel("Puppet")
@@ -78,7 +99,8 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     g match 
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
       case _ => fail("game is not a PuppetBuilder")
-
+    
+  /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =
     val results = (1 to trials).map(_ => f())
     results.distinct.size > 1

@@ -1,9 +1,11 @@
 package org.cge.engine
 
-import org.cge.engine.data.StandardDeck
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
+import org.cge.engine.data._
+import org.cge.engine.model.Suit
+import org.cge.engine.model.Rank
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -34,11 +36,38 @@ trait GameBuilder:
   def cardsInHand(numberOfCards: () => Int): GameBuilder
 
   /**
+    * Sets the suits of the game.
+    *
+    * @param suit the suit to add
+    * @return the GameBuilder instance
+    */
+  def addSuit(suit: Suit): GameBuilder
+
+  /**
+   * Adds a list of sorted ranks to the game. It needs to be sorted to decide which rank is higher.
+   * 
+   * @param suits the suits to add
+   * @return the GameBuilder instance
+   * 
+    */
+  def addSortedRanks(ranks: List[Rank]): GameBuilder
+
+  /**
+    * Sets the trump suit of the game.
+    *
+    * @param suit the trump suit
+    * @return the GameBuilder instance
+    */
+  def setTrump(suit: Suit): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
    */
   def build: GameModel
+
+  def currentGameCards: List[CardModel]
 
 object GameBuilder:
 
@@ -49,11 +78,17 @@ object GameBuilder:
     private var _players: Set[String] = Set.empty
     private var _cardsInHand: () => Int = () => 0
     private var _availableCards = StandardDeck.cards
+    private var _suits = Set.empty[Suit]
+    private var _ranks = List.empty[Rank]
+    private var _trump: Option[Suit] = None
+
     private var _executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
         "addPlayer" -> false,
         "cardsInHand" -> false,
+        "addSuit" -> false,
+        "addSortedRanks" -> false
       )
 
     def setName(name: String): GameBuilder =
@@ -78,23 +113,47 @@ object GameBuilder:
       _executedMethods += ("cardsInHand" -> true)
       this
 
+    def addSuit(suit: Suit): GameBuilder =
+      require(!_suits.contains(suit), s"Suit $suit already exists")
+      _executedMethods += ("addSuit" -> true)
+      _suits = _suits + suit
+      this
+
+    def addSortedRanks(ranks: List[Rank]): GameBuilder = 
+      require(ranks.nonEmpty, "Ranks cannot be empty")
+      require(_ranks.isEmpty, "Ranks are already set")
+      _executedMethods += ("addSortedRanks" -> true)
+      _ranks = ranks
+      this
+
+    def setTrump(suit: Suit): GameBuilder =
+      _trump = Some(suit)
+      this
+
+    def currentGameCards: List[CardModel] = computeDeck()
+
     def build: GameModel = 
       checkExecutedMethods()
+      _availableCards = computeDeck()
       //create game
       val game = GameModel(this._gameName)
+      _trump match
+        case Some(suit) => 
+          require(_suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
+          game.trump = suit
+        case None => ()
       _players.foreach { name =>
         // create player
         val player = PlayerModel(name)
         game.addPlayer(player)
         for _ <- 1 to _cardsInHand() do
           // populate player's deck
-          val card = getRandomAvailableCard()
-          player.deck.addCard(card)
-          _availableCards = _availableCards.tail
+          player.hand.addCard(getRandomAvailableCard())
       }
       game
 
     private def getRandomAvailableCard(): CardModel = 
+      require(_availableCards.nonEmpty, "No cards available")
       val index = scala.util.Random.nextInt(_availableCards.size)
       val card = _availableCards(index)
       _availableCards = _availableCards.patch(index, Nil, 1)
@@ -107,3 +166,11 @@ object GameBuilder:
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
       require(s.trim.nonEmpty, s"$name cannot be blank")
+
+    private def computeDeck(): List[CardModel] = 
+      if (_suits.nonEmpty && _ranks.nonEmpty) then 
+        for
+          suit <- _suits.toList
+          rank <- _ranks
+        yield CardModel(rank, suit)
+      else List.empty
