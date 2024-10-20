@@ -122,8 +122,8 @@ object WindowStateImpl extends WindowState:
   def addPanel(panelName: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
     State { w => (w.addPanel(panelName, x, y, width, height), {}) }
   
-  def addBoxLayout(panelName: String): State[Window, Unit] =
-    State { w => (w.addBoxLayout(panelName), {}) }
+  def addBoxLayout(panelName: String, orientation: Boolean): State[Window, Unit] =
+    State { w => (w.addBoxLayout(panelName, orientation), {}) }
 
   def addPanelTitle(panelName: String, title: String): State[Window, Unit] =
     State { w => (w.addPanelTitle(panelName, title), {}) }

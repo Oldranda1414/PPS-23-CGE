@@ -22,19 +22,19 @@ object PlayerViewManager:
 
   private val cardWidth = 10
   private val cardHeight = 10
-  private val cardFont: Font = new Font("Arial", Font.PLAIN, Math.min(cardWidth / 8, cardHeight / 3));
+  private val cardFont: Font = new Font("Arial", Font.PLAIN, Math.min(cardWidth, cardHeight));
 
-  private val upPlayerDims = (300, 100)
-  private val rightPlayerDims = (300, 100)
-  private val downPlayerDims = (300, 100)
-  private val leftPlayerDims = (100, 300)
+  private val upPlayerDims = (700, 100)
+  private val rightPlayerDims = (100, 500)
+  private val downPlayerDims = (500, 100)
+  private val leftPlayerDims = (100, 500)
 
   private val upPlayerCoords = (20, 20)
   private val rightPlayerCoords = (windowWidth - 200, 20)
   private val downPlayerCoords = (windowWidth - 200 - downPlayerDims._1, windowHeight - 200)
   private val leftPlayerCoords = (20, windowHeight - 200)
 
-  private val possiblePositions = Seq(Up, Down, Left, Right)
+  private val possiblePositions = Seq(Up, Down, Right, Left)
   private var playerPositions: Map[String, PlayerPosition] = Map.empty[String, PlayerPosition]
   private var playerCards: Map[String, Int] = Map.empty[String, Int]
 
@@ -46,11 +46,12 @@ object PlayerViewManager:
     
     val (playerX, playerY): (Int, Int) = getPlayerHandCoords(playerName)
     val (playerWidth, playerHeight) = getPlayerDims(playerName)
+    val playerOrientation: Boolean = getPlayerOrientation(playerName)
 
     for
       _ <- windowState
       _ <- WindowStateImpl.addPanel(playerName, playerX, playerY, playerWidth, playerHeight)
-      _ <- WindowStateImpl.addBoxLayout(playerName)
+      _ <- WindowStateImpl.addBoxLayout(playerName, playerOrientation)
       _ <- WindowStateImpl.addPanelTitle(playerName, playerName)
     yield ()
   
@@ -82,6 +83,13 @@ object PlayerViewManager:
       case Down => downPlayerCoords
       case Left => leftPlayerCoords
       case Right => rightPlayerCoords
+
+  private def getPlayerOrientation(playerName: String): Boolean = 
+    getPlayerPosition(playerName) match
+      case Up => false
+      case Down => false
+      case Left => true
+      case Right => true
 
   private def getPlayerDims(playerName: String): (Int, Int) = 
     getPlayerPosition(playerName) match

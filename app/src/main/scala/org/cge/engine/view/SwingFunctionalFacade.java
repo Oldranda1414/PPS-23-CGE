@@ -12,7 +12,7 @@ class SwingFunctionalFacade {
     public interface Frame {
         Frame setSize(int width, int height);
         Frame addPanel(String panelName, int x, int y, int width, int height);
-        Frame addBoxLayout(String panelName);
+        Frame addBoxLayout(String panelName, boolean orientation);
         Frame addPanelTitle(String panelName, String title);
         Frame addComponentToPanel(String panelName, Component component);
         Frame addButton(JButton jb, String eventName);
@@ -65,9 +65,10 @@ class SwingFunctionalFacade {
         }
 
         @Override
-        public Frame addBoxLayout(String panelName) {
+        public Frame addBoxLayout(String panelName, boolean orientation) {
             var playerPanel =  this.panels.get(panelName);
-            playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+            var layoutOrientation = orientation ? BoxLayout.Y_AXIS : BoxLayout.X_AXIS;
+            playerPanel.setLayout(new BoxLayout(playerPanel, layoutOrientation));
             return this;
         }
 
