@@ -46,6 +46,8 @@ TDD is a software development approach here developers write tests for a feature
 - Green (Write the minimal code to pass the test): Write just enough code to make the test pass. The focus here is on passing the test, not on perfect code.
 - Refactor (Improve the code): Once the test passes, refactor the code to improve its structure, readability, and maintainability while ensuring the tests continue to pass.
 
+For time constraints reasons the testing will not cover the GUI part of the project.
+
 ## Git Flow
 
 Git flow branching model will be used.
