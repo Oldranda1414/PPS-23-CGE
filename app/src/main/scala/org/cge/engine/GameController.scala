@@ -5,6 +5,10 @@ import org.cge.engine.view.monads.Monads.Monad.seqN
 import org.cge.engine.view.WindowStateImpl
 import org.cge.engine.model.GameModel
 
+object WindowDimentions:
+  val windowWidth: Int = 1000
+  val windowHeight: Int = 1000
+
 /** A controller for card game engine. */
 trait GameController:
   /** Starts the game. */
@@ -14,8 +18,9 @@ object GameController:
   def apply(game: GameModel): GameController = new GameControllerImpl(game)
 
   private class GameControllerImpl(val game: GameModel) extends GameController:
-    val windowWidth: Int = 1000
-    val windowHeight: Int = 1000
+
+    import WindowDimentions.*
+
     val buttonX: Int = 300
     val buttonY: Int = 300
     val buttonWidth: Int = 100

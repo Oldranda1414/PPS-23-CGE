@@ -11,7 +11,7 @@ class SwingFunctionalFacade {
 
     public interface Frame {
         Frame setSize(int width, int height);
-        Frame addPanel(String panelName);
+        Frame addPanel(String panelName, int x, int y, int width, int height);
         Frame addBoxLayout(String panelName);
         Frame addPanelTitle(String panelName, String title);
         Frame addComponentToPanel(String panelName, Component component);
@@ -55,9 +55,10 @@ class SwingFunctionalFacade {
         }
 
         @Override
-        public Frame addPanel(String panelName) {
+        public Frame addPanel(String panelName, int x, int y, int width, int height) {
             JPanel panel = new JPanel();
             panel.setLayout(null); // Allow manual layout for components
+            panel.setBounds(x, y, width, height);
             this.panels.put(panelName, panel);
             this.jframe.getContentPane().add(panel);
             return this;
@@ -82,6 +83,7 @@ class SwingFunctionalFacade {
             if (panel != null) {
                 panel.add(component);
             }
+            this.repaint();
             return this;
         }
 

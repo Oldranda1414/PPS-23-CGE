@@ -38,7 +38,7 @@ trait WindowState:
    * @param panelName the name of the panel to be added.
    * @return a state action that adds the panel to the window.
    */
-  def addPanel(panelName: String): State[Window, Unit]
+  def addPanel(panelName: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit]
 
   /**
    * Adds a component to the window's panel.
@@ -119,8 +119,8 @@ object WindowStateImpl extends WindowState:
   def setSize(width: Int, height: Int): State[Window, Unit] = 
     State { w => (w.setSize(width, height), {}) }
 
-  def addPanel(panelName: String): State[Window, Unit] =
-    State { w => (w.addPanel(panelName), {}) }
+  def addPanel(panelName: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
+    State { w => (w.addPanel(panelName, x, y, width, height), {}) }
   
   def addBoxLayout(panelName: String): State[Window, Unit] =
     State { w => (w.addBoxLayout(panelName), {}) }
