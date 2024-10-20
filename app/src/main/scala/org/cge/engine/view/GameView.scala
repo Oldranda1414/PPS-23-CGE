@@ -26,12 +26,16 @@ trait GameView:
   def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit
 
   /**
-    * Adds a button to gui
+    * Adds a button to the gui
     *
-    * @param text the text to appear on the button
-    * @param name the name of the button and event triggered by pressing the button
+    * @param text the text to appear in the button
+    * @param name the name of the event the button will trigger
+    * @param x the x position of the button
+    * @param y the y position of the button
+    * @param width the width of the button
+    * @param height the height of the button
     */
-  def addButton(text: String, name: String): Unit
+  def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): Unit
 
   /**
    * Ends the game displaying the winners.
@@ -59,29 +63,22 @@ object GameView:
 
     def addPlayer(name: String): Unit = 
       windowCreation = 
-        for
-          _ <- windowCreation
-          _ <- WindowStateImpl.addPlayer(name)
-        yield ()
+        PlayerViewManager.addPlayer(windowCreation, name)
     
     def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit =
       windowCreation = 
-        for
-          _ <- windowCreation
-          _ <- WindowStateImpl.addCardToPlayer(player, cardValue, cardSuit)
-        yield ()
+        PlayerViewManager.addCardToPlayer(windowCreation, player, cardValue, cardSuit)
     
-    def addButton(text: String, name: String): Unit =
+    def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): Unit =
       windowCreation = 
-        for
-          _ <- windowCreation
-          _ <- WindowStateImpl.addButton(text, name)
-        yield ()
+        ButtonViewManager.addButton(windowCreation, name, text, x, y, width, height)
 
     def endGame(winners: List[String]) =
       if winners.size == 0 then
         throw new IllegalArgumentException("No winners provided.")
       else if winners.size == 1 then
-        for _ <- WindowStateImpl.displayWinner(winners.head) yield ()
+        // for _ <- WindowStateImpl.displayWinner(winners.head) yield ()
+        ???
       else
-        for _ <- WindowStateImpl.displayWinner(winners.mkString(", ")) yield ()
+        // for _ <- WindowStateImpl.displayWinner(winners.mkString(", ")) yield ()
+        ???

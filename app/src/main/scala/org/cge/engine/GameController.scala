@@ -14,16 +14,22 @@ object GameController:
   def apply(game: GameModel): GameController = new GameControllerImpl(game)
 
   private class GameControllerImpl(val game: GameModel) extends GameController:
+    val windowWidth: Int = 1000
+    val windowHeight: Int = 1000
+    val buttonX: Int = 300
+    val buttonY: Int = 300
+    val buttonWidth: Int = 100
+    val buttonHeight: Int = 100
 
     def startGame: Unit =
-      val gameView = GameView(game.name, 1000, 1000)
+      val gameView = GameView(game.name, windowWidth, windowHeight)
 
       game.players.foreach: player =>
         gameView.addPlayer(player.name)
         player.deck.cards.foreach: card =>
           gameView.addCardToPlayer(player.name, card.value, card.suit)
       
-      gameView.addButton("Results", "EndGame")
+      gameView.addButton("Results", "EndGame", buttonX, buttonY, buttonWidth, buttonHeight)
 
       val windowCreation = gameView.show
       val windowEventsHandling = for
