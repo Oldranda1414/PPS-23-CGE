@@ -5,8 +5,8 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
 class StateTest extends AnyTest with BeforeAndAfterEach:
-  import States._
-  import Monads.*
+  import org.cge.engine.view.monads.States._
+  import org.cge.engine.view.monads.Monads.*
 
   private var state: State[Int, String] = State(s => (s + 1, s"state: $s"))
 

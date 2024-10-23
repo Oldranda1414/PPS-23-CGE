@@ -1,7 +1,7 @@
 package org.cge.engine.view
 
 import org.cge.AnyTest
-import org.cge.engine.view.Streams.*
+import org.cge.engine.view.monads.Streams.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers.*
 

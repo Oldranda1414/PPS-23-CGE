@@ -1,8 +1,8 @@
 package org.cge.engine.view
 
 import org.cge.AnyTest
-import org.cge.engine.view.Streams.*
-import org.cge.engine.view.Monads.*
+import org.cge.engine.view.monads.Streams.*
+import org.cge.engine.view.monads.Monads.*
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
