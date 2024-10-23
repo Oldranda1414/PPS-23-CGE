@@ -74,7 +74,7 @@ object GameView:
     
     def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit =
       windowCreation = 
-        PlayerViewManager.addCardToPlayer(windowCreation, player, cardValue, cardSuit)
+        CardViewManager.addCardToPlayer(windowCreation, player, cardValue, cardSuit)
     
     def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): Unit =
       windowCreation = 
