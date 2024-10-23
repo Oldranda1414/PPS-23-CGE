@@ -50,6 +50,14 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
     table.addPlayingRule(rule)
     table.rules should be (List(rule))
 
+  test("TableModel should mark a playable card as playable"):
+    table.addPlayingRule(rule)
+    table.canPlayCard(card2) should be (true)
+
+  test("TableModel should mark a non-playable card as non-playable"):
+    table.addPlayingRule(rule)
+    table.canPlayCard(card3) should be (false)
+
   test("TableModel sholud accept playing cards following the added rules"):
     table.addPlayingRule(rule)
     table.playCard(card1)
