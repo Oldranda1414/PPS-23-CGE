@@ -8,8 +8,8 @@ import org.cge.engine.model.TableModel.PlayingRule
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:
   var table: TableModel = TableModel()
-  val card1: CardModel = CardModel("Ace", Spades)
-  val card2: CardModel = CardModel("Two", Spades)
+  val card1: CardModel = CardModel("Ace", "Spades")
+  val card2: CardModel = CardModel("Two", "Spades")
 
   override def beforeEach(): Unit =
     table = TableModel()
@@ -45,8 +45,8 @@ class TableWithRulesTest extends AnyTest with BeforeAndAfterEach:
   var table: TableModel = TableModel(true)
   // This rule is respected if on the table there are only cards of spades
   val rule: PlayingRule = (cardsOnTable: List[CardModel], card: CardModel) =>
-    cardsOnTable.filterNot(card => card.suit == Spades).size == 0
-      && card.suit == Spades
+    cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
+      && card.suit == Suit("Spades")
 
   override def beforeEach(): Unit =
     table = TableModel(true)
@@ -64,16 +64,16 @@ class TableWithRulesTest extends AnyTest with BeforeAndAfterEach:
     table match
       case t: TableWithRules =>
         t.addPlayingRule(rule)
-        t.playCard(CardModel("Ace", Spades))
-        t.playCard(CardModel("Two", Spades))
-        t.cardsOnTable should be (List(CardModel("Ace", Spades), CardModel("Two", Spades)))
+        t.playCard(CardModel("Ace", "Spades"))
+        t.playCard(CardModel("Two", "Spades"))
+        t.cardsOnTable should be (List(CardModel("Ace", "Spades"), CardModel("Two", "Spades")))
       case _ => fail("TableModel was not a TableWithRules, check apply() function.")
 
   test("TableWithRules sholud reject playing cards not following the added rules"):
     table match
       case t: TableWithRules =>
         t.addPlayingRule(rule)
-        t.playCard(CardModel("Ace", Spades))
-        t.playCard(CardModel("Two", Clubs))
-        t.cardsOnTable should be (List(CardModel("Ace", Spades)))
+        t.playCard(CardModel("Ace", "Spades"))
+        t.playCard(CardModel("Two", "Clubs"))
+        t.cardsOnTable should be (List(CardModel("Ace", "Spades")))
       case _ => fail("TableModel was not a TableWithRules, check apply() function.")

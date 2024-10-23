@@ -1,17 +1,9 @@
 package org.cge.dsl
 
-import org.cge.engine.model.Suit
-
 /** Base trait for syntactic sugar */
 trait SyntacticSugar
 
 object SyntacticSugar:
-
-  /**
-    * Syntactic sugar to make the DSL more readable.
-    * It is used to enable 'game suitsAre StandardSuits' syntax
-    */
-  object StandardSuits extends Suit
 
   /**
    * Syntactic sugar to make the DSL more readable.
