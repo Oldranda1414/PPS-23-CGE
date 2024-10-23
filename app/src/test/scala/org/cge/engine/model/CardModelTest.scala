@@ -7,8 +7,8 @@ import org.scalatest.BeforeAndAfterEach
 class CardModelTest extends AnyTest with BeforeAndAfterEach:
   private val card: CardModel = CardModel(Two, Clubs)
 
-  test("SimpleCard rank should be Two"):
+  test("CardModel rank should be Two"):
     card.rank should be (Two)
 
-  test("SimpleCard suit should be Clubs"):
+  test("CardModel suit should be Clubs"):
     card.suit should be (Clubs)
