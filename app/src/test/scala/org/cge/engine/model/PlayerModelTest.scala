@@ -6,7 +6,7 @@ import org.scalatest.BeforeAndAfterEach
 
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
   private var player: PlayerModel = PlayerModel("name")
-  private val card: CardModel = CardModel(Ace, Spades)
+  private val card: CardModel = CardModel("Ace", Spades)
 
   override def beforeEach(): Unit =
     player = PlayerModel("name")

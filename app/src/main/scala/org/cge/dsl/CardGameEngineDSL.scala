@@ -93,7 +93,7 @@ object CardGameEngineDSL:
       else false
 
     private def containsStdRanks(ranks: Seq[Rank]): Boolean = 
-      if (ranks.head == StandardRanks) then
+      if (ranks.head == Rank.standardRanks) then
         if (ranks.size > 1) then throw new CGESyntaxError("Standard ranks must be used alone")
         else true
       else false

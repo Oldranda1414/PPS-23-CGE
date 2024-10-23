@@ -1,20 +1,30 @@
 package org.cge.engine.model
 
-/** Represents the ranks of a standard deck of cards. */
-trait Rank
+/** An opaque type representing a rank. */
+opaque type Rank = String
 
-/** Companion objects for the ranks. */
-object Ace extends Rank
-object Two extends Rank
-object Three extends Rank
-object Four extends Rank
-object Five extends Rank
-object Six extends Rank
-object Seven extends Rank
-object Eight extends Rank
-object Nine extends Rank
-object Ten extends Rank
-object Jack extends Rank
-object Queen extends Rank
-object King extends Rank
-object Joker extends Rank
+/** A companion object for the Rank opaque type. */
+object Rank:
+  /** A factory method to create a Rank from a String. */
+  def apply(rank: String): Rank = rank
+
+  /** Standard ranks in a french deck */
+  val standardRanks: List[Rank] = List(
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "Jack",
+    "Queen",
+    "King",
+    "Ace"
+  )
+
+  /** A given instance of Conversion[String, Rank] to convert a String to a Rank. */
+  given Conversion[String, Rank] with
+    def apply(rank: String): Rank = Rank(rank)

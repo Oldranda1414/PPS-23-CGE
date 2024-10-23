@@ -1,7 +1,6 @@
 package org.cge.dsl
 
 import org.cge.engine.model.Suit
-import org.cge.engine.model.Rank
 
 /** Base trait for syntactic sugar */
 trait SyntacticSugar
@@ -13,12 +12,6 @@ object SyntacticSugar:
     * It is used to enable 'game suitsAre StandardSuits' syntax
     */
   object StandardSuits extends Suit
-
-  /**
-    * Syntactic sugar to make the DSL more readable.
-    * It is used to enable 'game ranksAre StandardRanks' syntax
-    */
-  object StandardRanks extends Rank
 
   /**
    * Syntactic sugar to make the DSL more readable.

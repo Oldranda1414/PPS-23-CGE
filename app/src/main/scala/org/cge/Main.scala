@@ -14,6 +14,6 @@ object Main:
     game has player called "Leonardo"
     game gives random cards to each player
     game suitsAre ( Hearts, Clubs, Spades, Diamonds )
-    game ranksAre ( Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King )
+    game ranksAre ( "Ace" )
     game trumpIs Hearts
     GameController(game.build).startGame
