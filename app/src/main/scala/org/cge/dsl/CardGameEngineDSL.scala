@@ -87,13 +87,13 @@ object CardGameEngineDSL:
     infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
 
     private def containsStdSuits(suits: Seq[Suit]): Boolean = 
-      if (suits.head == StandardSuits) then
+      if (suits.head == Suit.standardSuits) then
         if (suits.size > 1) then throw new CGESyntaxError("Standard suits must be used alone")
         else true
       else false
 
     private def containsStdRanks(ranks: Seq[Rank]): Boolean = 
-      if (ranks.head == StandardRanks) then
+      if (ranks.head == Rank.standardRanks) then
         if (ranks.size > 1) then throw new CGESyntaxError("Standard ranks must be used alone")
         else true
       else false

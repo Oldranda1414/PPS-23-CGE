@@ -32,7 +32,7 @@ object GameController:
       game.players.foreach: player =>
         gameView.addPlayer(player.name)
         player.hand.cards.foreach: card =>
-          gameView.addCardToPlayer(player.name, card.rank.getClass.getSimpleName, card.suit.getClass.getSimpleName)
+          gameView.addCardToPlayer(player.name, card.rank.toString(), card.suit.toString())
       
       gameView.addButton("Results", "EndGame", buttonX, buttonY, buttonWidth, buttonHeight)
 

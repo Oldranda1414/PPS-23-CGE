@@ -44,8 +44,8 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.trump should be (None)
 
   test("GameModel trump should change after setting it"):
-    game.trump = Spades
-    game.trump should be (Some(Spades))
+    game.trump = "Spades"
+    game.trump should be (Some("Spades"))
 
   test("GameModel should have a table"):
       game.table mustBe a[TableModel]

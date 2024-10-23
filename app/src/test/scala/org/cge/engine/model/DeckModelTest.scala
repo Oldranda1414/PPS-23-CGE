@@ -8,7 +8,7 @@ import org.cge.engine.data.StandardDeck
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private var deck: DeckModel = DeckModel()
   private val cards: List[CardModel] = StandardDeck.ranks
-    .map(r => CardModel(r, Spades))
+    .map(r => CardModel(r, "Spades"))
   private val card: CardModel = cards.head
   private val numberOfDrawnCards: Int = 3
 

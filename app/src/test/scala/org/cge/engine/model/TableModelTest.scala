@@ -7,14 +7,14 @@ import org.cge.engine.model.TableModel.PlayingRule
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:
   var table: TableModel = TableModel()
-  val card1: CardModel = CardModel(Ace, Spades)
-  val card2: CardModel = CardModel(Two, Spades)
-  val card3: CardModel = CardModel(Three, Clubs)
+  val card1: CardModel = CardModel("Ace", "Spades")
+  val card2: CardModel = CardModel("2", "Spades")
+  val card3: CardModel = CardModel("3", "Clubs")
 
   // This rule is respected if on the table there are only cards of spades
   val rule: PlayingRule = (cardsOnTable: List[CardModel], card: CardModel) =>
-    cardsOnTable.filterNot(card => card.suit == Spades).size == 0
-      && card.suit == Spades
+    cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
+      && card.suit == Suit("Spades")
 
   override def beforeEach(): Unit =
     table = TableModel()
