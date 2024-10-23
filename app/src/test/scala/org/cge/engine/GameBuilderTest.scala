@@ -168,3 +168,16 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     intercept[IllegalArgumentException] {
       _gameBuilder.build
     }
+
+  test("cards in hand per player can set each player number of cards"):
+    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit("Clubs").addSuit("Hearts")
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHandPerPlayer(() => 5, "Player 1")
+      .addPlayer("Player 2")
+      .cardsInHandPerPlayer(() => 3, "Player 2")
+    val game = _gameBuilder.build
+    game.players.head.hand.cards.size should be (5)
+    game.players(1).hand.cards.size should be (3)

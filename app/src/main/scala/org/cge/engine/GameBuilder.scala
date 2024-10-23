@@ -29,11 +29,21 @@ trait GameBuilder:
   /**
     * Sets the number of cards in hand for each player. Since this is a by-need parameter, 
     * it will be evaluated every time it is used allowing for different values to be returned.
-    *
+    * It's mutually exclusive with cardsInHandPerPlayer method.
     * @param numberOfCards the number of cards in hand
     * @return the GameBuilder instance
     */
   def cardsInHand(numberOfCards: () => Int): GameBuilder
+
+  /**
+    * Sets the number of cards in hand to the passed player.
+    * It's mutually exclusive with cardsInHands method.
+    *
+    * @param numberOfCards the number of cards in hand
+    * @param player the player to set the number of cards in hand
+    * @return the GameBuilder instance
+    */
+  def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder
 
   /**
     * Sets the suits of the game.
@@ -82,11 +92,12 @@ object GameBuilder:
     private var _ranks = List.empty[Rank]
     private var _trump: Option[Suit] = None
 
+    private var _cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
+    private var _isCardsInHandCalled = false;
     private var _executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
         "addPlayer" -> false,
-        "cardsInHand" -> false,
         "addSuit" -> false,
         "addSortedRanks" -> false
       )
@@ -109,10 +120,19 @@ object GameBuilder:
     def cardsInHand(numberOfCards: () => Int): GameBuilder = 
       require(numberOfCards() > 0, "Number of cards in hand must be greater than 0")
       require(this._cardsInHand() == 0, "Number of cards in hand is already set")
+      require(_cardsInHandPerPlayer.isEmpty, "Cannot call cardsInHand after cardsInHandPerPlayer")
       this._cardsInHand = numberOfCards
-      _executedMethods += ("cardsInHand" -> true)
+      _isCardsInHandCalled = true
       this
 
+    def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder = 
+      require(numberOfCards() > 0, "Number of cards in hand must be greater than 0")
+      require(!_cardsInHandPerPlayer.contains(player), s"Number of cards in hand for player $player is already set")
+      require(_players.contains(player), s"Player $player does not exist")
+      require(!_isCardsInHandCalled, "Cannot call cardsInHandPerPlayer after cardsInHand")
+      _cardsInHandPerPlayer = _cardsInHandPerPlayer + (player -> numberOfCards)
+      this
+    
     def addSuit(suit: Suit): GameBuilder =
       require(!_suits.contains(suit), s"Suit $suit already exists")
       _executedMethods += ("addSuit" -> true)
@@ -146,9 +166,7 @@ object GameBuilder:
         // create player
         val player = PlayerModel(name)
         game.addPlayer(player)
-        for _ <- 1 to _cardsInHand() do
-          // populate player's deck
-          player.hand.addCard(getRandomAvailableCard())
+        setPlayerCards(player)
       }
       game
 
@@ -161,6 +179,8 @@ object GameBuilder:
 
     private def checkExecutedMethods() =
       if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
+      if _isCardsInHandCalled == _cardsInHandPerPlayer.nonEmpty then
+        throw new IllegalStateException("Cannot call cardsInHand and cardsInHandPerPlayer together")
 
 
     private def stringRequirements(s: String, name: String) =
@@ -174,3 +194,16 @@ object GameBuilder:
           rank <- _ranks
         yield CardModel(rank, suit)
       else List.empty
+
+    private def setPlayerCards(player: PlayerModel) =
+      def populateHand(cardInHand: () => Int) = 
+        for _ <- 1 to cardInHand() do
+          player.hand.addCard(getRandomAvailableCard())
+      
+      if _cardsInHandPerPlayer.nonEmpty then
+        _cardsInHandPerPlayer.foreach { case (name, cardsInHand) =>
+          if player.name == name then
+            populateHand(cardsInHand)
+        }
+      else 
+        populateHand(_cardsInHand)
