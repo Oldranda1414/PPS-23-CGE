@@ -38,7 +38,7 @@ object PlayerViewManager:
     for
       _ <- windowState
       _ <- WindowStateImpl.addPanel(playerName, playerX, playerY, playerWidth, playerHeight)
-      _ <- WindowStateImpl.addBoxLayout(playerName, playerOrientation)
+      _ <- WindowStateImpl.addGridLayout(playerName, playerOrientation)
       _ <- WindowStateImpl.addPanelTitle(playerName, playerName)
     yield ()
   
