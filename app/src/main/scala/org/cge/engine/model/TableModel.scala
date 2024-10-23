@@ -1,16 +1,18 @@
 package org.cge.engine.model
 
+import org.cge.engine.model.TableModel.PlayingRule
+
 trait TableModel:
   def cardsOnTable: List[CardModel]
   def playCard(card: CardModel): Unit
   def takeCards(): List[CardModel] 
+  def addPlayingRule(rule: PlayingRule): Unit
+  def rules: List[PlayingRule]
 
 object TableModel:
-  def apply(withRules: Boolean = false): TableModel = withRules match
-    case false => SimpleTable()
-    case true => TableWithRules()
+  def apply(): TableModel = TableWithRules()
 
-  class SimpleTable() extends TableModel:
+  abstract class SimpleTable() extends TableModel:
     private val _cardsOnTable: DeckModel = DeckModel()
 
     def cardsOnTable: List[CardModel] = _cardsOnTable.cards
@@ -25,6 +27,7 @@ object TableModel:
     def addPlayingRule(rule: PlayingRule): Unit = _rules = _rules :+ rule
     def rules: List[PlayingRule] = _rules
     override def playCard(card: CardModel) =
-      _rules.map[Boolean](r => r(super.cardsOnTable, card)).forall(identity) match
-        case true => super.playCard(card)
-        case false => _rules = _rules
+      _rules.map[Boolean](r => r(super.cardsOnTable, card))
+        .forall(identity) match
+          case true => super.playCard(card)
+          case false => _rules = _rules
