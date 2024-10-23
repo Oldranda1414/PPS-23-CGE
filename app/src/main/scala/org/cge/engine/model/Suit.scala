@@ -1,10 +1,21 @@
 package org.cge.engine.model
 
-/** Represents the suits of a standard deck of cards. */
-trait Suit
+/** An opaque type representing a suit. */
+opaque type Suit = String
 
-/** Companion objects for the suits. */
-object Diamonds extends Suit
-object Clubs extends Suit
-object Hearts extends Suit
-object Spades extends Suit
+/** A companion object for the Suit opaque type. */
+object Suit:
+  /** A factory method to create a Suit from a String. */
+  def apply(suit: String): Suit = suit
+
+  /** Standard suits in a french deck */
+  val standardSuits: Set[Suit] = Set(
+    "Clubs",
+    "Diamonds",
+    "Hearts",
+    "Spades"
+  )
+
+  /** A given instance of Conversion[String, Suit] to convert a String to a Suit. */
+  given Conversion[String, Suit] with
+    def apply(suit: String): Suit = Suit(suit)

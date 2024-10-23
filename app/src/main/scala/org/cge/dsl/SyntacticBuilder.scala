@@ -61,7 +61,7 @@ object SyntacticBuilder:
       numOfCards match
         case -1 =>
           new EachSyntSugarImpl(
-            builder.cardsInHand(() => scala.util.Random.nextInt(10))
+            builder.cardsInHand(() => 1 + scala.util.Random.nextInt(10))
           )
         case _ => new EachSyntSugarImpl(builder.cardsInHand(() => numOfCards))
 
