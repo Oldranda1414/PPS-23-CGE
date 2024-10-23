@@ -38,34 +38,6 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
         )
       case _ => fail("game is not a PuppetBuilder")
 
-  // test("suitsAre StandardSuits should set the standard suits"):
-  //   val g = game suitsAre StandardSuits
-  //   g match
-  //     case g: PuppetBuilder =>
-  //       g.cardSuits shouldBe Set(Clubs, Diamonds, Hearts, Spades)
-  //     case _ => fail("game is not a PuppetBuilder")
-
-  // test("ranksAre StandardRanks should set the standard ranks"):
-  //   val g = game ranksAre StandardRanks
-  //   g match
-  //     case g: PuppetBuilder =>
-  //       g.cardRanks shouldBe List(
-  //         Two,
-  //         Three,
-  //         Four,
-  //         Five,
-  //         Six,
-  //         Seven,
-  //         Eight,
-  //         Nine,
-  //         Ten,
-  //         Jack,
-  //         Queen,
-  //         King,
-  //         Ace
-  //       )
-  //     case _ => fail("game is not a PuppetBuilder")
-
   test("trumpIs should set the trump suit"):
     val g = game trumpIs "Hearts"
     g match
