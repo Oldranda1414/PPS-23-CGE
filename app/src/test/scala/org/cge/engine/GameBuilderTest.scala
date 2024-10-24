@@ -9,6 +9,9 @@ import org.cge.engine.model.Rank
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
   var _gameBuilder: GameBuilder = GameBuilder()
+  val ranks = List[Rank]("Two", "Three", "Four", "Five", "Jack", "Queen", "King", "Ace")
+  val suits = List[Suit]("Clubs", "Spades", "Hearts", "Diamonds")
+  val trump: Suit = "Clubs"
 
   override def beforeEach() =
     _gameBuilder = GameBuilder()
@@ -68,6 +71,9 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       _gameBuilder.setName(" ")
     }
 
+  test("at start current game cards is an empty list"):
+    _gameBuilder.currentGameCards.size should be (0)
+
   test("cannot set the name twice"):
     _gameBuilder.setName("Game name")
     intercept[IllegalArgumentException] {
@@ -101,15 +107,13 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("cannot add a suit twice"):
-    val suit = "Clubs"
-    _gameBuilder.addSuit(suit)
+    _gameBuilder.addSuit(suits(0))
     intercept[IllegalArgumentException] {
-      _gameBuilder.addSuit(suit)
+      _gameBuilder.addSuit(suits(0))
     }
 
   test("add suits creates a deck with the specified suits"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
-    _gameBuilder.addSuit("Clubs").addSuit("Spades")
+    _gameBuilder.addSuit(suits(0)).addSuit(suits(1))
       .addSortedRanks(ranks)
     val numberOfSuits = 2
     val numOfCards = ranks.size * numberOfSuits
@@ -119,16 +123,14 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     _gameBuilder.currentGameCards.size should be (numOfCards)
 
   test("cannot add ranks twice"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
     _gameBuilder.addSortedRanks(ranks)
     intercept[IllegalArgumentException] {
       _gameBuilder.addSortedRanks(ranks)
     }
   
   test("add ranks creates a deck with the specified ranks"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
     _gameBuilder.addSortedRanks(ranks)
-      .addSuit("Clubs")
+      .addSuit(suits(0))
       .setName("Game name")
       .addPlayer("Player 1")
       .cardsInHand(() => 5)
@@ -137,31 +139,29 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     numOfRanks should be (ranks.size)
 
   test("trump can be set"):
-    val trump = "Clubs"
     _gameBuilder.addSuit(trump)
       .setName("Game name")
       .addPlayer("Player 1")
       .cardsInHand(() => 5)
-      .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
+      .addSortedRanks(ranks)
       .setTrump(trump)
     val game = _gameBuilder.build
     game.trump should be (Option(trump))
 
   test("trump cannot be set to a suit that is not in the game"):
     intercept[IllegalArgumentException] {
-      _gameBuilder.addSuit("Clubs")
+      _gameBuilder.addSuit(suits(0))
         .setName("Game name")
         .addPlayer("Player 1")
         .cardsInHand(() => 5)
-        .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
+        .addSortedRanks(ranks)
         .setTrump("InvalidTrump")
         .build
     }
 
   test("exception will throw if sum of cards in hand is greater than the number of cards in the deck"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
-    _gameBuilder.addSortedRanks(ranks)
-      .addSuit("Clubs")
+    _gameBuilder.addSortedRanks(ranks.filter(ranks.indexOf(_) < 4))
+      .addSuit(suits(0))
       .setName("Game name")
       .addPlayer("Player 1")
       .cardsInHand(() => 5)
@@ -170,34 +170,58 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("cards in hand per player can set each player number of cards"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
+    val p1 = "Player 1"
+    val p2 = "Player 2"
+    
     _gameBuilder.addSortedRanks(ranks)
-      .addSuit("Clubs").addSuit("Hearts")
+      .addSuit(suits(0)).addSuit(suits(1))
       .setName("Game name")
-      .addPlayer("Player 1")
-      .cardsInHandPerPlayer(() => 5, "Player 1")
-      .addPlayer("Player 2")
-      .cardsInHandPerPlayer(() => 3, "Player 2")
+      .addPlayer(p1)
+      .cardsInHandPerPlayer(() => 5, p1)
+      .addPlayer(p2)
+      .cardsInHandPerPlayer(() => 3, p2)
     val game = _gameBuilder.build
     game.players.head.hand.cards.size should be (5)
     game.players(1).hand.cards.size should be (3)
 
-  test("cards in hand per player and cards in hand cannot be called together"):
-    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
+  test("cards in hand per player cannot be set twice"):
+    val p = "Player 1"
     _gameBuilder.addSortedRanks(ranks)
-      .addSuit("Clubs").addSuit("Hearts")
+      .addSuit(suits(0)).addSuit(suits(1))
       .setName("Game name")
-      .addPlayer("Player 1")
-      .cardsInHandPerPlayer(() => 5, "Player 1")
+      .addPlayer(p)
+      .cardsInHandPerPlayer(() => 5, p)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.cardsInHandPerPlayer(() => 5, p)
+    }
+
+  test("cards in hand per player cannot be called if cards in hand is already set"):
+    val p = "Player 1"
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(p)
+      .cardsInHand(() => 5)
+    intercept[IllegalArgumentException] {
+      _gameBuilder.cardsInHandPerPlayer(() => 5, p)
+    }
+
+  test("cards in hand cannot be called if cards in hand per palyer is already set"):
+    val p = "Player 1"
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(p)
+      .cardsInHandPerPlayer(() => 5, p)
     intercept[IllegalArgumentException] {
       _gameBuilder.cardsInHand(() => 5)
     }
-    val anotherGB = GameBuilder()
-    anotherGB.addSortedRanks(ranks)
-      .addSuit("Clubs").addSuit("Hearts")
+
+  test("cards in hand cannot set the number of cards in hand for not existing player"):
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
       .setName("Game name")
       .addPlayer("Player 1")
-      .cardsInHand(() => 5)
     intercept[IllegalArgumentException] {
-      anotherGB.cardsInHandPerPlayer(() => 5, "Player 1")
+      _gameBuilder.cardsInHandPerPlayer(() => 5, "Player 2")
     }

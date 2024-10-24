@@ -9,14 +9,14 @@ import org.cge.dsl.SyntacticSugar._
 import org.cge.engine.model._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
-import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
+import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
   protected class PuppetBuilder extends GameBuilder:
 
-
     override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
+      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
       this
 
     override def currentGameCards: List[CardModel] = List.empty
@@ -27,6 +27,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var cardSuits = Set.empty[Suit]
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
+    var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -88,7 +89,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
   test("gives <number: Int> cards to should return a EachSyntSugarBuilder"):
     val g = game gives 5 cards to
-    g shouldBe a [EachSyntSugarBuilder]
+    g shouldBe a [CardSyntSugarBuilder]
 
   test("gives <number: Int> cards to each player should forward to cardsInHand"):
     val g = game gives 5 cards to each player

@@ -179,9 +179,6 @@ object GameBuilder:
 
     private def checkExecutedMethods() =
       if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
-      if _isCardsInHandCalled == _cardsInHandPerPlayer.nonEmpty then
-        throw new IllegalStateException("Cannot call cardsInHand and cardsInHandPerPlayer together")
-
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
