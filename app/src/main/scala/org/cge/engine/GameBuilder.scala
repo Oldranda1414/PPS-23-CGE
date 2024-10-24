@@ -84,17 +84,17 @@ object GameBuilder:
   def apply(): GameBuilder = GameBuilderImpl()
 
   private class GameBuilderImpl extends GameBuilder:
-    private var _gameName: String = ""
-    private var _players: Set[String] = Set.empty
-    private var _cardsInHand: () => Int = () => 0
-    private var _availableCards = StandardDeck.cards
-    private var _suits = Set.empty[Suit]
-    private var _ranks = List.empty[Rank]
-    private var _trump: Option[Suit] = None
+    private var gameName: String = ""
+    private var players: Set[String] = Set.empty
+    private var cardsInHand: () => Int = () => 0
+    private var availableCards = StandardDeck.cards
+    private var suits = Set.empty[Suit]
+    private var ranks = List.empty[Rank]
+    private var trump: Option[Suit] = None
 
-    private var _cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
-    private var _isCardsInHandCalled = false;
-    private var _executedMethods: Map[String, Boolean] = 
+    private var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
+    private var isCardsInHandCalled = false;
+    private var executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
         "addPlayer" -> false,
@@ -104,65 +104,65 @@ object GameBuilder:
 
     def setName(name: String): GameBuilder =
       stringRequirements(name, "Game name")
-      require(_gameName.isEmpty, "Game name is already set")
-      this._gameName = name
-      _executedMethods += ("setName" -> true)
+      require(gameName.isEmpty, "Game name is already set")
+      this.gameName = name
+      executedMethods += ("setName" -> true)
       this
 
     def addPlayer(name: String): GameBuilder =
       stringRequirements(name, "Player name")
-      _players.contains(name) match
+      players.contains(name) match
         case true => throw new IllegalArgumentException(s"Player $name already exists")
-        case false => _players = _players + name
-      _executedMethods += ("addPlayer" -> true)
+        case false => players = players + name
+      executedMethods += ("addPlayer" -> true)
       this
 
     def cardsInHand(numberOfCards: () => Int): GameBuilder = 
       require(numberOfCards() > 0, "Number of cards in hand must be greater than 0")
-      require(this._cardsInHand() == 0, "Number of cards in hand is already set")
-      require(_cardsInHandPerPlayer.isEmpty, "Cannot call cardsInHand after cardsInHandPerPlayer")
-      this._cardsInHand = numberOfCards
-      _isCardsInHandCalled = true
+      require(this.cardsInHand() == 0, "Number of cards in hand is already set")
+      require(cardsInHandPerPlayer.isEmpty, "Cannot call cardsInHand after cardsInHandPerPlayer")
+      this.cardsInHand = numberOfCards
+      isCardsInHandCalled = true
       this
 
     def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder = 
       require(numberOfCards() > 0, "Number of cards in hand must be greater than 0")
-      require(!_cardsInHandPerPlayer.contains(player), s"Number of cards in hand for player $player is already set")
-      require(_players.contains(player), s"Player $player does not exist")
-      require(!_isCardsInHandCalled, "Cannot call cardsInHandPerPlayer after cardsInHand")
-      _cardsInHandPerPlayer = _cardsInHandPerPlayer + (player -> numberOfCards)
+      require(!cardsInHandPerPlayer.contains(player), s"Number of cards in hand for player $player is already set")
+      require(players.contains(player), s"Player $player does not exist")
+      require(!isCardsInHandCalled, "Cannot call cardsInHandPerPlayer after cardsInHand")
+      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
       this
     
     def addSuit(suit: Suit): GameBuilder =
-      require(!_suits.contains(suit), s"Suit $suit already exists")
-      _executedMethods += ("addSuit" -> true)
-      _suits = _suits + suit
+      require(!suits.contains(suit), s"Suit $suit already exists")
+      executedMethods += ("addSuit" -> true)
+      suits = suits + suit
       this
 
-    def addSortedRanks(ranks: List[Rank]): GameBuilder = 
-      require(ranks.nonEmpty, "Ranks cannot be empty")
-      require(_ranks.isEmpty, "Ranks are already set")
-      _executedMethods += ("addSortedRanks" -> true)
-      _ranks = ranks
+    def addSortedRanks(newRanks: List[Rank]): GameBuilder = 
+      require(newRanks.nonEmpty, "Ranks cannot be empty")
+      require(ranks.isEmpty, "Ranks are already set")
+      executedMethods += ("addSortedRanks" -> true)
+      ranks = newRanks
       this
 
     def setTrump(suit: Suit): GameBuilder =
-      _trump = Some(suit)
+      trump = Some(suit)
       this
 
     def currentGameCards: List[CardModel] = computeDeck()
 
     def build: GameModel = 
       checkExecutedMethods()
-      _availableCards = computeDeck()
+      availableCards = computeDeck()
       //create game
-      val game = GameModel(this._gameName)
-      _trump match
+      val game = GameModel(this.gameName)
+      trump match
         case Some(suit) => 
-          require(_suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
+          require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
           game.trump = suit
         case None => ()
-      _players.foreach { name =>
+      players.foreach { name =>
         // create player
         val player = PlayerModel(name)
         game.addPlayer(player)
@@ -171,25 +171,25 @@ object GameBuilder:
       game
 
     private def getRandomAvailableCard(): CardModel = 
-      require(_availableCards.nonEmpty, "No cards available")
-      val index = scala.util.Random.nextInt(_availableCards.size)
-      val card = _availableCards(index)
-      _availableCards = _availableCards.patch(index, Nil, 1)
+      require(availableCards.nonEmpty, "No cards available")
+      val index = scala.util.Random.nextInt(availableCards.size)
+      val card = availableCards(index)
+      availableCards = availableCards.patch(index, Nil, 1)
       card
 
     private def checkExecutedMethods() =
-      if _executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
-      if !_isCardsInHandCalled && _cardsInHandPerPlayer.keySet != _players then throw new IllegalStateException("All players must have a number of cards in hand")
+      if executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
+      if !isCardsInHandCalled && cardsInHandPerPlayer.keySet != players then throw new IllegalStateException("All players must have a number of cards in hand")
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")
       require(s.trim.nonEmpty, s"$name cannot be blank")
 
     private def computeDeck(): List[CardModel] = 
-      if (_suits.nonEmpty && _ranks.nonEmpty) then 
+      if (suits.nonEmpty && ranks.nonEmpty) then 
         for
-          suit <- _suits.toList
-          rank <- _ranks
+          suit <- suits.toList
+          rank <- ranks
         yield CardModel(rank, suit)
       else List.empty
 
@@ -198,10 +198,10 @@ object GameBuilder:
         for _ <- 1 to cardInHand() do
           player.hand.addCard(getRandomAvailableCard())
       
-      if _cardsInHandPerPlayer.nonEmpty then
-        _cardsInHandPerPlayer.foreach { case (name, cardsInHand) =>
+      if cardsInHandPerPlayer.nonEmpty then
+        cardsInHandPerPlayer.foreach { case (name, cardsInHand) =>
           if player.name == name then
             populateHand(cardsInHand)
         }
       else 
-        populateHand(_cardsInHand)
+        populateHand(cardsInHand)

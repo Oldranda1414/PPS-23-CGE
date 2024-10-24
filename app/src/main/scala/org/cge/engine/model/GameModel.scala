@@ -19,28 +19,25 @@ object GameModel:
   def apply(name: String): GameModel = TableGameWithWinConditions(name)
 
   abstract class SimpleGame(val name: String) extends GameModel:
-    private var _players: List[PlayerModel] = List.empty
-    private var _trump: Option[Suit] = None
+    var players: List[PlayerModel] = List.empty
+    var trump: Option[Suit] = None
 
-    def players: List[PlayerModel] = _players
     def addPlayer(player: PlayerModel): Unit =
-      _players = _players :+ player
+      players = players :+ player
     def removePlayer(player: PlayerModel): Unit =
-      _players = _players.filterNot(_ == player)
+      players = players.filterNot(_ == player)
     def trump_=(suit: Suit) = 
-      _trump = Some(suit)
-    def trump = _trump
+      trump = Some(suit)
 
   // A WinCondition takes as arguments the current game and a player,
   //   and outputs true if the specified player is a winner.
   type WinCondition = (GameModel, PlayerModel) => Boolean
   class TableGameWithWinConditions(name:String) extends SimpleGame(name):
     val table: TableModel = TableModel()
-    private var _winConditions: List[WinCondition] = List.empty
+    var winConditions: List[WinCondition] = List.empty
 
     def addWinCondition(condition: WinCondition): Unit =
-      _winConditions = _winConditions :+ condition
-    def winConditions: List[WinCondition] = _winConditions
+      winConditions = winConditions :+ condition
 
     def winners: List[PlayerModel] =
       players.filter(p => _satisfyEveryWinCondition(p))
