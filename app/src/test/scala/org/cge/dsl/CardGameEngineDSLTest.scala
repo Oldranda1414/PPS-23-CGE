@@ -14,16 +14,6 @@ import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
   protected class PuppetBuilder extends GameBuilder:
-
-
-    override def starterPlayer(player: String): GameBuilder = ???
-
-    override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
-      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
-      this
-
-    override def currentGameCards: List[CardModel] = List.empty
-
     var name = ""
     var players = List.empty[String]
     var numberOfCards = () => 0
@@ -37,7 +27,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       this
 
     override def addPlayer(name: String): GameBuilder = 
-      players = players
+      this.players = players
       this
 
     override def cardsInHand(numberOfCards: () => Int): GameBuilder = 
@@ -56,6 +46,15 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     override def setTrump(suit: Suit): GameBuilder =
       trump = Some(suit)
       this
+
+    override def starterPlayer(player: String): GameBuilder = ???
+
+    override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
+      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
+      this
+
+    override def currentGameCards: List[CardModel] = List.empty
+
 
     override def build: GameModel = GameModel("Puppet")
 
