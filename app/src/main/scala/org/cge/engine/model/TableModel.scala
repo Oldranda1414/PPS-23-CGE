@@ -35,4 +35,4 @@ object TableModel:
     override def playCard(card: CardModel) =
       canPlayCard(card) match
         case true => super.playCard(card)
-        case false => _rules = _rules
+        case false => ()

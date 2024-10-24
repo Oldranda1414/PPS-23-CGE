@@ -71,6 +71,14 @@ trait GameBuilder:
   def setTrump(suit: Suit): GameBuilder
 
   /**
+    * Sets the player that will start the game.
+    *
+    * @param player the player that will start the game
+    * @return the GameBuilder instance
+    */
+  def starterPlayer(player: String): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -91,7 +99,7 @@ object GameBuilder:
     private var _suits = Set.empty[Suit]
     private var _ranks = List.empty[Rank]
     private var _trump: Option[Suit] = None
-
+    private var _starterPlayer: String = ""
     private var _cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
     private var _isCardsInHandCalled = false;
     private var _executedMethods: Map[String, Boolean] = 
@@ -148,6 +156,10 @@ object GameBuilder:
 
     def setTrump(suit: Suit): GameBuilder =
       _trump = Some(suit)
+      this
+
+    def starterPlayer(player: String) = 
+      _starterPlayer = player
       this
 
     def currentGameCards: List[CardModel] = computeDeck()

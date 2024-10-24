@@ -5,6 +5,7 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.model.GameModel.TableGameWithWinConditions
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -238,3 +239,21 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     intercept[IllegalStateException] {
       _gameBuilder.build
     }
+
+  test("starter player sets the player that starts the game"):
+    val p1 = "Player 1"
+    val p2 = "Player 2"
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(p1)
+      .cardsInHandPerPlayer(() => 5, p1)
+      .addPlayer(p2)
+      .cardsInHandPerPlayer(() => 5, p2)
+      .starterPlayer(p2)
+    val game = _gameBuilder.build
+    game match
+      case game: TableGameWithWinConditions => 
+        game.table.rules.contains(???)
+      case _ => fail("Game is not a TableGame")
+    

@@ -15,6 +15,9 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
   protected class PuppetBuilder extends GameBuilder:
 
+
+    override def starterPlayer(player: String): GameBuilder = ???
+
     override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
       cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
       this
