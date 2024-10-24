@@ -57,9 +57,11 @@ object SyntacticBuilder:
       val builder: GameBuilder,
       val numOfCards: Int
   ) extends CountCardBuilder:
-    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder = CardSyntSugarBuilder(
-      numOfCards, builder
-    )
+    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder =
+      CardSyntSugarBuilder(
+        numOfCards,
+        builder
+      )
 
   /** Companion object for the EachSyntSugarBuilder trait. */
   object CardSyntSugarBuilder:
@@ -83,33 +85,33 @@ object SyntacticBuilder:
     infix def each(player: PlayerSyntacticSugar): GameBuilder
 
     /**
-      * This method is used to set the number of cards in hand for a specific player.
-      *
-      * @param playerName The name of the player
-      * @return The game builder
-      */
+     * This method is used to set the number of cards in hand for a specific player.
+     *
+     * @param playerName The name of the player
+     * @return The game builder
+     */
     infix def player(playerName: String): GameBuilder
 
-  private class CardSyntSugarBuilderImpl(val numOfCards: Int, val builder: GameBuilder)
-      extends CardSyntSugarBuilder:
+  private class CardSyntSugarBuilderImpl(
+      val numOfCards: Int,
+      val builder: GameBuilder
+  ) extends CardSyntSugarBuilder:
 
-    infix def player(playerName: String): GameBuilder = 
+    infix def player(playerName: String): GameBuilder =
       builder.cardsInHandPerPlayer(
-        computeCards(numOfCards), 
+        computeCards(numOfCards),
         playerName
       )
 
-    infix def each(player: PlayerSyntacticSugar): GameBuilder = 
+    infix def each(player: PlayerSyntacticSugar): GameBuilder =
       builder.cardsInHand(computeCards(numOfCards))
 
     private def computeCards(input: Int): () => Int =
       input match
         case -1 => () => 1 + scala.util.Random().nextInt(10)
-        case _ => () => input
+        case _  => () => input
 
-  /**
-   * Syntactic sugar builder to complete the sentence 'game starts from player "Test"'
-  */
+  /** Syntactic sugar builder to complete the sentence 'game starts from player "Test"' */
   trait StarterBuilder:
 
     /**
@@ -120,6 +122,14 @@ object SyntacticBuilder:
      */
     infix def player(player: String): GameBuilder
 
+    /**
+     * This method is used to set randomly the player that will start the game.
+     *
+     * @param player syntactic sugar
+     * @return The game builder
+     */
+    infix def random(player: PlayerSyntacticSugar): GameBuilder
+
   object StarterBuilder:
     /**
      * This method is used to create a new starter builder.
@@ -127,8 +137,20 @@ object SyntacticBuilder:
      * @param builder The game builder
      * @return The starter builder
      */
-    def apply(builder: GameBuilder): StarterBuilder = new StarterBuilderImpl(builder)
+    def apply(builder: GameBuilder): StarterBuilder = new StarterBuilderImpl(
+      builder
+    )
 
-    private class StarterBuilderImpl(val builder: GameBuilder) extends StarterBuilder:
-      infix def player(player: String): GameBuilder = builder.starterPlayer(player)
+    private class StarterBuilderImpl(val builder: GameBuilder)
+        extends StarterBuilder:
+      infix def player(player: String): GameBuilder =
+        builder.starterPlayer(player)
 
+      infix def random(player: PlayerSyntacticSugar): GameBuilder =
+        builder.starterPlayer(
+          builder.currentPlayers(
+            scala.util.Random.nextInt(
+              builder.currentPlayers.length
+            )
+          ).name
+        )

@@ -4,6 +4,7 @@ trait DeckModel:
   def cards: List[CardModel]
   def addCard(card: CardModel): Unit
   def removeCards(numberOfCards: Int): List[CardModel]
+  def getHighestCard(cards: Iterable[CardModel]): CardModel
 
 object DeckModel:
   def apply(): DeckModel = SimpleDeck()
@@ -18,3 +19,8 @@ object DeckModel:
       val ret: List[CardModel] = cards.take(numberOfCards)
       cards = cards.drop(numberOfCards)
       ret
+
+    def getHighestCard(cards: Iterable[CardModel]): CardModel =
+      if cards.exists(!this.cards.contains(_)) then throw new IllegalArgumentException("Card not in deck")
+      cards.maxBy(c => this.cards.indexOf(c))
+

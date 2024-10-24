@@ -87,6 +87,8 @@ trait GameBuilder:
 
   def currentGameCards: List[CardModel]
 
+  def currentPlayers: List[PlayerModel]
+
 object GameBuilder:
 
   def apply(): GameBuilder = GameBuilderImpl()
@@ -163,6 +165,9 @@ object GameBuilder:
       this
 
     def currentGameCards: List[CardModel] = computeDeck()
+
+    def currentPlayers: List[PlayerModel] =
+      players.map(PlayerModel(_))
 
     def build: GameModel = 
       checkExecutedMethods()
