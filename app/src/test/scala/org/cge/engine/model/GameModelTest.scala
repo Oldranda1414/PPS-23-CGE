@@ -6,7 +6,8 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
-  private var game: GameModel = GameModel("simple game")
+  private val gameName = "Test"
+  private var game: GameModel = GameModel(gameName)
   private val testPlayer = PlayerModel("Test")
   private val winner1 = PlayerModel("winner1")
   private val winner2 = PlayerModel("winner2")
@@ -15,11 +16,11 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private val winCondition: WinCondition =
     (game, player) => player.name.contains("winner")
 
-  private def _addPlayersToGame(players: List[PlayerModel]) =
+  private def addPlayersToGame(players: List[PlayerModel]) =
     players.foreach(game.addPlayer(_))
 
   override def beforeEach(): Unit =
-    game = GameModel("simple game")
+    game = GameModel(gameName)
 
   test("GameModel should be able to add a named player"):
     game.addPlayer(testPlayer)
@@ -38,7 +39,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.players should be (List(testPlayer, testPlayer2))
 
   test("GameModel should have initialized name"):
-    game.name should be ("simple game")
+    game.name should be (gameName)
 
   test("GameModel trump should be empty after initializazion"):
     game.trump should be (None)
@@ -58,12 +59,12 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.winConditions should be (List(winCondition))
 
   test("TableGameWithWinConditions should output winners according to winConditions"):
-    _addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.addWinCondition(winCondition)
     game.winners should be (List(winner1, winner2))
 
   test("TableGameWithWinConditions should output no winners if there is no winner"):
-    _addPlayersToGame(List(looser1, looser2))
+    addPlayersToGame(List(looser1, looser2))
     game.addWinCondition(winCondition)
     game.winners should be (List[PlayerModel]())
 
@@ -71,5 +72,5 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.winners should be (List[PlayerModel]())
 
   test("TableGameWithWinConditions should output every player as winner if there are no conditions"):
-    _addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.winners should be (List(winner1, winner2, looser1, looser2))

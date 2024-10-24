@@ -2,6 +2,7 @@ package org.cge.engine.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,7 +16,9 @@ class SwingFunctionalFacade {
         Frame addGridLayout(String panelName, boolean orientation);
         Frame addPanelTitle(String panelName, String title);
         Frame addComponentToPanel(String panelName, Component component);
+        Frame removeComponentFromPanel(String panelName, Component component);
         Frame addButton(JButton jb, String eventName);
+        Frame removeButton(JButton jb);
         Frame addLabel(String labelText, int x, int y, int width, int height);
         Frame show();
         Supplier<String> events();
@@ -90,6 +93,17 @@ class SwingFunctionalFacade {
         }
 
         @Override
+        public Frame removeComponentFromPanel(String panelName, Component component) {
+            JPanel panel = this.panels.get(panelName);
+            if (panel != null) {
+                panel.remove(component);
+            }
+            this.repaint();
+            return this;
+        }
+
+
+        @Override
         public Frame addComponent(String name, Component component) {
             this.components.put(name, component);
             this.jframe.getContentPane().add(component);
@@ -125,6 +139,16 @@ class SwingFunctionalFacade {
                 } catch (InterruptedException ex) {}
             });
             this.jframe.getContentPane().add(jb);
+            return this;
+        }
+
+        @Override
+        public Frame removeButton(JButton jb) {
+            for (ActionListener al : jb.getActionListeners()) {
+                jb.removeActionListener(al);
+            }
+            this.jframe.getContentPane().remove(jb);
+            this.jframe.repaint();
             return this;
         }
 

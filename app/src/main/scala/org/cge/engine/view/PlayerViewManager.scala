@@ -1,6 +1,6 @@
 package org.cge.engine.view
 
-import WindowStateImpl.Window
+import WindowState.Window
 import org.cge.engine.view.monads.States.State
 
 sealed trait PlayerPosition
@@ -37,9 +37,9 @@ object PlayerViewManager:
 
     for
       _ <- windowState
-      _ <- WindowStateImpl.addPanel(playerName, playerX, playerY, playerWidth, playerHeight)
-      _ <- WindowStateImpl.addGridLayout(playerName, playerOrientation)
-      _ <- WindowStateImpl.addPanelTitle(playerName, playerName)
+      _ <- WindowState.addPanel(playerName, playerX, playerY, playerWidth, playerHeight)
+      _ <- WindowState.addGridLayout(playerName, playerOrientation)
+      _ <- WindowState.addPanelTitle(playerName, playerName)
     yield ()
   
   private def getPlayerHandCoords(playerName: String): (Int, Int) = 
