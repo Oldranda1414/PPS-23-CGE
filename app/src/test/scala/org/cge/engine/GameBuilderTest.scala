@@ -184,7 +184,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     game.players.head.hand.cards.size should be (5)
     game.players(1).hand.cards.size should be (3)
 
-  test("cards in hand per player cannot be set twice"):
+  test("cards in hand per player cannot be set twice for the same player"):
     val p = "Player 1"
     _gameBuilder.addSortedRanks(ranks)
       .addSuit(suits(0)).addSuit(suits(1))
@@ -224,4 +224,17 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .addPlayer("Player 1")
     intercept[IllegalArgumentException] {
       _gameBuilder.cardsInHandPerPlayer(() => 5, "Player 2")
+    }
+
+  test("all players must have a number of cards set"):
+    val p1 = "Player 1"
+    val p2 = "Player 2"
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(p1)
+      .addPlayer(p2)
+      .cardsInHandPerPlayer(() => 5, p1)
+    intercept[IllegalStateException] {
+      _gameBuilder.build
     }

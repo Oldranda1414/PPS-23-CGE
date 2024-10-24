@@ -12,7 +12,9 @@ object Main:
     game has player called "Filippo"
     game has player called "Andrea"
     game has player called "Leonardo"
-    game gives random cards to each player
+    game gives random cards to player "Leonardo"
+    game gives 5 cards to player "Filippo"
+    game gives 4 cards to player "Andrea"
     game suitsAre ( "Hearts", "Diamonds", "Clubs", "Spades" )
     game ranksAre ( "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" )
     game trumpIs "Hearts"
