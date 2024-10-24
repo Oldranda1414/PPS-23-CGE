@@ -15,7 +15,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private val winCondition: WinCondition =
     (game, player) => player.name.contains("winner")
 
-  private def _addPlayersToGame(players: List[PlayerModel]) =
+  private def addPlayersToGame(players: List[PlayerModel]) =
     players.foreach(game.addPlayer(_))
 
   override def beforeEach(): Unit =
@@ -58,12 +58,12 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.winConditions should be (List(winCondition))
 
   test("TableGameWithWinConditions should output winners according to winConditions"):
-    _addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.addWinCondition(winCondition)
     game.winners should be (List(winner1, winner2))
 
   test("TableGameWithWinConditions should output no winners if there is no winner"):
-    _addPlayersToGame(List(looser1, looser2))
+    addPlayersToGame(List(looser1, looser2))
     game.addWinCondition(winCondition)
     game.winners should be (List[PlayerModel]())
 
@@ -71,5 +71,5 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.winners should be (List[PlayerModel]())
 
   test("TableGameWithWinConditions should output every player as winner if there are no conditions"):
-    _addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.winners should be (List(winner1, winner2, looser1, looser2))

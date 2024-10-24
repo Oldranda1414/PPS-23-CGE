@@ -40,9 +40,9 @@ object GameModel:
       winConditions = winConditions :+ condition
 
     def winners: List[PlayerModel] =
-      players.filter(p => _satisfyEveryWinCondition(p))
+      players.filter(p => satisfyEveryWinCondition(p))
     
-    private def _satisfyEveryWinCondition(player: PlayerModel) =
+    private def satisfyEveryWinCondition(player: PlayerModel) =
       winConditions.forall(cond => cond(this, player))
 
 
