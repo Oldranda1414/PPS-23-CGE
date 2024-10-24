@@ -49,7 +49,8 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       trump = Some(suit)
       this
 
-    override def starterPlayer(player: String): GameBuilder = ???
+    override def starterPlayer(player: String): GameBuilder = 
+      this
 
     override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
       cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)

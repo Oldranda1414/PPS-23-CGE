@@ -7,6 +7,9 @@ trait GameModel:
   def players: List[PlayerModel]
   def addPlayer(player: PlayerModel): Unit
   def removePlayer(player: PlayerModel): Unit
+  def setFirstPlayer(player: PlayerModel): Unit
+  def turn: PlayerModel
+  def nextTurn(): Unit
   def trump_=(suit: Suit): Unit
   def trump: Option[Suit]
   val name: String
@@ -21,6 +24,7 @@ object GameModel:
   abstract class SimpleGame(val name: String) extends GameModel:
     var players: List[PlayerModel] = List.empty
     var trump: Option[Suit] = None
+    private var turnIndex: Int = 0
 
     def addPlayer(player: PlayerModel): Unit =
       players = players :+ player
@@ -28,6 +32,11 @@ object GameModel:
       players = players.filterNot(_ == player)
     def trump_=(suit: Suit) = 
       trump = Some(suit)
+    def setFirstPlayer(player: PlayerModel): Unit = 
+      turnIndex = players.indexOf(player)
+    def nextTurn(): Unit =
+      turnIndex = (turnIndex + 1) % players.size
+    def turn: PlayerModel = players(turnIndex)
 
   // A WinCondition takes as arguments the current game and a player,
   //   and outputs true if the specified player is a winner.

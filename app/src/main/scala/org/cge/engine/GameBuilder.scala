@@ -93,7 +93,7 @@ object GameBuilder:
 
   private class GameBuilderImpl extends GameBuilder:
     private var gameName: String = ""
-    private var players: Set[String] = Set.empty
+    private var players: List[String] = List.empty
     private var cardsInHand: () => Int = () => 0
     private var availableCards = StandardDeck.cards
     private var suits = Set.empty[Suit]
@@ -121,7 +121,7 @@ object GameBuilder:
       stringRequirements(name, "Player name")
       players.contains(name) match
         case true => throw new IllegalArgumentException(s"Player $name already exists")
-        case false => players = players + name
+        case false => players = players :+ name
       executedMethods += ("addPlayer" -> true)
       this
 
@@ -149,7 +149,7 @@ object GameBuilder:
 
     def addSortedRanks(ranks: List[Rank]): GameBuilder = 
       require(ranks.nonEmpty, "Ranks cannot be empty")
-      require(ranks.isEmpty, "Ranks are already set")
+      require(this.ranks.isEmpty, "Ranks are already set")
       executedMethods += ("addSortedRanks" -> true)
       this.ranks = ranks
       this
@@ -174,10 +174,12 @@ object GameBuilder:
           require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
           game.trump = suit
         case None => ()
+
       players.foreach { name =>
         // create player
         val player = PlayerModel(name)
         game.addPlayer(player)
+        if starterPlayer == name then game.setFirstPlayer(player)
         setPlayerCards(player)
       }
       game
@@ -191,7 +193,7 @@ object GameBuilder:
 
     private def checkExecutedMethods() =
       if executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
-      if !isCardsInHandCalled && cardsInHandPerPlayer.keySet != players then throw new IllegalStateException("All players must have a number of cards in hand")
+      if !isCardsInHandCalled && cardsInHandPerPlayer.keySet != players.toSet then throw new IllegalStateException("All players must have a number of cards in hand")
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")

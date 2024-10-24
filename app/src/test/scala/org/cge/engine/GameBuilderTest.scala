@@ -235,19 +235,17 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("starter player sets the player that starts the game"):
-    val p1 = "Player 1"
-    val p2 = "Player 2"
     gameBuilder.addSortedRanks(ranks)
       .addSuit(suits(0)).addSuit(suits(1))
       .setName("Game name")
-      .addPlayer(p1)
-      .cardsInHandPerPlayer(() => 5, p1)
-      .addPlayer(p2)
-      .cardsInHandPerPlayer(() => 5, p2)
-      .starterPlayer(p2)
+      .addPlayer(playerName)
+      .cardsInHandPerPlayer(() => 5, playerName)
+      .addPlayer(player2Name)
+      .cardsInHandPerPlayer(() => 5, player2Name)
+      .starterPlayer(player2Name)
     val game = gameBuilder.build
     game match
       case game: TableGameWithWinConditions => 
-        game.table.rules.contains(???)
+        game.turn should be (game.players(1))
       case _ => fail("Game is not a TableGame")
     
