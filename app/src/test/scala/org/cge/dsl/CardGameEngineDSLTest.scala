@@ -13,6 +13,8 @@ import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
+  val wrongClassText: String = "game is not a PuppetBuilder"
+
   protected class PuppetBuilder extends GameBuilder:
 
     override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
@@ -69,7 +71,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     println(g.getClass())
     g match 
       case g: PuppetBuilder => g.name shouldBe builder.name
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("has player word should return a PlayerBuilder"):
     val g = game has player
@@ -81,7 +83,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     builder.addPlayer("Test")
     g match 
       case g: PuppetBuilder => g.players shouldBe builder.players
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("gives <number: Int> should return a CountCardBuilder"):
     val g = game gives 5 
@@ -97,13 +99,13 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     builder.cardsInHand(() => 5)
     g match 
       case g: PuppetBuilder => g.numberOfCards() shouldBe builder.numberOfCards()
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("gives random cards to each player should use random values"):
     val g = game gives random cards to each player
     g match 
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
     
   /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =

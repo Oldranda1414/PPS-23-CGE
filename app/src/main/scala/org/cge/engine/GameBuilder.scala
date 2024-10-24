@@ -103,7 +103,7 @@ object GameBuilder:
       )
 
     def setName(name: String): GameBuilder =
-      stringRequirements(name, "Game name")
+      stringRequirements(name, gameName)
       require(gameName.isEmpty, "Game name is already set")
       this.gameName = name
       executedMethods += ("setName" -> true)

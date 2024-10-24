@@ -6,7 +6,8 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
-  private var game: GameModel = GameModel("simple game")
+  private val gameName = "Test"
+  private var game: GameModel = GameModel(gameName)
   private val testPlayer = PlayerModel("Test")
   private val winner1 = PlayerModel("winner1")
   private val winner2 = PlayerModel("winner2")
@@ -19,7 +20,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     players.foreach(game.addPlayer(_))
 
   override def beforeEach(): Unit =
-    game = GameModel("simple game")
+    game = GameModel(gameName)
 
   test("GameModel should be able to add a named player"):
     game.addPlayer(testPlayer)
@@ -38,7 +39,7 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.players should be (List(testPlayer, testPlayer2))
 
   test("GameModel should have initialized name"):
-    game.name should be ("simple game")
+    game.name should be (gameName)
 
   test("GameModel trump should be empty after initializazion"):
     game.trump should be (None)

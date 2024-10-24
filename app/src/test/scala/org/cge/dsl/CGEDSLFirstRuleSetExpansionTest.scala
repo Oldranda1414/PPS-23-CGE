@@ -16,7 +16,7 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
     g match
       case g: PuppetBuilder =>
         g.cardSuits shouldBe Set[Suit]("Clubs", "Diamonds", "Hearts", "Spades")
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   // test("suitsAre cannot receive an empty set"):
   //   intercept[IllegalArgumentException] {
@@ -43,14 +43,14 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
           "Queen",
           "King"
         )
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("trumpIs should set the trump suit"):
     val g = game trumpIs "Hearts"
     g match
       case g: PuppetBuilder =>
         g.trump shouldBe Some("Hearts")
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("gives <number: Int> cards to player <playerName: String> should forward to cardsInHandPerPlayer"):
     val g = game gives 5 cards to player "Test"
@@ -58,4 +58,4 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
     builder.cardsInHandPerPlayer(() => 5, "Test")
     g match 
       case g: PuppetBuilder => g.cardsInHandPerPlayer("Test")() shouldBe builder.cardsInHandPerPlayer("Test")()
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
