@@ -2,7 +2,7 @@
 
 <table>
 <th>Item</th><th>Sprint Task</th><th>Volunteer</th><th>Initial Size Estimate</th><th colspan="7">Remaining effort at the end of the day</th>
-<tr><td rowspan="1">The user can create and play a simple card game</td><td>Setting the number of cards in hand per player</td><td>Gurioli</td><td>5</td><td>5</td><td>7</td><td>7</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+<tr><td rowspan="1">The user can create and play a simple card game</td><td>Setting the number of cards in hand per player</td><td>Gurioli</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>0</td><td>0</td><td>0</td></tr>
 <tr><td rowspan="3">First Ruleset Expansion</td><td>Implement hand concept</td><td>Randacio</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
 <tr><td>User can add restrictions on card being played</td><td>Gurioli</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
 <tr><td>User can add winning conditions</td><td>Biagini</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
