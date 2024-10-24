@@ -58,14 +58,14 @@ object GameView:
 
     var windowCreation: State[Frame, Unit] =
       for
-        _ <- WindowStateImpl.setSize(width, height)
+        _ <- WindowState.setSize(width, height)
       yield ()
 
     def show: State[Frame, Stream[String]] =
       for
         _ <- windowCreation
-        _ <- WindowStateImpl.show()
-        e <- WindowStateImpl.eventStream()
+        _ <- WindowState.show()
+        e <- WindowState.eventStream()
       yield e
 
     def addPlayer(name: String): Unit = 
@@ -89,4 +89,4 @@ object GameView:
         displayWinner(multiWinnerLabelPrefix + winners.mkString(", "))
     
     def displayWinner(winnerText: String) =
-      for _ <- WindowStateImpl.addLabel(winnerText, winnerLabelX, winnerLabelY, winnerLabelWidth, winnerLabelHeight) yield ()
+      for _ <- WindowState.addLabel(winnerText, winnerLabelX, winnerLabelY, winnerLabelWidth, winnerLabelHeight) yield ()
