@@ -6,6 +6,9 @@ import org.cge.dsl.CardGameEngineDSL.suitsAre
 import org.cge.dsl.CardGameEngineDSL.ranksAre
 import org.cge.engine.model._
 import org.cge.dsl.CardGameEngineDSL.trumpIs
+import org.cge.engine.model.GameModel.WinCondition
+import org.cge.dsl.CardGameEngineDSL.win
+import org.cge.dsl.SyntacticSugar.conditions
 
 class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
 
@@ -44,3 +47,12 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
       case g: PuppetBuilder =>
         g.trump shouldBe Some("Hearts")
       case _ => fail("game is not a PuppetBuilder")
+
+  test("win conditions are should set win conditions"):
+    val wc1: WinCondition = (game, player) => true || game == player
+    val wc2: WinCondition = (game, player) => true || game == player
+    val g = game win conditions are (wc1, wc2)
+    g match
+      case g: PuppetBuilder => g.winConditions should be (List(wc1, wc2))
+      case _ => fail("game is not a PuppetBuilder")
+

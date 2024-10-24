@@ -7,6 +7,7 @@ import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.exception.CGESyntaxError
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.dsl.SyntacticBuilder.ConditionsBuilder
 
 object CardGameEngineDSL:
 
@@ -83,3 +84,5 @@ object CardGameEngineDSL:
       * @return the GameBuilder instance
       */
     infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
+
+    infix def win(conditions: ConditionsSyntacticSugar): ConditionsBuilder = ConditionsBuilder(game)

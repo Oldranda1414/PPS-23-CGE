@@ -6,6 +6,7 @@ import org.cge.engine.model.CardModel
 import org.cge.engine.data._
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.model.GameModel.WinCondition
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -61,6 +62,14 @@ trait GameBuilder:
   def setTrump(suit: Suit): GameBuilder
 
   /**
+    * Adds a win condition to the game.
+    *
+    * @param winCondition
+    * @return
+    */
+  def addWinCondition(winCondition: WinCondition): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -81,6 +90,7 @@ object GameBuilder:
     private var _suits = Set.empty[Suit]
     private var _ranks = List.empty[Rank]
     private var _trump: Option[Suit] = None
+    private var _winConditions = List.empty[WinCondition]
 
     private var _executedMethods: Map[String, Boolean] = 
       Map(
@@ -130,6 +140,10 @@ object GameBuilder:
       _trump = Some(suit)
       this
 
+    def addWinCondition(winCondition: WinCondition): GameBuilder =
+      _winConditions = _winConditions :+ winCondition
+      this
+
     def currentGameCards: List[CardModel] = computeDeck()
 
     def build: GameModel = 
@@ -150,6 +164,7 @@ object GameBuilder:
           // populate player's deck
           player.hand.addCard(getRandomAvailableCard())
       }
+      _winConditions.foreach(game.addWinCondition(_))
       game
 
     private def getRandomAvailableCard(): CardModel = 

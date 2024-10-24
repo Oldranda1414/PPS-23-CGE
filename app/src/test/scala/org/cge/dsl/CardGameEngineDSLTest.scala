@@ -10,6 +10,7 @@ import org.cge.engine.model._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
+import org.cge.engine.model.GameModel.WinCondition
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
@@ -23,6 +24,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var cardSuits = Set.empty[Suit]
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
+    var winConditions = List.empty[WinCondition]
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -47,6 +49,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
     override def setTrump(suit: Suit): GameBuilder =
       trump = Some(suit)
+      this
+
+    override def addWinCondition(winCondition: WinCondition): GameBuilder =
+      winConditions = winConditions :+ winCondition
       this
 
     override def build: GameModel = GameModel("Puppet")

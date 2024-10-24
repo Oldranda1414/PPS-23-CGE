@@ -3,6 +3,7 @@ package org.cge.dsl
 import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
+import org.cge.engine.model.GameModel.WinCondition
 
 object SyntacticBuilder:
 
@@ -89,3 +90,16 @@ object SyntacticBuilder:
   private class EachSyntSugarImpl(val builder: GameBuilder)
       extends EachSyntSugarBuilder:
     infix def each(player: PlayerSyntacticSugar): GameBuilder = builder
+
+  object ConditionsBuilder:
+    def apply(builder: GameBuilder): ConditionsBuilder =
+      new ConditionsBuilderImpl(builder)
+
+  trait ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder
+
+  private class ConditionsBuilderImpl(val builder: GameBuilder)
+      extends ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder =
+      winConditions.foreach(builder.addWinCondition(_))
+      builder

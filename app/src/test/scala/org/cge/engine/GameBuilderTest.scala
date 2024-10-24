@@ -5,6 +5,7 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.model.GameModel.WinCondition
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -168,3 +169,14 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     intercept[IllegalArgumentException] {
       _gameBuilder.build
     }
+
+  test("a win condition can be set"):
+    val wc1: WinCondition = (game, player) => true || game == player
+    _gameBuilder.addSuit("Clubs")
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+      .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
+      .addWinCondition(wc1)
+    val game = _gameBuilder.build
+    game.winConditions should be (List(wc1))
