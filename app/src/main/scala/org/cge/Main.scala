@@ -18,4 +18,5 @@ object Main:
     game suitsAre ( "Hearts", "Diamonds", "Clubs", "Spades" )
     game ranksAre ( "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" )
     game trumpIs "Hearts"
+    game starts from player "Filippo"
     GameController(game.build).startGame

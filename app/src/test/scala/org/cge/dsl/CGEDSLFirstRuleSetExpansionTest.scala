@@ -8,6 +8,8 @@ import org.cge.engine.model._
 import org.cge.dsl.CardGameEngineDSL.trumpIs
 import org.cge.dsl.CardGameEngineDSL.gives
 import org.cge.dsl.SyntacticSugar.to
+import org.cge.dsl.SyntacticSugar.from
+import org.cge.dsl.CardGameEngineDSL.starts
 
 class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
 
@@ -17,11 +19,6 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
       case g: PuppetBuilder =>
         g.cardSuits shouldBe Set[Suit]("Clubs", "Diamonds", "Hearts", "Spades")
       case _ => fail(wrongClassText)
-
-  // test("suitsAre cannot receive an empty set"):
-  //   intercept[IllegalArgumentException] {
-  //     game suitsAre ()
-  //   }
 
   test("ranksAre should let you choose cards ranks"):
     val g =
@@ -58,4 +55,13 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
     builder.cardsInHandPerPlayer(() => 5, "Test")
     g match 
       case g: PuppetBuilder => g.cardsInHandPerPlayer("Test")() shouldBe builder.cardsInHandPerPlayer("Test")()
+      case _ => fail(wrongClassText)
+
+  test("starts from player <playername: String> should forward to starterPlayer"):
+    val g = game starts from player "Test"
+    val builder = new PuppetBuilder()
+    builder.starterPlayer("Test")
+    g match
+      case g: PuppetBuilder =>
+        g.starter shouldBe builder.starter
       case _ => fail(wrongClassText)

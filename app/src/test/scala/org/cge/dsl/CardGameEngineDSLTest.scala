@@ -23,6 +23,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
     var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
+    var starter = ""
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -50,6 +51,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       this
 
     override def starterPlayer(player: String): GameBuilder = 
+      starter = player
       this
 
     override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =

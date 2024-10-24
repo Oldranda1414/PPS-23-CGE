@@ -106,3 +106,29 @@ object SyntacticBuilder:
       input match
         case -1 => () => 1 + scala.util.Random().nextInt(10)
         case _ => () => input
+
+  /**
+   * Syntactic sugar builder to complete the sentence 'game starts from player "Test"'
+  */
+  trait StarterBuilder:
+
+    /**
+     * This method is used to set the player that will start the game.
+     *
+     * @param player The player that will start the game
+     * @return The game builder
+     */
+    infix def player(player: String): GameBuilder
+
+  object StarterBuilder:
+    /**
+     * This method is used to create a new starter builder.
+     *
+     * @param builder The game builder
+     * @return The starter builder
+     */
+    def apply(builder: GameBuilder): StarterBuilder = new StarterBuilderImpl(builder)
+
+    private class StarterBuilderImpl(val builder: GameBuilder) extends StarterBuilder:
+      infix def player(player: String): GameBuilder = builder.starterPlayer(player)
+

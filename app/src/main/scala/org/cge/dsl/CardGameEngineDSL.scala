@@ -4,6 +4,7 @@ import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.dsl.SyntacticBuilder.StarterBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 
@@ -82,3 +83,11 @@ object CardGameEngineDSL:
       * @return the GameBuilder instance
       */
     infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
+
+    /**
+     * This method is used to set the player that will start the game.
+     * 
+     * @param fromSyntSugar syntactic sugar to enable 'game starts from player "blabla"' syntax
+     * @return the GameBuilder instance
+    */
+    infix def starts(from: FromSyntacticSugar): StarterBuilder = StarterBuilder(game)
