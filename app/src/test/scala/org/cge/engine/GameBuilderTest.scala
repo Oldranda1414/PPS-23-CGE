@@ -181,3 +181,23 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     val game = _gameBuilder.build
     game.players.head.hand.cards.size should be (5)
     game.players(1).hand.cards.size should be (3)
+
+  test("cards in hand per player and cards in hand cannot be called together"):
+    val ranks: List[Rank] = List("Two", "Three", "Jack", "Queen")
+    _gameBuilder.addSortedRanks(ranks)
+      .addSuit("Clubs").addSuit("Hearts")
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHandPerPlayer(() => 5, "Player 1")
+    intercept[IllegalArgumentException] {
+      _gameBuilder.cardsInHand(() => 5)
+    }
+    val anotherGB = GameBuilder()
+    anotherGB.addSortedRanks(ranks)
+      .addSuit("Clubs").addSuit("Hearts")
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+    intercept[IllegalArgumentException] {
+      anotherGB.cardsInHandPerPlayer(() => 5, "Player 1")
+    }
