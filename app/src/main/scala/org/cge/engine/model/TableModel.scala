@@ -14,25 +14,24 @@ object TableModel:
   def apply(): TableModel = TableWithRules()
 
   abstract class SimpleTable() extends TableModel:
-    private val _cardsOnTable: DeckModel = DeckModel()
+    private val tableDeck: DeckModel = DeckModel()
 
-    def cardsOnTable: List[CardModel] = _cardsOnTable.cards
-    def playCard(card: CardModel) = _cardsOnTable.addCard(card)
+    def cardsOnTable: List[CardModel] = tableDeck.cards
+    def playCard(card: CardModel) = tableDeck.addCard(card)
     def takeCards(): List[CardModel] =
-      _cardsOnTable.removeCards(_cardsOnTable.cards.size)
+      tableDeck.removeCards(tableDeck.cards.size)
 
   type PlayingRule = (List[CardModel], CardModel) => Boolean
 
   class TableWithRules() extends SimpleTable:
-    private var _rules: List[PlayingRule] = List[PlayingRule]()
+    var rules: List[PlayingRule] = List[PlayingRule]()
 
-    def addPlayingRule(rule: PlayingRule): Unit = _rules = _rules :+ rule
-    def rules: List[PlayingRule] = _rules
+    def addPlayingRule(rule: PlayingRule): Unit = rules = rules :+ rule
 
     def canPlayCard(card: CardModel): Boolean =
-      _rules.map[Boolean](r => r(super.cardsOnTable, card)).forall(identity)
+      rules.map[Boolean](r => r(super.cardsOnTable, card)).forall(identity)
 
     override def playCard(card: CardModel) =
       canPlayCard(card) match
         case true => super.playCard(card)
-        case false => _rules = _rules
+        case false => rules = rules

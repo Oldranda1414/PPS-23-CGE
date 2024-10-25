@@ -2,7 +2,7 @@ package org.cge.engine
 
 import org.cge.engine.view.GameView
 import org.cge.engine.view.monads.Monads.Monad.seqN
-import org.cge.engine.view.WindowStateImpl
+import org.cge.engine.view.WindowState
 import org.cge.engine.model.GameModel
 
 object WindowDimentions:
@@ -40,12 +40,12 @@ object GameController:
       val windowEventsHandling = for
         e <- windowCreation
         _ <- seqN(e.map(_ match
-          case "QuitButton" => WindowStateImpl.exec(sys.exit())
+          case "QuitButton" => WindowState.exec(sys.exit())
           case "EndGame" => endGame(gameView)
         ))
       yield ()
 
-      windowEventsHandling.run(WindowStateImpl.initialWindow)
+      windowEventsHandling.run(WindowState.initialWindow)
 
     def endGame(gameView: GameView) =
       val maxCards = game.players.map(_.hand.cards.size).max

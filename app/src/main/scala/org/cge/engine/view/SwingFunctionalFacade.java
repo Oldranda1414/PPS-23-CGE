@@ -2,6 +2,7 @@ package org.cge.engine.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,10 +13,12 @@ class SwingFunctionalFacade {
     public interface Frame {
         Frame setSize(int width, int height);
         Frame addPanel(String panelName, int x, int y, int width, int height);
-        Frame addBoxLayout(String panelName, boolean orientation);
+        Frame addGridLayout(String panelName, boolean orientation);
         Frame addPanelTitle(String panelName, String title);
         Frame addComponentToPanel(String panelName, Component component);
+        Frame removeComponentFromPanel(String panelName, Component component);
         Frame addButton(JButton jb, String eventName);
+        Frame removeButton(JButton jb);
         Frame addLabel(String labelText, int x, int y, int width, int height);
         Frame show();
         Supplier<String> events();
@@ -65,10 +68,11 @@ class SwingFunctionalFacade {
         }
 
         @Override
-        public Frame addBoxLayout(String panelName, boolean orientation) {
+        public Frame addGridLayout(String panelName, boolean orientation) {
             var playerPanel =  this.panels.get(panelName);
-            var layoutOrientation = orientation ? BoxLayout.Y_AXIS : BoxLayout.X_AXIS;
-            playerPanel.setLayout(new BoxLayout(playerPanel, layoutOrientation));
+            var rows = orientation ? 0 : 1;
+            var columns = orientation ? 1 : 0;
+            playerPanel.setLayout(new GridLayout(rows, columns));
             return this;
         }
 
@@ -87,6 +91,17 @@ class SwingFunctionalFacade {
             this.repaint();
             return this;
         }
+
+        @Override
+        public Frame removeComponentFromPanel(String panelName, Component component) {
+            JPanel panel = this.panels.get(panelName);
+            if (panel != null) {
+                panel.remove(component);
+            }
+            this.repaint();
+            return this;
+        }
+
 
         @Override
         public Frame addComponent(String name, Component component) {
@@ -124,6 +139,16 @@ class SwingFunctionalFacade {
                 } catch (InterruptedException ex) {}
             });
             this.jframe.getContentPane().add(jb);
+            return this;
+        }
+
+        @Override
+        public Frame removeButton(JButton jb) {
+            for (ActionListener al : jb.getActionListeners()) {
+                jb.removeActionListener(al);
+            }
+            this.jframe.getContentPane().remove(jb);
+            this.jframe.repaint();
             return this;
         }
 

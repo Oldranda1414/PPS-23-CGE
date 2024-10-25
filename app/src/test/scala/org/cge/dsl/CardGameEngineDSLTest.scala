@@ -9,12 +9,18 @@ import org.cge.dsl.SyntacticSugar._
 import org.cge.engine.model._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
-import org.cge.dsl.SyntacticBuilder.EachSyntSugarBuilder
 import org.cge.engine.model.GameModel.WinCondition
+import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
+  val wrongClassText: String = "game is not a PuppetBuilder"
+
   protected class PuppetBuilder extends GameBuilder:
+
+    override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
+      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
+      this
 
     override def currentGameCards: List[CardModel] = List.empty
 
@@ -25,6 +31,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
     var winConditions = List.empty[WinCondition]
+    var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
 
     override def setName(name: String): GameBuilder = 
       this.name = name
@@ -70,7 +77,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     println(g.getClass())
     g match 
       case g: PuppetBuilder => g.name shouldBe builder.name
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("has player word should return a PlayerBuilder"):
     val g = game has player
@@ -82,7 +89,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     builder.addPlayer("Test")
     g match 
       case g: PuppetBuilder => g.players shouldBe builder.players
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("gives <number: Int> should return a CountCardBuilder"):
     val g = game gives 5 
@@ -90,7 +97,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
   test("gives <number: Int> cards to should return a EachSyntSugarBuilder"):
     val g = game gives 5 cards to
-    g shouldBe a [EachSyntSugarBuilder]
+    g shouldBe a [CardSyntSugarBuilder]
 
   test("gives <number: Int> cards to each player should forward to cardsInHand"):
     val g = game gives 5 cards to each player
@@ -98,13 +105,13 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     builder.cardsInHand(() => 5)
     g match 
       case g: PuppetBuilder => g.numberOfCards() shouldBe builder.numberOfCards()
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
 
   test("gives random cards to each player should use random values"):
     val g = game gives random cards to each player
     g match 
       case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
-      case _ => fail("game is not a PuppetBuilder")
+      case _ => fail(wrongClassText)
     
   /** Check if a function returns random values based on heuristic */
   private def isRandom(f: () => Int, trials: Int = 5): Boolean =

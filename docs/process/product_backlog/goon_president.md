@@ -1,6 +1,6 @@
 # Goon President Rules
 
-**Goon President** is a card game for 4 to 6 players, played with a 40-card deck of [Italian playing cards](https://en.wikipedia.org/wiki/Italian_playing_cards).
+**Goon President** is a card game for 4 to 6 players, played with a 40-card deck of [Italian playing cards](https://en.wikipedia.org/wiki/Italian_playingcards).
 
 ## Objective
 

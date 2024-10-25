@@ -52,33 +52,29 @@ object SyntacticBuilder:
      * @param numberOfCards The number of cards
      * @return A syntactic sugar builder to complete the sentence
      */
-    infix def cards(to: ToSyntacticSugar): EachSyntSugarBuilder
+    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder
 
   private class CountCardBuilderImpl(
       val builder: GameBuilder,
       val numOfCards: Int
   ) extends CountCardBuilder:
-    infix def cards(to: ToSyntacticSugar): EachSyntSugarBuilder =
-      numOfCards match
-        case -1 =>
-          new EachSyntSugarImpl(
-            builder.cardsInHand(() => 1 + scala.util.Random.nextInt(10))
-          )
-        case _ => new EachSyntSugarImpl(builder.cardsInHand(() => numOfCards))
+    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder = CardSyntSugarBuilder(
+      numOfCards, builder
+    )
 
   /** Companion object for the EachSyntSugarBuilder trait. */
-  object EachSyntSugarBuilder:
+  object CardSyntSugarBuilder:
     /**
      * This method is used to create a new syntactic sugar builder.
      *
      * @param builder The game builder
      * @return The syntactic sugar builder
      */
-    def apply(builder: GameBuilder): EachSyntSugarBuilder =
-      new EachSyntSugarImpl(builder)
+    def apply(numOfCards: Int, builder: GameBuilder): CardSyntSugarBuilder =
+      new CardSyntSugarBuilderImpl(numOfCards, builder)
 
   /** Syntactic sugar builder to complete the sentence 'game gives 5 cards to each player' */
-  trait EachSyntSugarBuilder:
+  trait CardSyntSugarBuilder:
     /**
      * This method is used to complete the count card builder sentence.
      *
@@ -87,9 +83,30 @@ object SyntacticBuilder:
      */
     infix def each(player: PlayerSyntacticSugar): GameBuilder
 
-  private class EachSyntSugarImpl(val builder: GameBuilder)
-      extends EachSyntSugarBuilder:
-    infix def each(player: PlayerSyntacticSugar): GameBuilder = builder
+    /**
+      * This method is used to set the number of cards in hand for a specific player.
+      *
+      * @param playerName The name of the player
+      * @return The game builder
+      */
+    infix def player(playerName: String): GameBuilder
+
+  private class CardSyntSugarBuilderImpl(val numOfCards: Int, val builder: GameBuilder)
+      extends CardSyntSugarBuilder:
+
+    infix def player(playerName: String): GameBuilder = 
+      builder.cardsInHandPerPlayer(
+        computeCards(numOfCards), 
+        playerName
+      )
+
+    infix def each(player: PlayerSyntacticSugar): GameBuilder = 
+      builder.cardsInHand(computeCards(numOfCards))
+
+    private def computeCards(input: Int): () => Int =
+      input match
+        case -1 => () => 1 + scala.util.Random().nextInt(10)
+        case _ => () => input
 
   object ConditionsBuilder:
     def apply(builder: GameBuilder): ConditionsBuilder =
