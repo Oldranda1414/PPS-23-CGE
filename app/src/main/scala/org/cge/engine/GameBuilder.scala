@@ -85,7 +85,7 @@ trait GameBuilder:
    * @param rule the playing rule to add
    * @return the GameBuilder instance
   */
-  def addPlayingRule(rule: PlayingRule): Unit
+  def addPlayingRule(rule: PlayingRule): GameBuilder
 
   /**
    * Builds the game.
@@ -179,6 +179,7 @@ object GameBuilder:
 
     def addPlayingRule(rule: PlayingRule) =
       tableRules = tableRules :+ rule
+      this
 
     def currentGameCards: List[CardModel] = computeDeck()
 

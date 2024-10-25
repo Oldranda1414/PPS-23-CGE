@@ -60,8 +60,9 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
       this
 
-    override def addPlayingRule(rule: PlayingRule): Unit = 
+    override def addPlayingRule(rule: PlayingRule): GameBuilder = 
       rules = rules :+ rule
+      this
 
     override def currentGameCards: List[CardModel] = List.empty
 

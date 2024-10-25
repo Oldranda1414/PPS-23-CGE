@@ -6,6 +6,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.GameModel.TableGameWithWinConditions
+import org.cge.engine.model.CardModel
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -270,4 +271,17 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     intercept[IllegalArgumentException] {
       gameBuilder.starterPlayer(playerName)
     }
-    
+
+  test("can build playing rules for the game"):
+    val rule = (_: List[CardModel], _: CardModel) => true
+    gameBuilder.addPlayingRule(rule)
+      .addPlayer(playerName)
+      .cardsInHand(() => 5)
+      .setName(gameName)
+      .addSortedRanks(ranks)
+      .addSuit(suits(0))
+    val game = gameBuilder.build
+    game match
+      case game: TableGameWithWinConditions => 
+        game.table.rules.size should be (1)
+      case _ => fail("Game is not a TableGame")
