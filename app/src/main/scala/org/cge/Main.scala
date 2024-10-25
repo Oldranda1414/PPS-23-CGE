@@ -19,5 +19,5 @@ object Main:
     game gives 10 cards to player "Filippo"
     game gives 10 cards to player "Andrea"
     game gives 10 cards to player "Giuseppe"
-    game starts from player "Filippo"
+    game starts from random player
     GameController(game.build).startGame

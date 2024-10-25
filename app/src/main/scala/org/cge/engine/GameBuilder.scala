@@ -6,6 +6,7 @@ import org.cge.engine.model.CardModel
 import org.cge.engine.data._
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.model.TableModel.PlayingRule
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -79,6 +80,14 @@ trait GameBuilder:
   def starterPlayer(player: String): GameBuilder
 
   /**
+   * Adds a playing rule to the game.
+   * 
+   * @param rule the playing rule to add
+   * @return the GameBuilder instance
+  */
+  def addPlayingRule(rule: PlayingRule): Unit
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -104,6 +113,7 @@ object GameBuilder:
     private var starterPlayer: String = ""
     private var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
     private var isCardsInHandCalled = false;
+    private var tableRules: List[PlayingRule] = List.empty
     private var executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
@@ -157,12 +167,18 @@ object GameBuilder:
       this
 
     def setTrump(suit: Suit): GameBuilder =
+      require(trump.isEmpty, "Trump is already set")
       trump = Some(suit)
       this
 
     def starterPlayer(player: String) = 
+      require(players.contains(player), s"Player $player does not exist")
+      require(starterPlayer == "", "Starter player is already set")
       starterPlayer = player
       this
+
+    def addPlayingRule(rule: PlayingRule) =
+      tableRules = tableRules :+ rule
 
     def currentGameCards: List[CardModel] = computeDeck()
 
@@ -179,6 +195,8 @@ object GameBuilder:
           require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
           game.trump = suit
         case None => ()
+
+      tableRules.foreach(game.table.addPlayingRule)
 
       players.foreach { name =>
         // create player

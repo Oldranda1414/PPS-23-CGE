@@ -162,6 +162,17 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
         .build
     }
 
+  test("trump cannot be set twice"):
+    gameBuilder.addSuit(trump)
+      .setName(gameName)
+      .addPlayer(playerName)
+      .cardsInHand(() => 5)
+      .addSortedRanks(ranks)
+      .setTrump(trump)
+    intercept[IllegalArgumentException] {
+      gameBuilder.setTrump(trump)
+    }
+
   test("exception will throw if sum of cards in hand is greater than the number of cards in the deck"):
     gameBuilder.addSortedRanks(ranks.filter(ranks.indexOf(_) < 4))
       .addSuit(suits(0))
@@ -248,4 +259,15 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       case game: TableGameWithWinConditions => 
         game.turn should be (game.players(1))
       case _ => fail("Game is not a TableGame")
+
+  test("starter player cannot be set twice"):
+    gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(playerName)
+      .cardsInHandPerPlayer(() => 5, playerName)
+      .starterPlayer(playerName)
+    intercept[IllegalArgumentException] {
+      gameBuilder.starterPlayer(playerName)
+    }
     
