@@ -32,7 +32,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       this
 
     override def addPlayer(name: String): GameBuilder = 
-      this.players = players
+      this.players = players :+ name
       this
 
     override def cardsInHand(numberOfCards: () => Int): GameBuilder = 
@@ -66,7 +66,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
     override def currentGameCards: List[CardModel] = List.empty
 
-    override def currentPlayers: List[PlayerModel] = List.empty
+    override def currentPlayers: List[PlayerModel] = List(players.map(PlayerModel(_))*)
 
     override def build: GameModel = GameModel("Puppet")
 
@@ -116,10 +116,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
   test("gives random cards to each player should use random values"):
     val g = game gives random cards to each player
     g match 
-      case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
+      case g: PuppetBuilder => isRandom(g.numberOfCards)(10) shouldBe true
       case _ => fail(wrongClassText)
     
   /** Check if a function returns random values based on heuristic */
-  private def isRandom(f: () => Int, trials: Int = 5): Boolean =
+  protected def isRandom(f: () => Int)(trials: Int = 5): Boolean =
     val results = (1 to trials).map(_ => f())
     results.distinct.size > 1

@@ -198,7 +198,7 @@ object GameBuilder:
         case None => ()
 
       tableRules.foreach(game.table.addPlayingRule)
-
+      availableCards.foreach(game.table.deck.addCard)
       players.foreach { name =>
         // create player
         val player = PlayerModel(name)

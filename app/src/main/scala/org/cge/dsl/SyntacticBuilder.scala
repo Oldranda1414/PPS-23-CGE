@@ -3,6 +3,8 @@ package org.cge.dsl
 import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
+import org.cge.engine.model.TableModel.PlayingRule
+import org.cge.dsl.exception.CGESyntaxError
 
 object SyntacticBuilder:
 
@@ -147,6 +149,7 @@ object SyntacticBuilder:
         builder.starterPlayer(player)
 
       infix def random(player: PlayerSyntacticSugar): GameBuilder =
+        if builder.currentPlayers.isEmpty then throw new CGESyntaxError("No players has been defined yet")
         builder.starterPlayer(
           builder.currentPlayers(
             scala.util.Random.nextInt(
@@ -154,3 +157,28 @@ object SyntacticBuilder:
             )
           ).name
         )
+
+  trait AreSyntacticSugarBuilder:
+    /**
+     * This method is used to complete the sentence 'game playing rules are "Test"'
+     *
+     * @param rules The rules to add
+     * @return The game builder
+     */
+    infix def are(rules: PlayingRule*): GameBuilder
+
+  object AreSyntacticSugarBuilder:
+    /**
+     * This method is used to create a new are syntactic sugar builder.
+     *
+     * @param builder The game builder
+     * @return The are syntactic sugar builder
+     */
+    def apply(builder: GameBuilder): AreSyntacticSugarBuilder =
+      new AreSyntacticSugarBuilderImpl(builder)
+
+    private class AreSyntacticSugarBuilderImpl(val builder: GameBuilder)
+        extends AreSyntacticSugarBuilder:
+      infix def are(rules: PlayingRule*): GameBuilder =
+        rules.foreach(builder.addPlayingRule)
+        builder

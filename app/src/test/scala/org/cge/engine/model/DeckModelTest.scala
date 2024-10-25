@@ -37,3 +37,8 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
     val drawnCards = deck.removeCards(numberOfDrawnCards)
     (drawnCards ++ deck.cards) should be (cards)
 
+  test("Get highest card returns the highest card passed as argument using the deck as comparer"):
+    cards.foreach(deck.addCard(_))
+    val highestCard = deck.getHighestCard(cards)
+    highestCard should be (cards.maxBy(c => deck.cards.indexOf(c)))
+

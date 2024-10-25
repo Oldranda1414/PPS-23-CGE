@@ -74,3 +74,16 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   test("TableGameWithWinConditions should output every player as winner if there are no conditions"):
     addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.winners should be (List(winner1, winner2, looser1, looser2))
+
+  test("Next turn increases the turn"):
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    game.nextTurn()
+    game.turn should be (winner2)
+
+  test("Next turn rounds robin when at the end of the list"):
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    game.nextTurn()
+    game.nextTurn()
+    game.nextTurn()
+    game.nextTurn()
+    game.turn should be (winner1)

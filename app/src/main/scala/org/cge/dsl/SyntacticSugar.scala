@@ -30,6 +30,12 @@ object SyntacticSugar:
    */
   implicit val from: FromSyntacticSugar = FromSyntacticSugar
 
+  /**
+   * Syntactic sugar to make the DSL more readable.
+   * It is used to enable 'game playing rules are "Test"'
+   */
+  implicit val rules: RulesSyntacticSugar = RulesSyntacticSugar
+
   /** Specific syntactic sugar for player */
   trait PlayerSyntacticSugar extends SyntacticSugar
 
@@ -42,8 +48,12 @@ object SyntacticSugar:
   /** Specific syntactic sugar for with */
   trait FromSyntacticSugar extends SyntacticSugar
 
+  /** Specific syntactic sugar for rules */
+  trait RulesSyntacticSugar extends SyntacticSugar
+
   /** Implementation objects for syntactic sugar */
   private object PlayerSyntacticSugar extends PlayerSyntacticSugar
   private object ToSyntacticSugar extends ToSyntacticSugar
   private object RandomSyntacticSugar extends RandomSyntacticSugar
   private object FromSyntacticSugar extends FromSyntacticSugar
+  private object RulesSyntacticSugar extends RulesSyntacticSugar

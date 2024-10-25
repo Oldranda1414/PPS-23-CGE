@@ -12,8 +12,8 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
   val card3: CardModel = CardModel("3", "Clubs")
 
   // This rule is respected if on the table there are only cards of spades
-  val rule: PlayingRule = (cardsOnTable: List[CardModel], card: CardModel) =>
-    cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
+  val rule: PlayingRule = (table: TableModel, card: CardModel) =>
+    table.cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
       && card.suit == Suit("Spades")
 
   override def beforeEach(): Unit =

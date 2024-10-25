@@ -10,6 +10,10 @@ import org.cge.dsl.CardGameEngineDSL.gives
 import org.cge.dsl.SyntacticSugar.to
 import org.cge.dsl.SyntacticSugar.from
 import org.cge.dsl.CardGameEngineDSL.starts
+import org.cge.dsl.CardGameEngineDSL.playing
+import org.cge.dsl.SyntacticSugar.rules
+import org.cge.dsl.SyntacticSugar.player
+import org.cge.dsl.CardGameEngineDSL.has
 
 class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
 
@@ -49,12 +53,17 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
         g.trump shouldBe Some("Hearts")
       case _ => fail(wrongClassText)
 
-  test("gives <number: Int> cards to player <playerName: String> should forward to cardsInHandPerPlayer"):
+  test(
+    "gives <number: Int> cards to player <playerName: String> should forward to cardsInHandPerPlayer"
+  ):
     val g = game gives 5 cards to player "Test"
     val builder = new PuppetBuilder()
     builder.cardsInHandPerPlayer(() => 5, "Test")
-    g match 
-      case g: PuppetBuilder => g.cardsInHandPerPlayer("Test")() shouldBe builder.cardsInHandPerPlayer("Test")()
+    g match
+      case g: PuppetBuilder =>
+        g.cardsInHandPerPlayer("Test")() shouldBe builder.cardsInHandPerPlayer(
+          "Test"
+        )()
       case _ => fail(wrongClassText)
 
   test("starts from player <playername: String> should forward to starterPlayer"):
@@ -64,4 +73,29 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
     g match
       case g: PuppetBuilder =>
         g.starter shouldBe builder.starter
+      case _ => fail(wrongClassText)
+
+  test("starts from random player should forward to starterPlayer with a random player"):
+    isRandom (() =>
+        CardGameEngineDSL(new PuppetBuilder())
+        game has player called "P1"
+        game has player called "P2"
+        val g = game starts from random player
+        g match
+          case g: PuppetBuilder =>
+            g.players.indexOf(g.starter)
+          case _ => fail(wrongClassText)
+    )() should be(true)
+
+  test("game playing rules are should add a playing rule"):
+    val rule = (table: TableModel, card: CardModel) =>
+      table.deck.getHighestCard(table.cardsOnTable :+ card) == card
+    val g = game playing rules are (
+      rule
+    )
+    val builder = new PuppetBuilder()
+    builder.addPlayingRule(rule)
+    g match
+      case g: PuppetBuilder =>
+        g.rules should contain theSameElementsAs builder.rules
       case _ => fail(wrongClassText)

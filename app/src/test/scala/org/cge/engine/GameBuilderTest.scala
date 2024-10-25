@@ -7,6 +7,7 @@ import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.GameModel.TableGameWithWinConditions
 import org.cge.engine.model.CardModel
+import org.cge.engine.model.TableModel
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -273,7 +274,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     }
 
   test("can build playing rules for the game"):
-    val rule = (_: List[CardModel], _: CardModel) => true
+    val rule = (_: TableModel, _: CardModel) => true
     gameBuilder.addPlayingRule(rule)
       .addPlayer(playerName)
       .cardsInHand(() => 5)

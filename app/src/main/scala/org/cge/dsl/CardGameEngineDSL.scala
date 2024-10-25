@@ -7,6 +7,7 @@ import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.SyntacticBuilder.StarterBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.dsl.SyntacticBuilder.AreSyntacticSugarBuilder
 
 object CardGameEngineDSL:
 
@@ -91,3 +92,11 @@ object CardGameEngineDSL:
      * @return the GameBuilder instance
     */
     infix def starts(from: FromSyntacticSugar): StarterBuilder = StarterBuilder(game)
+
+    /**
+     * This method is used to set playing rules for the game.
+     * 
+     * @param rules the playing rules
+     * @return a AreSyntacticSugarBuilder instance
+    */
+    infix def playing(rules: RulesSyntacticSugar): AreSyntacticSugarBuilder = AreSyntacticSugarBuilder(game)
