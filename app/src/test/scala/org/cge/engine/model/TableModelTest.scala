@@ -76,3 +76,22 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
       true || cardsOnTable == card || card == trump
     table.addHandRule(handRule)
     table.handRules should be (List(handRule))
+
+  test("TableModel should tell what card on table determines the winning of the current hand"):
+    val handRule: HandRule = (cardsOnTable, card, trump) =>
+      card.suit == trump
+    table.trump = "Spades"
+    table.addHandRule(handRule)
+    table.playCard(card1)
+    table.playCard(card3)
+    table.doesCardWinHand(card1) should be (true)
+    table.doesCardWinHand(card3) should be (false)
+
+  test("TableModel doesCardWinHand should return false if the card is not in the current hand"):
+    val handRule: HandRule = (cardsOnTable, card, trump) =>
+      card.suit == trump
+    table.trump = "Spades"
+    table.addHandRule(handRule)
+    table.playCard(card1)
+    table.playCard(card3)
+    table.doesCardWinHand(card2) should be (false)
