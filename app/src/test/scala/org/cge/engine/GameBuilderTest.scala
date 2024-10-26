@@ -10,6 +10,7 @@ import org.cge.engine.model.CardModel
 import org.cge.engine.model.TableModel
 import org.cge.engine.model.GameModel.WinCondition
 import org.cge.engine.model.TableModel.HandRule
+import org.cge.engine.model.PlayerModel
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -249,6 +250,14 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .starterPlayer(playerName)
     a [IllegalArgumentException] should be thrownBy gameBuilder.starterPlayer(playerName)
 
+  test("starter player cannot be someone that is not in the game"):
+    gameBuilder.addSortedRanks(ranks)
+      .addSuit(suits(0)).addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer(playerName)
+      .cardsInHandPerPlayer(() => 5, playerName)
+    a [IllegalArgumentException] should be thrownBy gameBuilder.starterPlayer(player2Name)
+
   test("can build playing rules for the game"):
     val rule = (_: TableModel, _: CardModel) => true
     gameBuilder.addPlayingRule(rule)
@@ -262,3 +271,9 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       case game: TableGameWithWinConditions => 
         game.table.playingRules.size should be (1)
       case _ => fail("Game is not a TableGame")
+
+  test("currentPlayers returns the current players that are in the game"):
+    gameBuilder.addPlayer(playerName)
+      .addPlayer(player2Name)
+    gameBuilder.currentPlayers.size should be (2)
+    gameBuilder.currentPlayers should contain allOf (PlayerModel(playerName), PlayerModel(player2Name))
