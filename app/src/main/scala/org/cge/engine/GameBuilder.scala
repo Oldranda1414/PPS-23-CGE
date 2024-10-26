@@ -7,6 +7,9 @@ import org.cge.engine.data._
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.TableModel.PlayingRule
+import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
+import org.cge.engine.model.TableModel
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -86,6 +89,21 @@ trait GameBuilder:
    * @return the GameBuilder instance
   */
   def addPlayingRule(rule: PlayingRule): GameBuilder
+  /**
+    * Adds a win condition to the game.
+    *
+    * @param winCondition
+    * @return
+    */
+  def addWinCondition(winCondition: WinCondition): GameBuilder
+
+  /**
+    * Adds a hand rule to the game.
+    *
+    * @param handRule
+    * @return
+    */
+  def addHandRule(handRule: HandRule): GameBuilder
 
   /**
    * Builds the game.
@@ -109,8 +127,10 @@ object GameBuilder:
     private var availableCards = StandardDeck.cards
     private var suits = Set.empty[Suit]
     private var ranks = List.empty[Rank]
+    private val table = TableModel()
     private var trump: Option[Suit] = None
     private var starterPlayer: String = ""
+    private var winConditions = List.empty[WinCondition]
     private var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
     private var isCardsInHandCalled = false;
     private var tableRules: List[PlayingRule] = List.empty
@@ -180,6 +200,13 @@ object GameBuilder:
     def addPlayingRule(rule: PlayingRule) =
       tableRules = tableRules :+ rule
       this
+    def addWinCondition(winCondition: WinCondition): GameBuilder =
+      winConditions = winConditions :+ winCondition
+      this
+
+    def addHandRule(handRule: HandRule): GameBuilder =
+      table.addHandRule(handRule)
+      this
 
     def currentGameCards: List[CardModel] = computeDeck()
 
@@ -199,6 +226,7 @@ object GameBuilder:
 
       tableRules.foreach(game.table.addPlayingRule)
       availableCards.foreach(game.table.deck.addCard)
+      table.handRules.foreach(game.table.addHandRule)
       players.foreach { name =>
         // create player
         val player = PlayerModel(name)
@@ -206,6 +234,7 @@ object GameBuilder:
         if starterPlayer == name then game.setFirstPlayer(player)
         setPlayerCards(player)
       }
+      winConditions.foreach(game.addWinCondition)
       game
 
     private def getRandomAvailableCard(): CardModel = 

@@ -8,6 +8,8 @@ import org.cge.dsl.SyntacticBuilder.StarterBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.dsl.SyntacticBuilder.AreSyntacticSugarBuilder
+import org.cge.dsl.SyntacticBuilder.ConditionsBuilder
+import org.cge.dsl.SyntacticBuilder.RulesBuilder
 
 object CardGameEngineDSL:
 
@@ -100,3 +102,7 @@ object CardGameEngineDSL:
      * @return a AreSyntacticSugarBuilder instance
     */
     infix def playing(rules: RulesSyntacticSugar): AreSyntacticSugarBuilder = AreSyntacticSugarBuilder(game)
+
+    infix def win(conditions: ConditionsSyntacticSugar): ConditionsBuilder = ConditionsBuilder(game)
+
+    infix def hand(rules: RulesSyntacticSugar): RulesBuilder = RulesBuilder(game)

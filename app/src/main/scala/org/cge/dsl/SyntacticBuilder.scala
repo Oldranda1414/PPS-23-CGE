@@ -5,6 +5,8 @@ import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
 import org.cge.engine.model.TableModel.PlayingRule
 import org.cge.dsl.exception.CGESyntaxError
+import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
 
 object SyntacticBuilder:
 
@@ -182,3 +184,29 @@ object SyntacticBuilder:
       infix def are(rules: PlayingRule*): GameBuilder =
         rules.foreach(builder.addPlayingRule)
         builder
+
+  object ConditionsBuilder:
+    def apply(builder: GameBuilder): ConditionsBuilder =
+      new ConditionsBuilderImpl(builder)
+
+  trait ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder
+
+  private class ConditionsBuilderImpl(val builder: GameBuilder)
+      extends ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder =
+      winConditions.foreach(builder.addWinCondition(_))
+      builder
+
+  object RulesBuilder:
+    def apply(builder: GameBuilder): RulesBuilder =
+      new RulesBuilderImpl(builder)
+
+  trait RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder
+
+  private class RulesBuilderImpl(val builder: GameBuilder)
+      extends RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder =
+      handRules.foreach(builder.addHandRule(_))
+      builder

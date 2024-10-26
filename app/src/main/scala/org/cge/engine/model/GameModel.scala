@@ -23,15 +23,15 @@ object GameModel:
 
   abstract class SimpleGame(val name: String) extends GameModel:
     var players: List[PlayerModel] = List.empty
-    var trump: Option[Suit] = None
     private var turnIndex: Int = 0
+    def trump: Option[Suit] = table.trump
 
     def addPlayer(player: PlayerModel): Unit =
       players = players :+ player
     def removePlayer(player: PlayerModel): Unit =
       players = players.filterNot(_ == player)
     def trump_=(suit: Suit) = 
-      trump = Some(suit)
+      table.trump = suit
     def setFirstPlayer(player: PlayerModel): Unit = 
       turnIndex = players.indexOf(player)
     def nextTurn(): Unit =
