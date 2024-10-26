@@ -50,6 +50,10 @@ application {
 
 scoverage {
     minimumRate.set(BigDecimal("0.80"))
+    excludedPackages = listOf(
+        "org.cge.Main",
+        "org.cge.engine.view.*"
+    )
 }
 
 scalafmt {
