@@ -7,6 +7,7 @@ import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.dsl.SyntacticBuilder.ConditionsBuilder
+import org.cge.dsl.SyntacticBuilder.RulesBuilder
 
 object CardGameEngineDSL:
 
@@ -85,3 +86,5 @@ object CardGameEngineDSL:
     infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
 
     infix def win(conditions: ConditionsSyntacticSugar): ConditionsBuilder = ConditionsBuilder(game)
+
+    infix def hand(rules: RulesSyntacticSugar): RulesBuilder = RulesBuilder(game)

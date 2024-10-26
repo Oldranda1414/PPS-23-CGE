@@ -4,6 +4,7 @@ import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
 import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
 
 object SyntacticBuilder:
 
@@ -119,4 +120,17 @@ object SyntacticBuilder:
       extends ConditionsBuilder:
     infix def are(winConditions: WinCondition*): GameBuilder =
       winConditions.foreach(builder.addWinCondition(_))
+      builder
+
+  object RulesBuilder:
+    def apply(builder: GameBuilder): RulesBuilder =
+      new RulesBuilderImpl(builder)
+
+  trait RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder
+
+  private class RulesBuilderImpl(val builder: GameBuilder)
+      extends RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder =
+      handRules.foreach(builder.addHandRule(_))
       builder
