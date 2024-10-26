@@ -19,6 +19,7 @@ import org.cge.dsl.CardGameEngineDSL.has
 import org.cge.engine.model.TableModel.HandRule
 import org.cge.dsl.CardGameEngineDSL.hand
 import org.cge.dsl.SyntacticSugar.rules
+import org.cge.dsl.exception.CGESyntaxError
 
 class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
 
@@ -91,6 +92,12 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
             g.players.indexOf(g.starter)
           case _ => fail(wrongClassText)
     )() should be(true)
+
+  test("starts from random player should thorw an exception if there are no players"):
+    game match
+      case g: PuppetBuilder =>
+        a [CGESyntaxError] should be thrownBy (g starts from random player)
+      case _ => fail(wrongClassText)
 
   test("game playing rules are should add a playing rule"):
     val rule = (table: TableModel, card: CardModel) =>
