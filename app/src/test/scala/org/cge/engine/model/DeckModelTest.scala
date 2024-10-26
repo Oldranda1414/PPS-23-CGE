@@ -42,3 +42,6 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
     val highestCard = deck.getHighestCard(cards)
     highestCard should be (cards.maxBy(c => deck.cards.indexOf(c)))
 
+  test("getHighestCard throws an IllegalArgumentException if the given cards are not in the deck"):
+    deck.addCard(cards(1))
+    a [IllegalArgumentException] should be thrownBy deck.getHighestCard(List(cards(2)))

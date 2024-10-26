@@ -51,7 +51,10 @@ object TableModel:
       cardsOnTable.contains(card) &&
       handRules
         .map[Boolean](r =>
-          r(super.cardsOnTable, card, trump.fold[Suit]("")(identity))
+          r(super.cardsOnTable, card, trump match
+            case Some(t) => t
+            case _ => throw IllegalStateException("Trump is not set")
+          )
         ).forall(identity)
 
     override def playCard(card: CardModel) =

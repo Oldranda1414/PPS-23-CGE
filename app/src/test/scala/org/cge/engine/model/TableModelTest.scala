@@ -95,3 +95,11 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
     table.playCard(card1)
     table.playCard(card3)
     table.doesCardWinHand(card2) should be (false)
+
+  test("TableModel should throw an IllegalStateException if doesCardWinHand is called before setting a trump"):
+    val handRule: HandRule = (cardsOnTable, card, trump) =>
+      card.suit == trump
+    table.addHandRule(handRule)
+    table.playCard(card1)
+    table.playCard(card2)
+    a [IllegalStateException] should be thrownBy table.doesCardWinHand(card2)
