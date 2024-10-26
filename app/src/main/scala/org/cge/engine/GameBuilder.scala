@@ -7,6 +7,8 @@ import org.cge.engine.data._
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
+import org.cge.engine.model.TableModel
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -80,6 +82,14 @@ trait GameBuilder:
   def addWinCondition(winCondition: WinCondition): GameBuilder
 
   /**
+    * Adds a hand rule to the game.
+    *
+    * @param handRule
+    * @return
+    */
+  def addHandRule(handRule: HandRule): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -99,6 +109,7 @@ object GameBuilder:
     private var availableCards = StandardDeck.cards
     private var suits = Set.empty[Suit]
     private var ranks = List.empty[Rank]
+    private val table = TableModel()
     private var trump: Option[Suit] = None
     private var winConditions = List.empty[WinCondition]
     private var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
@@ -163,6 +174,10 @@ object GameBuilder:
       winConditions = winConditions :+ winCondition
       this
 
+    def addHandRule(handRule: HandRule): GameBuilder =
+      table.addHandRule(handRule)
+      this
+
     def currentGameCards: List[CardModel] = computeDeck()
 
     def build: GameModel = 
@@ -175,6 +190,7 @@ object GameBuilder:
           require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
           game.trump = suit
         case None => ()
+      table.handRules.foreach(game.table.addHandRule(_))
       players.foreach { name =>
         // create player
         val player = PlayerModel(name)

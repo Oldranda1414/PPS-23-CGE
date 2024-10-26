@@ -11,6 +11,7 @@ import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.engine.model.GameModel.WinCondition
 import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
+import org.cge.engine.model.TableModel.HandRule
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
@@ -31,6 +32,7 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
     var winConditions = List.empty[WinCondition]
+    val table: TableModel = TableModel()
     var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
 
     override def setName(name: String): GameBuilder = 
@@ -60,6 +62,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
 
     override def addWinCondition(winCondition: WinCondition): GameBuilder =
       winConditions = winConditions :+ winCondition
+      this
+
+    override def addHandRule(handRule: HandRule): GameBuilder =
+      table.addHandRule(handRule)
       this
 
     override def build: GameModel = GameModel("Puppet")

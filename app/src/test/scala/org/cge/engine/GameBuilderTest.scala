@@ -6,6 +6,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
 
 class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
 
@@ -138,7 +139,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .cardsInHand(() => 5)
     a [IllegalArgumentException] should be thrownBy gameBuilder.build
 
-  test("a win condition can be set"):
+  test("a win condition can be added"):
     val wc1: WinCondition = (game, player) => true || game == player
     gameBuilder.addSuit("Clubs")
       .setName("Game name")
@@ -148,6 +149,17 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .addWinCondition(wc1)
     val game = gameBuilder.build
     game.winConditions should be (List(wc1))
+
+  test("a hand rule can be added"):
+    val hr1: HandRule = (cardsOnTable, card, trump) => true || cardsOnTable == card
+    gameBuilder.addSuit(suits(1))
+      .setName("Game name")
+      .addPlayer("Player 1")
+      .cardsInHand(() => 5)
+      .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
+      .addHandRule(hr1)
+    val game = gameBuilder.build
+    game.table.handRules should be (List(hr1))
 
   test("cards in hand per player can set each player number of cards"):
     gameBuilder.addSortedRanks(ranks)
