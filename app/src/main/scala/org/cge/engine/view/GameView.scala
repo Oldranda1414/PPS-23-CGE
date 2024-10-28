@@ -51,8 +51,8 @@ object GameView:
 
     val singleWinnerLabelPrefix: String = "The winner is "
     val multiWinnerLabelPrefix: String = "The winners are "
-    val winnerLabelX = 400
-    val winnerLabelY = 500
+    val winnerLabelX = 200
+    val winnerLabelY = 300
     val winnerLabelWidth = 500
     val winnerLabelHeight = 100
 

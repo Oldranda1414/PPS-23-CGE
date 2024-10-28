@@ -4,6 +4,7 @@ import WindowState.Window
 import org.cge.engine.view.monads.States.State
 
 sealed trait PlayerPosition
+case object Center extends PlayerPosition
 case object Up extends PlayerPosition
 case object Down extends PlayerPosition
 case object Left extends PlayerPosition
@@ -12,17 +13,22 @@ case object Right extends PlayerPosition
 object PlayerViewManager:
   import org.cge.engine.WindowDimentions.*
 
-  private val upPlayerDims = (700, 100)
-  private val rightPlayerDims = (100, 500)
-  private val downPlayerDims = (500, 100)
-  private val leftPlayerDims = (100, 500)
+  private val horizontalPlayerDims = (500, 100)
+  private val verticalPlayerDims = (100, 500)
 
+  private val centerPlayerDims = horizontalPlayerDims
+  private val upPlayerDims = horizontalPlayerDims
+  private val rightPlayerDims = verticalPlayerDims
+  private val downPlayerDims = horizontalPlayerDims
+  private val leftPlayerDims = verticalPlayerDims
+
+  private val centerPlayerCoords = (200, windowHeight/2)
   private val upPlayerCoords = (20, 20)
   private val rightPlayerCoords = (windowWidth - 200, 20)
   private val downPlayerCoords = (windowWidth - 200 - downPlayerDims._1, windowHeight - 200)
-  private val leftPlayerCoords = (20, windowHeight - 200)
+  private val leftPlayerCoords = (20, /*40 + upPlayerDims._2*/ windowHeight - leftPlayerDims._2 - 80)
 
-  private val possiblePositions = Seq(Up, Down, Right, Left)
+  private val possiblePositions = Seq(Center, Up, Down, Right, Left)
   private var playerPositions: Map[String, PlayerPosition] = Map.empty[String, PlayerPosition]
 
   def addPlayer(windowState: State[Window, Unit], playerName: String): State[Window, Unit] =
@@ -44,6 +50,7 @@ object PlayerViewManager:
   
   private def getPlayerHandCoords(playerName: String): (Int, Int) = 
     getPlayerPosition(playerName) match
+      case Center => centerPlayerCoords
       case Up => upPlayerCoords
       case Down => downPlayerCoords
       case Left => leftPlayerCoords
@@ -51,6 +58,7 @@ object PlayerViewManager:
 
   private def getPlayerOrientation(playerName: String): Boolean = 
     getPlayerPosition(playerName) match
+      case Center => false
       case Up => false
       case Down => false
       case Left => true
@@ -58,6 +66,7 @@ object PlayerViewManager:
 
   private def getPlayerDims(playerName: String): (Int, Int) = 
     getPlayerPosition(playerName) match
+      case Center => centerPlayerDims
       case Up => upPlayerDims
       case Down => downPlayerDims
       case Left => leftPlayerDims

@@ -26,22 +26,23 @@ object GameController:
     val buttonWidth: Int = 100
     val buttonHeight: Int = 100
 
+    val tablePlayerName: String = "table"
+
     def startGame: Unit =
       val gameView = GameView(game.name, windowWidth, windowHeight)
+
+      gameView.addPlayer(tablePlayerName)
 
       game.players.foreach: player =>
         gameView.addPlayer(player.name)
         player.hand.cards.foreach: card =>
           gameView.addCardToPlayer(player.name, card.rank.toString(), card.suit.toString())
       
-      gameView.addButton("Results", "EndGame", buttonX, buttonY, buttonWidth, buttonHeight)
-
       val windowCreation = gameView.show
       val windowEventsHandling = for
         e <- windowCreation
         _ <- seqN(e.map(_ match
-          case "QuitButton" => WindowState.exec(sys.exit())
-          case "EndGame" => endGame(gameView)
+          case _ => endGame(gameView)
         ))
       yield ()
 
