@@ -58,10 +58,13 @@ object GameController:
       val card = CardModel(rank, suit)
       game.players.find(_.name == playerName) match
         case Some(player) => 
-          player.hand.removeCard(card)
-          game.table.playCard(card)
-          gameView.removeCardFromPlayer(playerName, rank, suit)
-          gameView.addCardToPlayer(tablePlayerName, rank, suit)
+          require(player.hand.cards.contains(card), s"Player $playerName does not have card $card")
+          if game.turn.name != playerName then ???
+          else  
+            player.hand.removeCard(card)
+            game.table.playCard(card)
+            gameView.removeCardFromPlayer(playerName, rank, suit)
+            gameView.addCardToPlayer(tablePlayerName, rank, suit)
         case None => throw new NoSuchElementException(s"Player $playerName not found")
       
 
