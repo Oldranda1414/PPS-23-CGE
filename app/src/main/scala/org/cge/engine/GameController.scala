@@ -59,7 +59,7 @@ object GameController:
       game.players.find(_.name == playerName) match
         case Some(player) => 
           require(player.hand.cards.contains(card), s"Player $playerName does not have card $card")
-          if game.turn.name != playerName then ???
+          if game.turn.name != playerName || !game.table.canPlayCard(card) then State(s => (s, ()))
           else  
             player.hand.removeCard(card)
             game.table.playCard(card)
