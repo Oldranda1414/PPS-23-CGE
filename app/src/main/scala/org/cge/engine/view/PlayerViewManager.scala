@@ -31,7 +31,7 @@ object PlayerViewManager:
   private val downPlayerCoords = (windowWidth - (downPlayerDims._1 + widthPadding), windowHeight - (downPlayerDims._2 + heightPadding))
   private val leftPlayerCoords = (widthPadding, windowHeight - (leftPlayerDims._2 + heightPadding))
 
-  private val possiblePositions = Seq(Center, Up, Down, Right, Left)
+  private val possiblePositions = Seq(Center, Up, Right, Down, Left)
   private var playerPositions: Map[String, PlayerPosition] = Map.empty[String, PlayerPosition]
 
   def addPlayer(windowState: State[Window, Unit], playerName: String): State[Window, Unit] =
