@@ -64,8 +64,12 @@ object GameController:
             player.hand.removeCard(card)
             game.table.playCard(card)
             game.nextTurn()
-            val state1 = gameView.removeCardFromPlayer(playerName, rank, suit)
-            gameView.addCardToPlayer(tablePlayerName, rank, suit).flatMap(_ => state1)
+            gameView.removeCardFromPlayer(playerName, rank, suit).flatMap(_ =>
+              gameView.addCardToPlayer(tablePlayerName, rank, suit).flatMap(_ =>
+                if game.winners.nonEmpty then endGame(gameView)
+                else State(s => (s, ()))
+              )
+            )
         case None => throw new NoSuchElementException(s"Player $playerName not found")
       
 
