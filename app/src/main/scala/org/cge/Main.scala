@@ -18,4 +18,7 @@ object Main:
     game starts from player "Player 1"
     game suitsAre ("Clubs", "Diamonds", "Hearts", "Spades")
     game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
+    game.addWinCondition(
+      (g, p) => p.hand.cards.isEmpty
+    )
     GameController(game.build).startGame

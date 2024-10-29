@@ -46,7 +46,8 @@ object GameController:
             val eventName = parsedEvent(0)
             eventName match
             case s if game.players.map(_.name).contains(eventName) => playCard(s, parsedEvent(1))
-            case _ => endGame(gameView))
+            case _ => throw new IllegalStateException(s"Event $eventName not recognized")
+          )
         )
       yield ()
 
@@ -66,15 +67,8 @@ object GameController:
             game.nextTurn()
             gameView.removeCardFromPlayer(playerName, rank, suit).flatMap(_ =>
               gameView.addCardToPlayer(tablePlayerName, rank, suit).flatMap(_ =>
-                if game.winners.nonEmpty then endGame(gameView)
+                if game.winners.nonEmpty then gameView.endGame(game.winners.map(_.name))
                 else State(s => (s, ()))
               )
             )
         case None => throw new NoSuchElementException(s"Player $playerName not found")
-      
-
-    private def endGame(gameView: GameView): State[Window, Unit] =
-      val maxCards = game.players.map(_.hand.cards.size).max
-      gameView.endGame(
-        game.players.filter(_.hand.cards.size == maxCards).map(_.name)
-      )
