@@ -2,6 +2,7 @@ package org.cge.engine.view
 
 import WindowState.Window
 import org.cge.engine.view.monads.States.State
+import WindowDimensions.*
 
 sealed trait PlayerPosition
 case object Center extends PlayerPosition
@@ -11,7 +12,6 @@ case object Left extends PlayerPosition
 case object Right extends PlayerPosition
 
 object PlayerViewManager:
-  import org.cge.engine.WindowDimentions.*
 
   private val horizontalPlayerDims = (windowWidth / 2, windowHeight / 10)
   private val verticalPlayerDims = (windowWidth / 10, windowHeight / 2)
