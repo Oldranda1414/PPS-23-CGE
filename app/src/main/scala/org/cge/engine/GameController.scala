@@ -63,8 +63,9 @@ object GameController:
           else  
             player.hand.removeCard(card)
             game.table.playCard(card)
-            gameView.removeCardFromPlayer(playerName, rank, suit)
-            gameView.addCardToPlayer(tablePlayerName, rank, suit)
+            game.nextTurn()
+            val state1 = gameView.removeCardFromPlayer(playerName, rank, suit)
+            gameView.addCardToPlayer(tablePlayerName, rank, suit).flatMap(_ => state1)
         case None => throw new NoSuchElementException(s"Player $playerName not found")
       
 
