@@ -13,8 +13,11 @@ case object Right extends PlayerPosition
 object PlayerViewManager:
   import org.cge.engine.WindowDimentions.*
 
-  private val horizontalPlayerDims = (500, 100)
-  private val verticalPlayerDims = (100, 500)
+  private val horizontalPlayerDims = (windowWidth/2, windowHeight/10)
+  private val verticalPlayerDims = (windowWidth/10, windowHeight/2)
+
+  private val widthPadding = windowWidth/12
+  private val heightPadding = windowHeight/12
 
   private val centerPlayerDims = horizontalPlayerDims
   private val upPlayerDims = horizontalPlayerDims
@@ -22,11 +25,11 @@ object PlayerViewManager:
   private val downPlayerDims = horizontalPlayerDims
   private val leftPlayerDims = verticalPlayerDims
 
-  private val centerPlayerCoords = (200, windowHeight/2)
-  private val upPlayerCoords = (20, 20)
-  private val rightPlayerCoords = (windowWidth - 200, 20)
-  private val downPlayerCoords = (windowWidth - 200 - downPlayerDims._1, windowHeight - 200)
-  private val leftPlayerCoords = (20, /*40 + upPlayerDims._2*/ windowHeight - leftPlayerDims._2 - 80)
+  private val centerPlayerCoords = (windowWidth/5, windowHeight/2)
+  private val upPlayerCoords = (widthPadding, heightPadding)
+  private val rightPlayerCoords = (windowWidth - (rightPlayerDims._1 + widthPadding), heightPadding)
+  private val downPlayerCoords = (windowWidth - (downPlayerDims._1 + widthPadding), windowHeight - (downPlayerDims._2 + heightPadding))
+  private val leftPlayerCoords = (widthPadding, windowHeight - (leftPlayerDims._2 + heightPadding))
 
   private val possiblePositions = Seq(Center, Up, Down, Right, Left)
   private var playerPositions: Map[String, PlayerPosition] = Map.empty[String, PlayerPosition]
