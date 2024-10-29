@@ -5,6 +5,7 @@ trait DeckModel:
   def addCard(card: CardModel): Unit
   def removeCards(numberOfCards: Int): List[CardModel]
   def getHighestCard(cards: Iterable[CardModel]): CardModel
+  def removeCard(card: CardModel): Unit
 
 object DeckModel:
   def apply(): DeckModel = SimpleDeck()
@@ -19,6 +20,10 @@ object DeckModel:
       val ret: List[CardModel] = cards.take(numberOfCards)
       cards = cards.drop(numberOfCards)
       ret
+
+    def removeCard(card: CardModel) =
+      if !cards.contains(card) then throw new IllegalArgumentException("Card not in deck")
+      cards = cards.filterNot(_ == card)
 
     def getHighestCard(cards: Iterable[CardModel]): CardModel =
       if cards.exists(!this.cards.contains(_)) then throw new IllegalArgumentException("Card not in deck")

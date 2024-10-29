@@ -45,3 +45,12 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   test("getHighestCard throws an IllegalArgumentException if the given cards are not in the deck"):
     deck.addCard(cards(1))
     a [IllegalArgumentException] should be thrownBy deck.getHighestCard(List(cards(2)))
+
+  test("removeCard removes the given card from the deck"):
+    cards.foreach(deck.addCard(_))
+    deck.removeCard(cards(1))
+    deck.cards should not contain (cards(1))
+
+  test("removeCard throws an IllegalArgumentException if the given card is not in the deck"):
+    cards.foreach(deck.addCard(_))
+    a [IllegalArgumentException] should be thrownBy deck.removeCard(CardModel("Joker", "Spades"))

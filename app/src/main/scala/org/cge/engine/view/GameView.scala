@@ -15,6 +15,9 @@ trait GameView:
   /** Adds a card to a player. */
   def addCardToPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit]
 
+  /** Removes a card from a player. */
+  def removeCardFromPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit]
+
   /** Adds a button to the GUI. */
   def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): State[Frame, Unit]
 
@@ -49,6 +52,9 @@ object GameView:
 
     override def addCardToPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
       CardViewManager.addCardToPlayer(initialWindowCreation, player, cardValue, cardSuit)
+
+    override def removeCardFromPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
+      CardViewManager.removeCardFromPlayer(initialWindowCreation, player, cardValue, cardSuit)
 
     override def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): State[Frame, Unit] =
       ButtonViewManager.addButton(initialWindowCreation, name, text, x, y, width, height)

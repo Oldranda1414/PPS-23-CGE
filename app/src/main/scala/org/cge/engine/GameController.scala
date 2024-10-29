@@ -9,6 +9,7 @@ import org.cge.engine.view.WindowDimensions.*
 import org.cge.engine.view.GameView
 
 import org.cge.engine.model.GameModel
+import org.cge.engine.model.CardModel
 
 /** A controller for the card game engine. */
 trait GameController:
@@ -27,8 +28,9 @@ object GameController:
 
     val tablePlayerName: String = "table"
 
+    val gameView: GameView = GameView(game.name, windowWidth, windowHeight)
+
     def startGame: Unit =
-      val gameView = GameView(game.name, windowWidth, windowHeight)
 
       val initialState = 
         game.players.foldLeft(gameView.addPlayer(tablePlayerName)): (state, player) =>
@@ -39,12 +41,31 @@ object GameController:
 
       val windowEventsHandling: State[Window, Unit] = for
         events <- windowCreation
-        _ <- seqN(events.map(_ => endGame(gameView)))
+        _ <- seqN(events.map(e => 
+            val parsedEvent = e.split(":")
+            val eventName = parsedEvent(0)
+            eventName match
+            case s if game.players.map(_.name).contains(eventName) => playCard(s, parsedEvent(1))
+            case _ => endGame(gameView))
+        )
       yield ()
 
       windowEventsHandling.run(WindowState.initialWindow)
 
-    def endGame(gameView: GameView): State[Window, Unit] =
+    private def playCard(playerName: String, cardFromEvent: String): State[Window, Unit] = 
+      val rank = cardFromEvent.split(" ")(0)
+      val suit = cardFromEvent.split(" ")(1)
+      val card = CardModel(rank, suit)
+      game.players.find(_.name == playerName) match
+        case Some(player) => 
+          player.hand.removeCard(card)
+          game.table.playCard(card)
+          gameView.removeCardFromPlayer(playerName, rank, suit)
+          gameView.addCardToPlayer(tablePlayerName, rank, suit)
+        case None => throw new NoSuchElementException(s"Player $playerName not found")
+      
+
+    private def endGame(gameView: GameView): State[Window, Unit] =
       val maxCards = game.players.map(_.hand.cards.size).max
       gameView.endGame(
         game.players.filter(_.hand.cards.size == maxCards).map(_.name)
