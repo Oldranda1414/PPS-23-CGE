@@ -160,7 +160,7 @@ object SyntacticBuilder:
           ).name
         )
 
-  trait AreSyntacticSugarBuilder:
+  trait PlayingRulesBuilder:
     /**
      * This method is used to complete the sentence 'game playing rules are "Test"'
      *
@@ -169,18 +169,18 @@ object SyntacticBuilder:
      */
     infix def are(rules: PlayingRule*): GameBuilder
 
-  object AreSyntacticSugarBuilder:
+  object PlayingRulesBuilder:
     /**
      * This method is used to create a new are syntactic sugar builder.
      *
      * @param builder The game builder
      * @return The are syntactic sugar builder
      */
-    def apply(builder: GameBuilder): AreSyntacticSugarBuilder =
-      new AreSyntacticSugarBuilderImpl(builder)
+    def apply(builder: GameBuilder): PlayingRulesBuilder =
+      new PlayingRulesBuilderImpl(builder)
 
-    private class AreSyntacticSugarBuilderImpl(val builder: GameBuilder)
-        extends AreSyntacticSugarBuilder:
+    private class PlayingRulesBuilderImpl(val builder: GameBuilder)
+        extends PlayingRulesBuilder:
       infix def are(rules: PlayingRule*): GameBuilder =
         rules.foreach(builder.addPlayingRule)
         builder
@@ -198,15 +198,15 @@ object SyntacticBuilder:
       winConditions.foreach(builder.addWinCondition(_))
       builder
 
-  object RulesBuilder:
-    def apply(builder: GameBuilder): RulesBuilder =
-      new RulesBuilderImpl(builder)
+  object HandRulesBuilder:
+    def apply(builder: GameBuilder): HandRulesBuilder =
+      new HandRulesBuilderImpl(builder)
 
-  trait RulesBuilder:
+  trait HandRulesBuilder:
     infix def are(handRules: HandRule*): GameBuilder
 
-  private class RulesBuilderImpl(val builder: GameBuilder)
-      extends RulesBuilder:
+  private class HandRulesBuilderImpl(val builder: GameBuilder)
+      extends HandRulesBuilder:
     infix def are(handRules: HandRule*): GameBuilder =
       handRules.foreach(builder.addHandRule(_))
       builder
