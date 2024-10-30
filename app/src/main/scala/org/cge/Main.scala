@@ -6,6 +6,7 @@ import org.cge.dsl.SyntacticSugar.player
 import org.cge.dsl.SyntacticSugar.from
 import org.cge.dsl.SyntacticSugar.to
 import org.cge.dsl.SyntacticSugar.conditions
+// import org.cge.dsl.SyntacticSugar.rules
 
 object Main:
 
@@ -19,6 +20,7 @@ object Main:
     game starts from player "Player 1"
     game suitsAre ("Clubs", "Diamonds", "Hearts", "Spades")
     game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
+    // game playing rules are: 
     game win conditions are:
       (g, p) => p.hand.cards.isEmpty
     GameController(game.build).startGame

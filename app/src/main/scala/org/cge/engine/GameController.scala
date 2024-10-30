@@ -10,6 +10,9 @@ import org.cge.engine.view.GameView
 
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.CardModel
+import org.cge.engine.model.PlayerModel
+import org.cge.engine.model.Rank
+import org.cge.engine.model.Suit
 
 /** A controller for the card game engine. */
 trait GameController:
@@ -32,43 +35,72 @@ object GameController:
 
     def startGame: Unit =
 
-      val initialState = 
-        game.players.foldLeft(gameView.addPlayer(tablePlayerName)): (state, player) =>
-          player.hand.cards.foldLeft(state.flatMap(_ => gameView.addPlayer(player.name))): (innerState, card) =>
-            innerState.flatMap(_ => gameView.addCardToPlayer(player.name, card.rank.toString, card.suit.toString))
+      val initialState =
+        game.players.foldLeft(gameView.addPlayer(tablePlayerName)):
+          (state, player) =>
+            player.hand.cards.foldLeft(
+              state.flatMap(_ => gameView.addPlayer(player.name))
+            ): (innerState, card) =>
+              innerState.flatMap(_ =>
+                gameView.addCardToPlayer(
+                  player.name,
+                  card.rank.toString,
+                  card.suit.toString
+                )
+              )
 
       val windowCreation = initialState.flatMap(_ => gameView.show)
 
       val windowEventsHandling: State[Window, Unit] = for
         events <- windowCreation
-        _ <- seqN(events.map(e => 
-            val parsedEvent = e.split(":")
-            val eventName = parsedEvent(0)
-            eventName match
-            case s if game.players.map(_.name).contains(eventName) => playCard(s, parsedEvent(1))
-            case _ => throw new IllegalStateException(s"Event $eventName not recognized")
-          )
-        )
+        _ <- seqN(events.map(e =>
+          val parsedEvent = e.split(":")
+          val eventName = parsedEvent(0)
+          eventName match
+            case s if game.players.map(_.name).contains(eventName) =>
+              handleCardPlayed(s, parsedEvent(1))
+            case _ =>
+              throw new IllegalStateException(
+                s"Event $eventName not recognized"
+              )
+        ))
       yield ()
 
       windowEventsHandling.run(WindowState.initialWindow)
 
-    private def playCard(playerName: String, cardFromEvent: String): State[Window, Unit] = 
+    private def handleCardPlayed(
+        playerName: String,
+        cardFromEvent: String
+    ): State[Window, Unit] =
       val rank = cardFromEvent.split(" ")(0)
       val suit = cardFromEvent.split(" ")(1)
       val card = CardModel(rank, suit)
       game.players.find(_.name == playerName) match
-        case Some(player) => 
-          require(player.hand.cards.contains(card), s"Player $playerName does not have card $card")
-          if game.turn.name != playerName || !game.table.canPlayCard(card) then State(s => (s, ()))
-          else  
-            player.hand.removeCard(card)
-            game.table.playCard(card)
-            game.nextTurn()
-            gameView.removeCardFromPlayer(playerName, rank, suit).flatMap(_ =>
-              gameView.addCardToPlayer(tablePlayerName, rank, suit).flatMap(_ =>
-                if game.winners.nonEmpty then gameView.endGame(game.winners.map(_.name))
-                else State(s => (s, ()))
-              )
+        case Some(player) =>
+          require(
+            player.hand.cards.contains(card),
+            s"Player $playerName does not have card $card"
+          )
+          if game.turn.name != playerName || !game.table.canPlayCard(card) then
+            doNothing()
+          else playCard(player, card)
+        case None =>
+          throw new NoSuchElementException(s"Player $playerName not found")
+
+    private def doNothing(): State[Window, Unit] = State(s => (s, ()))
+
+    private def playCard(player: PlayerModel, card: CardModel) =
+      player.hand.removeCard(card)
+      game.table.playCard(card)
+      game.nextTurn()
+      gameView
+        .removeCardFromPlayer(player.name, card.rank.toString(), card.suit.toString())
+        .flatMap(_ =>
+          gameView
+            .addCardToPlayer(tablePlayerName, card.rank.toString(), card.suit.toString())
+            .flatMap(_ =>
+              if game.winners.nonEmpty then
+                gameView.endGame(game.winners.map(_.name))
+              else doNothing()
             )
-        case None => throw new NoSuchElementException(s"Player $playerName not found")
+        )
