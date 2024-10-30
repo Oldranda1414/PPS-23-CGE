@@ -72,34 +72,26 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
     table.cardsOnTable should be (List(card1))
 
   test("In TableModel it is possible to add a hand rule"):
-    val handRule: HandRule = (cardsOnTable, card, trump) =>
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
       true || cardsOnTable == card || card == trump
     table.addHandRule(handRule)
     table.handRules should be (List(handRule))
 
   test("TableModel should tell what card on table determines the winning of the current hand"):
-    val handRule: HandRule = (cardsOnTable, card, trump) =>
-      card.suit == trump
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
+      card.suit == trump.getOrElse("")
     table.trump = "Spades"
     table.addHandRule(handRule)
     table.playCard(card1)
     table.playCard(card3)
-    table.doesCardWinHand(card1) should be (true)
     table.doesCardWinHand(card3) should be (false)
+    table.doesCardWinHand(card1) should be (true)
 
   test("TableModel doesCardWinHand should return false if the card is not in the current hand"):
-    val handRule: HandRule = (cardsOnTable, card, trump) =>
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
       card.suit == trump
     table.trump = "Spades"
     table.addHandRule(handRule)
     table.playCard(card1)
     table.playCard(card3)
     table.doesCardWinHand(card2) should be (false)
-
-  test("TableModel should throw an IllegalStateException if doesCardWinHand is called before setting a trump"):
-    val handRule: HandRule = (cardsOnTable, card, trump) =>
-      card.suit == trump
-    table.addHandRule(handRule)
-    table.playCard(card1)
-    table.playCard(card2)
-    a [IllegalStateException] should be thrownBy table.doesCardWinHand(card2)

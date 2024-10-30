@@ -124,7 +124,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
       .addSortedRanks(ranks)
       .setTrump(trump)
     val game = gameBuilder.build
-    game.trump should be (Option(trump))
+    game.table.trump should be (Option(trump))
 
   test("trump cannot be set to a suit that is not in the game"):
     a [IllegalArgumentException] should be thrownBy gameBuilder.addSuit(suits(0))
@@ -164,7 +164,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     game.winConditions should be (List(wc1))
 
   test("a hand rule can be added"):
-    val hr1: HandRule = (cardsOnTable, card, trump) => true || cardsOnTable == card
+    val hr1: HandRule = (cardsOnTable, card, trump, ranks) => true || cardsOnTable == card
     gameBuilder.addSuit(suits(1))
       .setName("Game name")
       .addPlayer("Player 1")

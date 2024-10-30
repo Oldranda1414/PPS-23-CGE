@@ -41,13 +41,6 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   test("GameModel should have initialized name"):
     game.name should be (gameName)
 
-  test("GameModel trump should be empty after initializazion"):
-    game.trump should be (None)
-
-  test("GameModel trump should change after setting it"):
-    game.trump = "Spades"
-    game.trump should be (Some("Spades"))
-
   test("GameModel should have a table"):
       game.table mustBe a[TableModel]
 

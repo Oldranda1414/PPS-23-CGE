@@ -7,7 +7,7 @@ import org.cge.dsl.SyntacticSugar.from
 import org.cge.dsl.SyntacticSugar.to
 import org.cge.dsl.SyntacticSugar.conditions
 import org.cge.dsl.SyntacticSugar.rules
-// import org.cge.dsl.SyntacticSugar.rules
+import org.cge.engine.model.TableModel.HandRule
 
 object Main:
 
@@ -27,25 +27,14 @@ object Main:
     game hand rules are:
       (hand, cardPlayed, trump, ranks) => 
         val handSuit = hand.head.suit
-        val cardSuit = cardPlayed.suit
-        val cardRank = cardPlayed.rank
-        
-        val trumpWinner = hand
-          .filter(_.suit == trump)
-          .maxByOption(c => ranks.indexOf(c.rank))
-        
-        if cardSuit == trump && trumpWinner.exists(_.rank == cardRank) then 
-          true
+        val t = trump.getOrElse("")
+        val trumpsInHand = hand.filter(_.suit == t)
+        val leadingSuitsInHand = hand.filter(_.suit == handSuit)
+        val winningCard = if (trumpsInHand.nonEmpty) then
+          trumpsInHand.maxBy(c => ranks.indexOf(c.rank))
         else
-          val suitWinner = hand
-            .filter(_.suit == handSuit)
-            .maxByOption(c => ranks.indexOf(c.rank))
-          
-          if cardSuit == handSuit && suitWinner.exists(_.rank == cardRank) then 
-            true 
-          else 
-            false
-
+          leadingSuitsInHand.maxBy(c => ranks.indexOf(c.rank))
+        cardPlayed == winningCard
     game win conditions are:
       (g, p) => p.hand.cards.isEmpty
     GameController(game.build).startGame

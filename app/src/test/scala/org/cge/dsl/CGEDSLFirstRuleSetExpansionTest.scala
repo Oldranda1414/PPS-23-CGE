@@ -121,9 +121,9 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
       case _ => fail("game is not a PuppetBuilder")
 
   test("hand rules are should set hand rules"):
-    val hr1: HandRule = (cardsOnTable, card, trump) =>
+    val hr1: HandRule = (cardsOnTable, card, trump, ranks) =>
       true || cardsOnTable == card
-    val hr2: HandRule = (cardsOnTable, card, trump) =>
+    val hr2: HandRule = (cardsOnTable, card, trump, ranks) =>
       true || cardsOnTable == card
     val g = game hand rules are (hr1, hr2)
     g match
