@@ -103,6 +103,18 @@ object CardGameEngineDSL:
     */
     infix def playing(rules: RulesSyntacticSugar): AreSyntacticSugarBuilder = AreSyntacticSugarBuilder(game)
 
+    /**
+     * This method is used to set the winning conditions for the game.
+     * 
+     * @param conditions the winning conditions
+     * @return a ConditionsBuilder instance
+    */
     infix def win(conditions: ConditionsSyntacticSugar): ConditionsBuilder = ConditionsBuilder(game)
 
+    /**
+     * This method is used to set the rules for the game.
+     * 
+     * @param rules the rules
+     * @return a RulesBuilder instance
+    */
     infix def hand(rules: RulesSyntacticSugar): RulesBuilder = RulesBuilder(game)
