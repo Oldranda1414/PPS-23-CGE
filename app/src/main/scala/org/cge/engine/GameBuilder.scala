@@ -221,7 +221,7 @@ object GameBuilder:
       trump match
         case Some(suit) => 
           require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
-          game.trump = suit
+          game.table.trump = suit
         case None => ()
 
       tableRules.foreach(game.table.addPlayingRule)

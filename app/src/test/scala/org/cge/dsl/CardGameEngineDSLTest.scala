@@ -92,7 +92,6 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     val g = game is "Test"
     val builder = new PuppetBuilder()
     builder.setName("Test")
-    println(g.getClass())
     g match 
       case g: PuppetBuilder => g.name shouldBe builder.name
       case _ => fail(wrongClassText)

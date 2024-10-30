@@ -33,6 +33,8 @@ object GameController:
 
     val gameView: GameView = GameView(game.name, windowWidth, windowHeight)
 
+    private var turnCounter: Int = 0
+
     def startGame: Unit =
 
       val initialState =
@@ -77,10 +79,10 @@ object GameController:
       val card = CardModel(rank, suit)
       game.players.find(_.name == playerName) match
         case Some(player) =>
-          require(
-            player.hand.cards.contains(card),
-            s"Player $playerName does not have card $card"
-          )
+          // require(
+          //   player.hand.cards.contains(card),
+          //   s"Player $playerName does not have card $card"
+          // )
           if game.turn.name != playerName || !game.table.canPlayCard(card) then
             doNothing()
           else playCard(player, card)
@@ -90,14 +92,33 @@ object GameController:
     private def doNothing(): State[Window, Unit] = State(s => (s, ()))
 
     private def playCard(player: PlayerModel, card: CardModel) =
-      player.hand.removeCard(card)
-      game.table.playCard(card)
-      game.nextTurn()
+      turnCounter += 1
+      game.playCard(player, card)
+      if turnCounter == game.players.size then
+        turnCounter = 0
+        endHand()
+        println("printing points for players")
+        game.players.foreach(p => println(s"${p.name}: ${p.points}"))
+      moveCardToTable(player, card)
+  
+    private def endHand(): Unit =
+      game.computeHandEnd()
+      gameView.clearPlayerHand(tablePlayerName)
+
+    private def moveCardToTable(player: PlayerModel, card: CardModel): State[Window, Unit] =
       gameView
-        .removeCardFromPlayer(player.name, card.rank.toString(), card.suit.toString())
+        .removeCardFromPlayer(
+          player.name,
+          card.rank.toString(),
+          card.suit.toString()
+        )
         .flatMap(_ =>
           gameView
-            .addCardToPlayer(tablePlayerName, card.rank.toString(), card.suit.toString())
+            .addCardToPlayer(
+              tablePlayerName,
+              card.rank.toString(),
+              card.suit.toString()
+            )
             .flatMap(_ =>
               if game.winners.nonEmpty then
                 gameView.endGame(game.winners.map(_.name))

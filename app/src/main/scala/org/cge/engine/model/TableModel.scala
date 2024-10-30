@@ -24,15 +24,16 @@ object TableModel:
     val deck: DeckModel = DeckModel()
     private val tableDeck: DeckModel = DeckModel()
 
-    var trump: Option[Suit] = None
-    def trump_=(suit: Suit) = trump = Some(suit)
+    private var decidedTrump: Option[Suit] = None
+    def trump_=(suit: Suit) = decidedTrump = Some(suit)
+    def trump = decidedTrump
     def cardsOnTable: List[CardModel] = tableDeck.cards
     def playCard(card: CardModel) = tableDeck.addCard(card)
     def takeCards(): List[CardModel] =
       tableDeck.removeCards(tableDeck.cards.size)
 
   type PlayingRule = (TableModel, CardModel) => Boolean
-  type HandRule = (List[CardModel], CardModel, Suit) => Boolean
+  type HandRule = (List[CardModel], CardModel, Option[Suit], List[Rank]) => Boolean
 
   class TableWithRules() extends SimpleTable:
     var playingRules: List[PlayingRule] = List[PlayingRule]()
@@ -51,11 +52,7 @@ object TableModel:
       cardsOnTable.contains(card) &&
       handRules
         .map[Boolean](r =>
-          r(super.cardsOnTable, card, trump match
-            case Some(t) => t
-            case _ => throw IllegalStateException("Trump is not set")
-          )
-        ).forall(identity)
+          r(super.cardsOnTable, card, super.trump, deck.cards.map(_.rank).distinct)).forall(identity)
 
     override def playCard(card: CardModel) =
       canPlayCard(card) match
