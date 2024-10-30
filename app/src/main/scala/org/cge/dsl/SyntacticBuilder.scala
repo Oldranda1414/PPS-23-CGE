@@ -3,6 +3,10 @@ package org.cge.dsl
 import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
+import org.cge.engine.model.PlayingRule
+import org.cge.dsl.exception.CGESyntaxError
+import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
 
 object SyntacticBuilder:
 
@@ -57,9 +61,11 @@ object SyntacticBuilder:
       val builder: GameBuilder,
       val numOfCards: Int
   ) extends CountCardBuilder:
-    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder = CardSyntSugarBuilder(
-      numOfCards, builder
-    )
+    infix def cards(to: ToSyntacticSugar): CardSyntSugarBuilder =
+      CardSyntSugarBuilder(
+        numOfCards,
+        builder
+      )
 
   /** Companion object for the EachSyntSugarBuilder trait. */
   object CardSyntSugarBuilder:
@@ -83,26 +89,124 @@ object SyntacticBuilder:
     infix def each(player: PlayerSyntacticSugar): GameBuilder
 
     /**
-      * This method is used to set the number of cards in hand for a specific player.
-      *
-      * @param playerName The name of the player
-      * @return The game builder
-      */
+     * This method is used to set the number of cards in hand for a specific player.
+     *
+     * @param playerName The name of the player
+     * @return The game builder
+     */
     infix def player(playerName: String): GameBuilder
 
-  private class CardSyntSugarBuilderImpl(val numOfCards: Int, val builder: GameBuilder)
-      extends CardSyntSugarBuilder:
+  private class CardSyntSugarBuilderImpl(
+      val numOfCards: Int,
+      val builder: GameBuilder
+  ) extends CardSyntSugarBuilder:
 
-    infix def player(playerName: String): GameBuilder = 
+    infix def player(playerName: String): GameBuilder =
       builder.cardsInHandPerPlayer(
-        computeCards(numOfCards), 
+        computeCards(numOfCards),
         playerName
       )
 
-    infix def each(player: PlayerSyntacticSugar): GameBuilder = 
+    infix def each(player: PlayerSyntacticSugar): GameBuilder =
       builder.cardsInHand(computeCards(numOfCards))
 
     private def computeCards(input: Int): () => Int =
       input match
         case -1 => () => 1 + scala.util.Random().nextInt(10)
-        case _ => () => input
+        case _  => () => input
+
+  /** Syntactic sugar builder to complete the sentence 'game starts from player "Test"' */
+  trait StarterBuilder:
+
+    /**
+     * This method is used to set the player that will start the game.
+     *
+     * @param player The player that will start the game
+     * @return The game builder
+     */
+    infix def player(player: String): GameBuilder
+
+    /**
+     * This method is used to set randomly the player that will start the game.
+     *
+     * @param player syntactic sugar
+     * @return The game builder
+     */
+    infix def random(player: PlayerSyntacticSugar): GameBuilder
+
+  object StarterBuilder:
+    /**
+     * This method is used to create a new starter builder.
+     *
+     * @param builder The game builder
+     * @return The starter builder
+     */
+    def apply(builder: GameBuilder): StarterBuilder = new StarterBuilderImpl(
+      builder
+    )
+
+    private class StarterBuilderImpl(val builder: GameBuilder)
+        extends StarterBuilder:
+      infix def player(player: String): GameBuilder =
+        builder.starterPlayer(player)
+
+      infix def random(player: PlayerSyntacticSugar): GameBuilder =
+        if builder.currentPlayers.isEmpty then throw new CGESyntaxError("No players has been defined yet")
+        builder.starterPlayer(
+          builder.currentPlayers(
+            scala.util.Random.nextInt(
+              builder.currentPlayers.length
+            )
+          ).name
+        )
+
+  trait AreSyntacticSugarBuilder:
+    /**
+     * This method is used to complete the sentence 'game playing rules are "Test"'
+     *
+     * @param rules The rules to add
+     * @return The game builder
+     */
+    infix def are(rules: PlayingRule*): GameBuilder
+
+  object AreSyntacticSugarBuilder:
+    /**
+     * This method is used to create a new are syntactic sugar builder.
+     *
+     * @param builder The game builder
+     * @return The are syntactic sugar builder
+     */
+    def apply(builder: GameBuilder): AreSyntacticSugarBuilder =
+      new AreSyntacticSugarBuilderImpl(builder)
+
+    private class AreSyntacticSugarBuilderImpl(val builder: GameBuilder)
+        extends AreSyntacticSugarBuilder:
+      infix def are(rules: PlayingRule*): GameBuilder =
+        rules.foreach(builder.addPlayingRule)
+        builder
+
+  object ConditionsBuilder:
+    def apply(builder: GameBuilder): ConditionsBuilder =
+      new ConditionsBuilderImpl(builder)
+
+  trait ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder
+
+  private class ConditionsBuilderImpl(val builder: GameBuilder)
+      extends ConditionsBuilder:
+    infix def are(winConditions: WinCondition*): GameBuilder =
+      winConditions.foreach(builder.addWinCondition(_))
+      builder
+
+  object RulesBuilder:
+    def apply(builder: GameBuilder): RulesBuilder =
+      new RulesBuilderImpl(builder)
+
+  trait RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder
+
+  private class RulesBuilderImpl(val builder: GameBuilder)
+      extends RulesBuilder:
+    infix def are(handRules: HandRule*): GameBuilder =
+      handRules.foreach(builder.addHandRule(_))
+      builder

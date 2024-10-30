@@ -37,3 +37,11 @@ The game is played in a series of hands. Each hand proceeds as follows:
    - A hand ends when either all players pass, leaving one player with the highest card(s), or when a 2 is played.
    - The winner of the hand starts the next hand.
    - Discard the played cards for the rest of the game.
+
+```scala
+game playing rules are (
+   players can play ranks higherThan the previousPlayer,
+   players can pass their turn,
+   hands end when a 2 is played
+)
+```

@@ -1,17 +1,16 @@
 # Development Process
 
-- [Development Process](#development-process)
-  - [Scrum](#scrum)
-  - [Test-Driven Development](#test-driven-development)
-  - [Git Flow](#git-flow)
-  - [Commit Standardization](#commit-standardization)
-  - [Quality Assurance](#quality-assurance)
-    - [Scoverage](#scoverage)
-    - [Scalafmt](#scalafmt)
-    - [Wartremover](#wartremover)
-    - [Scalafix](#scalafix)
-  - [Build Automation](#build-automation)
-  - [Continuous Integration](#continuous-integration)
+- [Scrum](#scrum)
+- [Test-Driven Development](#test-driven-development)
+- [Git Flow](#git-flow)
+- [Commit Standardization](#commit-standardization)
+- [Quality Assurance](#quality-assurance)
+  - [Scoverage](#scoverage)
+  - [Scalafmt](#scalafmt)
+  - [Wartremover](#wartremover)
+  - [Scalafix](#scalafix)
+- [Build Automation](#build-automation)
+- [Continuous Integration](#continuous-integration)
 
 ## Scrum
 
@@ -143,6 +142,7 @@ Gradle has been chosen as the build automation tool.
 To ensure code correctness and integrity a Continuous Integration pipeline has been setup, using Github Actions, to execute the test on various operative systems every code update.
 
 CI is configured in the [github actions config file](../../.github/workflows/ci.yml)
+
 [Back to index](../index.md) |
-[Previous Chapter](../introduction/index.md) |
-[Next Chapter](../requirements/index.md)
+[Previous Chapter](../1_introduction/index.md) |
+[Next Chapter](../3_requirements/index.md)

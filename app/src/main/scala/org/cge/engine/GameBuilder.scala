@@ -4,8 +4,12 @@ import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
 import org.cge.engine.data._
+import org.cge.engine.model.PlayingRule
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.engine.model.GameModel.WinCondition
+import org.cge.engine.model.TableModel.HandRule
+import org.cge.engine.model.TableModel
 
 /** A trait that defines a GameBuilder. */
 trait GameBuilder:
@@ -71,6 +75,37 @@ trait GameBuilder:
   def setTrump(suit: Suit): GameBuilder
 
   /**
+    * Sets the player that will start the game.
+    *
+    * @param player the player that will start the game
+    * @return the GameBuilder instance
+    */
+  def starterPlayer(player: String): GameBuilder
+
+  /**
+   * Adds a playing rule to the game.
+   * 
+   * @param rule the playing rule to add
+   * @return the GameBuilder instance
+  */
+  def addPlayingRule(rule: PlayingRule): GameBuilder
+  /**
+    * Adds a win condition to the game.
+    *
+    * @param winCondition
+    * @return
+    */
+  def addWinCondition(winCondition: WinCondition): GameBuilder
+
+  /**
+    * Adds a hand rule to the game.
+    *
+    * @param handRule
+    * @return
+    */
+  def addHandRule(handRule: HandRule): GameBuilder
+
+  /**
    * Builds the game.
    *
    * @return the game
@@ -79,21 +114,26 @@ trait GameBuilder:
 
   def currentGameCards: List[CardModel]
 
+  def currentPlayers: List[PlayerModel]
+
 object GameBuilder:
 
   def apply(): GameBuilder = GameBuilderImpl()
 
   private class GameBuilderImpl extends GameBuilder:
     private var gameName: String = ""
-    private var players: Set[String] = Set.empty
+    private var players: List[String] = List.empty
     private var cardsInHand: () => Int = () => 0
     private var availableCards = StandardDeck.cards
     private var suits = Set.empty[Suit]
     private var ranks = List.empty[Rank]
+    private val table = TableModel()
     private var trump: Option[Suit] = None
-
+    private var starterPlayer: String = ""
+    private var winConditions = List.empty[WinCondition]
     private var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
     private var isCardsInHandCalled = false;
+    private var tableRules: List[PlayingRule] = List.empty
     private var executedMethods: Map[String, Boolean] = 
       Map(
         "setName" -> false,
@@ -103,7 +143,7 @@ object GameBuilder:
       )
 
     def setName(name: String): GameBuilder =
-      stringRequirements(name, gameName)
+      stringRequirements(name, "Game name")
       require(gameName.isEmpty, "Game name is already set")
       this.gameName = name
       executedMethods += ("setName" -> true)
@@ -113,7 +153,7 @@ object GameBuilder:
       stringRequirements(name, "Player name")
       players.contains(name) match
         case true => throw new IllegalArgumentException(s"Player $name already exists")
-        case false => players = players + name
+        case false => players = players :+ name
       executedMethods += ("addPlayer" -> true)
       this
 
@@ -139,18 +179,39 @@ object GameBuilder:
       suits = suits + suit
       this
 
-    def addSortedRanks(newRanks: List[Rank]): GameBuilder = 
-      require(newRanks.nonEmpty, "Ranks cannot be empty")
-      require(ranks.isEmpty, "Ranks are already set")
+    def addSortedRanks(ranks: List[Rank]): GameBuilder = 
+      require(ranks.nonEmpty, "Ranks cannot be empty")
+      require(this.ranks.isEmpty, "Ranks are already set")
       executedMethods += ("addSortedRanks" -> true)
-      ranks = newRanks
+      this.ranks = ranks
       this
 
     def setTrump(suit: Suit): GameBuilder =
+      require(trump.isEmpty, "Trump is already set")
       trump = Some(suit)
       this
 
+    def starterPlayer(player: String) = 
+      require(players.contains(player), s"Player $player does not exist")
+      require(starterPlayer == "", "Starter player is already set")
+      starterPlayer = player
+      this
+
+    def addPlayingRule(rule: PlayingRule) =
+      tableRules = tableRules :+ rule
+      this
+    def addWinCondition(winCondition: WinCondition): GameBuilder =
+      winConditions = winConditions :+ winCondition
+      this
+
+    def addHandRule(handRule: HandRule): GameBuilder =
+      table.addHandRule(handRule)
+      this
+
     def currentGameCards: List[CardModel] = computeDeck()
+
+    def currentPlayers: List[PlayerModel] =
+      players.map(PlayerModel(_))
 
     def build: GameModel = 
       checkExecutedMethods()
@@ -160,14 +221,20 @@ object GameBuilder:
       trump match
         case Some(suit) => 
           require(suits.contains(suit), s"Cannot set $suit as trump as it is not a suit in the game")
-          game.trump = suit
+          game.table.trump = suit
         case None => ()
+
+      tableRules.foreach(game.addPlayingRule)
+      availableCards.foreach(game.table.deck.addCard)
+      table.handRules.foreach(game.table.addHandRule)
       players.foreach { name =>
         // create player
         val player = PlayerModel(name)
         game.addPlayer(player)
+        if starterPlayer == name then game.setFirstPlayer(player)
         setPlayerCards(player)
       }
+      winConditions.foreach(game.addWinCondition)
       game
 
     private def getRandomAvailableCard(): CardModel = 
@@ -179,7 +246,7 @@ object GameBuilder:
 
     private def checkExecutedMethods() =
       if executedMethods.values.exists(_ == false) then throw new IllegalStateException("All methods must be executed")
-      if !isCardsInHandCalled && cardsInHandPerPlayer.keySet != players then throw new IllegalStateException("All players must have a number of cards in hand")
+      if !isCardsInHandCalled && cardsInHandPerPlayer.keySet != players.toSet then throw new IllegalStateException("All players must have a number of cards in hand")
 
     private def stringRequirements(s: String, name: String) =
       require(s.nonEmpty, s"$name cannot be empty")

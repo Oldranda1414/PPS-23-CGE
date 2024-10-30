@@ -2,12 +2,12 @@
 
 ## Index
 
-- [Introduction](introduction/index.md)
-- [Development Process](development_process/index.md)
-- [Requirements](requirements/index.md)
-- [Architectural Design](architectural-design/index.md)
-- [Detailed Design](detailed-design/index.md)
-- [Implementation](implementation/index.md)
-- [Conclusion](conclusion/index.md)
+- [Introduction](1_introduction/index.md)
+- [Development Process](2_development_process/index.md)
+- [Requirements](3_requirements/index.md)
+- [Architectural Design](4_architectural_design/index.md)
+- [Detailed Design](5_detailed_design/index.md)
+- [Implementation](6_implementation/index.md)
+- [Conclusion](7_conclusion/index.md)
 
 The development process artifacts can be found [here](process/index.md).

@@ -36,6 +36,15 @@ object ButtonViewManager:
       _ <- WindowState.removeButton(button)
     yield ()
 
+  def clearPanel(panelName: String): Unit =
+    panelButtons.get(panelName) match
+      case Some(buttons) =>
+        panelButtons = panelButtons - panelName
+        buttons.foreach(button =>
+          WindowState.removeComponentFromPanel(panelName, button)
+          WindowState.removeButton(button)
+        )
+      case None => ()
   
   private def createButton(name: String, text: String, x: Int, y: Int, width: Int, height: Int): JButton =
     val jb: JButton = new JButton(text);

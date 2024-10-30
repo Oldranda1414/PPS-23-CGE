@@ -9,39 +9,22 @@ trait GameView:
   /** Shows the game. */
   def show: State[Frame, Stream[String]]
 
-  /**
-    * Add a player to the game view
-    *
-    * @param name the player's name
-    */
-  def addPlayer(name: String): Unit
+  /** Adds a player to the game view. */
+  def addPlayer(name: String): State[Frame, Unit]
 
-  /**
-    * Adds a card to a player
-    *
-    * @param player the name of the player to add the card to
-    * @param cardValue the value of the card
-    * @param cardSuit the suit of the card
-    */
-  def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit
+  /** Adds a card to a player. */
+  def addCardToPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit]
 
-  /**
-    * Adds a button to the gui
-    *
-    * @param text the text to appear in the button
-    * @param name the name of the event the button will trigger
-    * @param x the x position of the button
-    * @param y the y position of the button
-    * @param width the width of the button
-    * @param height the height of the button
-    */
-  def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): Unit
+  /** Removes a card from a player. */
+  def removeCardFromPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit]
 
-  /**
-   * Ends the game displaying the winners.
-   *
-   * @param winners the winners of the game
-   */
+  /** Clears a player's hand. */
+  def clearPlayerHand(player: String): Unit
+
+  /** Adds a button to the GUI. */
+  def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): State[Frame, Unit]
+
+  /** Ends the game, displaying the winners. */
   def endGame(winners: List[String]): State[Frame, Unit]
 
 object GameView:
@@ -49,36 +32,38 @@ object GameView:
 
   private class GameViewImpl(val gameName: String, width: Int, height: Int) extends GameView:
 
-    val singleWinnerLabelPrefix: String = "The winner is "
-    val multiWinnerLabelPrefix: String = "The winners are "
-    val winnerLabelX = 400
-    val winnerLabelY = 500
-    val winnerLabelWidth = 500
-    val winnerLabelHeight = 100
+    // Static configurations for winner labels
+    private val singleWinnerLabelPrefix: String = "The winner is "
+    private val multiWinnerLabelPrefix: String = "The winners are "
+    private val winnerLabelX = 200
+    private val winnerLabelY = 300
+    private val winnerLabelWidth = 500
+    private val winnerLabelHeight = 100
 
-    var windowCreation: State[Frame, Unit] =
-      for
-        _ <- WindowState.setSize(width, height)
-      yield ()
+    private val initialWindowCreation: State[Frame, Unit] = 
+      WindowState.setSize(width, height)
 
-    def show: State[Frame, Stream[String]] =
+    override def show: State[Frame, Stream[String]] =
       for
-        _ <- windowCreation
+        _ <- initialWindowCreation
         _ <- WindowState.show()
         e <- WindowState.eventStream()
       yield e
 
-    def addPlayer(name: String): Unit = 
-      windowCreation = 
-        PlayerViewManager.addPlayer(windowCreation, name)
-    
-    def addCardToPlayer(player: String, cardValue: String, cardSuit: String): Unit =
-      windowCreation = 
-        CardViewManager.addCardToPlayer(windowCreation, player, cardValue, cardSuit)
-    
-    def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): Unit =
-      windowCreation = 
-        ButtonViewManager.addButton(windowCreation, name, text, x, y, width, height)
+    override def addPlayer(name: String): State[Frame, Unit] =
+      PlayerViewManager.addPlayer(initialWindowCreation, name)
+
+    override def addCardToPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
+      CardViewManager.addCardToPlayer(initialWindowCreation, player, cardValue, cardSuit)
+
+    override def removeCardFromPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
+      CardViewManager.removeCardFromPlayer(initialWindowCreation, player, cardValue, cardSuit)
+
+    override def clearPlayerHand(player: String): Unit =
+      CardViewManager.clearPlayerHand(player)
+
+    override def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): State[Frame, Unit] =
+      ButtonViewManager.addButton(initialWindowCreation, name, text, x, y, width, height)
 
     def endGame(winners: List[String]) =
       if winners.size == 0 then
@@ -87,6 +72,6 @@ object GameView:
         displayWinner(singleWinnerLabelPrefix + winners.head)
       else
         displayWinner(multiWinnerLabelPrefix + winners.mkString(", "))
-    
-    def displayWinner(winnerText: String) =
-      for _ <- WindowState.addLabel(winnerText, winnerLabelX, winnerLabelY, winnerLabelWidth, winnerLabelHeight) yield ()
+
+    private def displayWinner(winnerText: String): State[Frame, Unit] =
+      WindowState.addLabel(winnerText, winnerLabelX, winnerLabelY, winnerLabelWidth, winnerLabelHeight)

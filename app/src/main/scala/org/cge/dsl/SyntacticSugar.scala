@@ -1,5 +1,6 @@
 package org.cge.dsl
 
+
 /** Base trait for syntactic sugar */
 trait SyntacticSugar
 
@@ -24,6 +25,25 @@ object SyntacticSugar:
    */
   implicit val random: RandomSyntacticSugar = RandomSyntacticSugar
 
+  /**
+   * Syntactic sugar to make the DSL more readable.
+   * It is used to enable 'game starts from player "Test"'
+   */
+  implicit val from: FromSyntacticSugar = FromSyntacticSugar
+
+  /**
+   * Syntactic sugar to make the DSL more readable.
+   * It is used to enable 'game playing rules are "Test"'
+   * It is used to enable 'game win conditions are (...)'
+   */
+  implicit val conditions: ConditionsSyntacticSugar = ConditionsSyntacticSugar
+
+  /**
+   * Syntactic sugar to make the DSL more readable.
+   * It is used to enable 'game hand rules are (...)'
+   */
+  implicit val rules: RulesSyntacticSugar = RulesSyntacticSugar
+
   /** Specific syntactic sugar for player */
   trait PlayerSyntacticSugar extends SyntacticSugar
 
@@ -33,7 +53,18 @@ object SyntacticSugar:
   /** Specific syntactic sugar for random */
   trait RandomSyntacticSugar extends SyntacticSugar
 
+  /** Specific syntactic sugar for with */
+  trait FromSyntacticSugar extends SyntacticSugar
+  /** Specific syntactic sugar for conditions */
+  trait ConditionsSyntacticSugar extends SyntacticSugar
+
+  /** Specific syntactic sugar for rules */
+  trait RulesSyntacticSugar extends SyntacticSugar
+
   /** Implementation objects for syntactic sugar */
   private object PlayerSyntacticSugar extends PlayerSyntacticSugar
   private object ToSyntacticSugar extends ToSyntacticSugar
   private object RandomSyntacticSugar extends RandomSyntacticSugar
+  private object FromSyntacticSugar extends FromSyntacticSugar
+  private object ConditionsSyntacticSugar extends ConditionsSyntacticSugar
+  private object RulesSyntacticSugar extends RulesSyntacticSugar

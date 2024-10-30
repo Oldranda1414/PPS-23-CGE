@@ -139,6 +139,7 @@ class SwingFunctionalFacade {
                 } catch (InterruptedException ex) {}
             });
             this.jframe.getContentPane().add(jb);
+            this.repaint();
             return this;
         }
 
@@ -148,7 +149,7 @@ class SwingFunctionalFacade {
                 jb.removeActionListener(al);
             }
             this.jframe.getContentPane().remove(jb);
-            this.jframe.repaint();
+            this.repaint();
             return this;
         }
 
@@ -160,7 +161,7 @@ class SwingFunctionalFacade {
             jl.setHorizontalAlignment(SwingConstants.CENTER);
             jl.setBounds(x, y, width, height);
             this.jframe.getContentPane().add(jl);
-            this.jframe.repaint();
+            this.repaint();
             return this;
         }
 

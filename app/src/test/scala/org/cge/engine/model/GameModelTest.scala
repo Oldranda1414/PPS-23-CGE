@@ -13,8 +13,13 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private val winner2 = PlayerModel("winner2")
   private val looser1 = PlayerModel("looser1")
   private val looser2 = PlayerModel("looser2")
-  private val winCondition: WinCondition =
-    (game, player) => player.name.contains("winner")
+  private val card1: CardModel = CardModel("Ace", "Spades")
+  private val card2: CardModel = CardModel("2", "Spades")
+  private val card3: CardModel = CardModel("3", "Clubs")
+  private val winCondition: WinCondition = (game, player) => player.name.contains("winner")
+  private val playingRule: PlayingRule = (table: TableModel, player: PlayerModel, card: CardModel) =>
+    table.cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
+      && card.suit == Suit("Spades")
 
   private def addPlayersToGame(players: List[PlayerModel]) =
     players.foreach(game.addPlayer(_))
@@ -40,13 +45,6 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
 
   test("GameModel should have initialized name"):
     game.name should be (gameName)
-
-  test("GameModel trump should be empty after initializazion"):
-    game.trump should be (None)
-
-  test("GameModel trump should change after setting it"):
-    game.trump = "Spades"
-    game.trump should be (Some("Spades"))
 
   test("GameModel should have a table"):
       game.table mustBe a[TableModel]
@@ -74,3 +72,38 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
   test("TableGameWithWinConditions should output every player as winner if there are no conditions"):
     addPlayersToGame(List(winner1, winner2, looser1, looser2))
     game.winners should be (List(winner1, winner2, looser1, looser2))
+
+  test("Next turn increases the turn"):
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    game.nextTurn()
+    game.turn should be (winner2)
+
+  test("Next turn rounds robin when at the end of the list"):
+    addPlayersToGame(List(winner1, winner2, looser1, looser2))
+    game.nextTurn()
+    game.nextTurn()
+    game.nextTurn()
+    game.nextTurn()
+    game.turn should be (winner1)
+
+  test("In ModelModel it is possible to add playing rules"):
+    game.addPlayingRule(playingRule)
+    game.playingRules should be (List(playingRule))
+
+  test("GameModel should mark a playable card as playable"):
+    game.addPlayingRule(playingRule)
+    winner1.hand.addCard(card2)
+    game.canPlayCard(winner1, card2) should be (true)
+    winner1.hand.removeCard(card2)
+
+  test("GameModel should mark a non-playable card as non-playable"):
+    game.addPlayingRule(playingRule)
+    winner1.hand.addCard(card3)
+    game.canPlayCard(winner1, card3) should be (false)
+    winner1.hand.removeCard(card3)
+
+  test("GameModel should accept playing cards following the added rules"):
+    game.addPlayingRule(playingRule)
+    game.table.playCard(card1)
+    game.table.playCard(card2)
+    game.table.cardsOnTable should be (List(card1, card2))

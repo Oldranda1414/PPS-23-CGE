@@ -9,34 +9,34 @@ import org.cge.dsl.SyntacticSugar._
 import org.cge.engine.model._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.engine.model.GameModel.WinCondition
 import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
+import org.cge.engine.model.PlayingRule
+import org.cge.engine.model.TableModel.HandRule
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  
 
   val wrongClassText: String = "game is not a PuppetBuilder"
 
   protected class PuppetBuilder extends GameBuilder:
-
-    override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
-      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
-      this
-
-    override def currentGameCards: List[CardModel] = List.empty
-
     var name = ""
     var players = List.empty[String]
     var numberOfCards = () => 0
     var cardSuits = Set.empty[Suit]
     var cardRanks = List.empty[Rank]
     var trump: Option[Suit] = None
+    var winConditions = List.empty[WinCondition]
+    val table: TableModel = TableModel()
     var cardsInHandPerPlayer: Map[String, () => Int] = Map.empty
+    var starter = ""
+    var rules: List[PlayingRule] = List.empty
 
     override def setName(name: String): GameBuilder = 
       this.name = name
       this
 
     override def addPlayer(name: String): GameBuilder = 
-      players = players
+      this.players = players :+ name
       this
 
     override def cardsInHand(numberOfCards: () => Int): GameBuilder = 
@@ -56,6 +56,30 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
       trump = Some(suit)
       this
 
+    override def starterPlayer(player: String): GameBuilder = 
+      starter = player
+      this
+
+    override def cardsInHandPerPlayer(numberOfCards: () => Int, player: String): GameBuilder =
+      cardsInHandPerPlayer = cardsInHandPerPlayer + (player -> numberOfCards)
+      this
+
+    override def addPlayingRule(rule: PlayingRule): GameBuilder = 
+      rules = rules :+ rule
+      this
+
+    override def currentGameCards: List[CardModel] = List.empty
+
+    override def currentPlayers: List[PlayerModel] = List(players.map(PlayerModel(_))*)
+
+    override def addWinCondition(winCondition: WinCondition): GameBuilder =
+      winConditions = winConditions :+ winCondition
+      this
+
+    override def addHandRule(handRule: HandRule): GameBuilder =
+      table.addHandRule(handRule)
+      this
+
     override def build: GameModel = GameModel("Puppet")
 
   override def beforeEach(): Unit = 
@@ -68,7 +92,6 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
     val g = game is "Test"
     val builder = new PuppetBuilder()
     builder.setName("Test")
-    println(g.getClass())
     g match 
       case g: PuppetBuilder => g.name shouldBe builder.name
       case _ => fail(wrongClassText)
@@ -104,10 +127,10 @@ class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:
   test("gives random cards to each player should use random values"):
     val g = game gives random cards to each player
     g match 
-      case g: PuppetBuilder => isRandom(g.numberOfCards, 10) shouldBe true
+      case g: PuppetBuilder => isRandom(g.numberOfCards)(10) shouldBe true
       case _ => fail(wrongClassText)
     
   /** Check if a function returns random values based on heuristic */
-  private def isRandom(f: () => Int, trials: Int = 5): Boolean =
+  protected def isRandom(f: () => Int)(trials: Int = 5): Boolean =
     val results = (1 to trials).map(_ => f())
     results.distinct.size > 1

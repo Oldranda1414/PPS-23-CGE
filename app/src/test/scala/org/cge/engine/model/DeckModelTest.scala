@@ -37,3 +37,20 @@ class DeckModelTest extends AnyTest with BeforeAndAfterEach:
     val drawnCards = deck.removeCards(numberOfDrawnCards)
     (drawnCards ++ deck.cards) should be (cards)
 
+  test("Get highest card returns the highest card passed as argument using the deck as comparer"):
+    cards.foreach(deck.addCard(_))
+    val highestCard = deck.getHighestCard(cards)
+    highestCard should be (cards.maxBy(c => deck.cards.indexOf(c)))
+
+  test("getHighestCard throws an IllegalArgumentException if the given cards are not in the deck"):
+    deck.addCard(cards(1))
+    a [IllegalArgumentException] should be thrownBy deck.getHighestCard(List(cards(2)))
+
+  test("removeCard removes the given card from the deck"):
+    cards.foreach(deck.addCard(_))
+    deck.removeCard(cards(1))
+    deck.cards should not contain (cards(1))
+
+  test("removeCard throws an IllegalArgumentException if the given card is not in the deck"):
+    cards.foreach(deck.addCard(_))
+    a [IllegalArgumentException] should be thrownBy deck.removeCard(CardModel("Joker", "Spades"))

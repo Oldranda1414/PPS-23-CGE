@@ -3,18 +3,13 @@ package org.cge.engine.model
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.cge.engine.model.TableModel.PlayingRule
+import org.cge.engine.model.TableModel.HandRule
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:
   var table: TableModel = TableModel()
   val card1: CardModel = CardModel("Ace", "Spades")
   val card2: CardModel = CardModel("2", "Spades")
   val card3: CardModel = CardModel("3", "Clubs")
-
-  // This rule is respected if on the table there are only cards of spades
-  val rule: PlayingRule = (cardsOnTable: List[CardModel], card: CardModel) =>
-    cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
-      && card.suit == Suit("Spades")
 
   override def beforeEach(): Unit =
     table = TableModel()
@@ -46,26 +41,27 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
     val takenCards: List[CardModel] = table.takeCards()
     takenCards should be (List[CardModel]())
 
-  test("In TableModel is possible to add playing rules"):
-    table.addPlayingRule(rule)
-    table.rules should be (List(rule))
+  test("In TableModel it is possible to add a hand rule"):
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
+      true || cardsOnTable == card || card == trump
+    table.addHandRule(handRule)
+    table.handRules should be (List(handRule))
 
-  test("TableModel should mark a playable card as playable"):
-    table.addPlayingRule(rule)
-    table.canPlayCard(card2) should be (true)
-
-  test("TableModel should mark a non-playable card as non-playable"):
-    table.addPlayingRule(rule)
-    table.canPlayCard(card3) should be (false)
-
-  test("TableModel sholud accept playing cards following the added rules"):
-    table.addPlayingRule(rule)
-    table.playCard(card1)
-    table.playCard(card2)
-    table.cardsOnTable should be (List(card1, card2))
-
-  test("TableModel sholud reject playing cards not following the added rules"):
-    table.addPlayingRule(rule)
+  test("TableModel should tell what card on table determines the winning of the current hand"):
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
+      card.suit == trump.getOrElse("")
+    table.trump = "Spades"
+    table.addHandRule(handRule)
     table.playCard(card1)
     table.playCard(card3)
-    table.cardsOnTable should be (List(card1))
+    table.doesCardWinHand(card3) should be (false)
+    table.doesCardWinHand(card1) should be (true)
+
+  test("TableModel doesCardWinHand should return false if the card is not in the current hand"):
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
+      card.suit == trump
+    table.trump = "Spades"
+    table.addHandRule(handRule)
+    table.playCard(card1)
+    table.playCard(card3)
+    table.doesCardWinHand(card2) should be (false)

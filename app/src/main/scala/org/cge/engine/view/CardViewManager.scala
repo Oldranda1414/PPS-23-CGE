@@ -14,6 +14,9 @@ object CardViewManager:
 
   def removeCardFromPlayer(windowState: State[Window, Unit], playerName: String, cardValue: String, cardSuit: String) =
     ButtonViewManager.removeButtonFromPanel(windowState, playerName, cardText(cardValue, cardSuit))
+
+  def clearPlayerHand(playerName: String): Unit =
+    ButtonViewManager.clearPanel(playerName)
   
   def cardEventAndText(playerName: String, cardValue: String, cardSuit: String): (String, String) =
     (cardEvent(playerName, cardValue, cardSuit), cardText(cardValue, cardSuit))

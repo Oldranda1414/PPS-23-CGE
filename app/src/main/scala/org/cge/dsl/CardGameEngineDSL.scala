@@ -4,8 +4,12 @@ import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar._
 import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
+import org.cge.dsl.SyntacticBuilder.StarterBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
+import org.cge.dsl.SyntacticBuilder.AreSyntacticSugarBuilder
+import org.cge.dsl.SyntacticBuilder.ConditionsBuilder
+import org.cge.dsl.SyntacticBuilder.RulesBuilder
 
 object CardGameEngineDSL:
 
@@ -82,3 +86,35 @@ object CardGameEngineDSL:
       * @return the GameBuilder instance
       */
     infix def trumpIs(suit: Suit): GameBuilder = game.setTrump(suit)
+
+    /**
+     * This method is used to set the player that will start the game.
+     * 
+     * @param fromSyntSugar syntactic sugar to enable 'game starts from player "blabla"' syntax
+     * @return the GameBuilder instance
+    */
+    infix def starts(from: FromSyntacticSugar): StarterBuilder = StarterBuilder(game)
+
+    /**
+     * This method is used to set playing rules for the game.
+     * 
+     * @param rules the playing rules
+     * @return a AreSyntacticSugarBuilder instance
+    */
+    infix def playing(rules: RulesSyntacticSugar): AreSyntacticSugarBuilder = AreSyntacticSugarBuilder(game)
+
+    /**
+     * This method is used to set the winning conditions for the game.
+     * 
+     * @param conditions the winning conditions
+     * @return a ConditionsBuilder instance
+    */
+    infix def win(conditions: ConditionsSyntacticSugar): ConditionsBuilder = ConditionsBuilder(game)
+
+    /**
+     * This method is used to set the rules for the game.
+     * 
+     * @param rules the rules
+     * @return a RulesBuilder instance
+    */
+    infix def hand(rules: RulesSyntacticSugar): RulesBuilder = RulesBuilder(game)
