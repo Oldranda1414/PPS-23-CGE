@@ -16,7 +16,7 @@ The project can be divided into two main parts:
 
 The user defined rules for the game are stored entirely in the Model, while the Controller and View are constant for every game iteration. This ensures that the View and Model have no dependency and updates to one of them would only require implementation of new features to them selves or at most the Controller.
 
-<!--- add uml with mvc and engine -->
+TODO add simple uml of the project.
 
 ## DSL
 
