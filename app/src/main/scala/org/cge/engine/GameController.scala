@@ -79,11 +79,7 @@ object GameController:
       val card = CardModel(rank, suit)
       game.players.find(_.name == playerName) match
         case Some(player) =>
-          // require(
-          //   player.hand.cards.contains(card),
-          //   s"Player $playerName does not have card $card"
-          // )
-          if game.turn.name != playerName || !game.table.canPlayCard(card) then
+          if game.turn.name != playerName || !game.canPlayCard(game.turn, card) then
             doNothing()
           else playCard(player, card)
         case None =>

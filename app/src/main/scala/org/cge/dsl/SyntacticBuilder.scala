@@ -3,7 +3,7 @@ package org.cge.dsl
 import org.cge.engine.GameBuilder
 import org.cge.dsl.SyntacticSugar.ToSyntacticSugar
 import org.cge.dsl.SyntacticSugar.PlayerSyntacticSugar
-import org.cge.engine.model.TableModel.PlayingRule
+import org.cge.engine.model.PlayingRule
 import org.cge.dsl.exception.CGESyntaxError
 import org.cge.engine.model.GameModel.WinCondition
 import org.cge.engine.model.TableModel.HandRule

@@ -259,7 +259,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     a [IllegalArgumentException] should be thrownBy gameBuilder.starterPlayer(player2Name)
 
   test("can build playing rules for the game"):
-    val rule = (_: TableModel, _: CardModel) => true
+    val rule = (_: TableModel, _: PlayerModel, _: CardModel) => true
     gameBuilder.addPlayingRule(rule)
       .addPlayer(playerName)
       .cardsInHand(() => 5)
@@ -269,7 +269,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     val game = gameBuilder.build
     game match
       case game: TableGameWithWinConditions => 
-        game.table.playingRules.size should be (1)
+        game.playingRules.size should be (1)
       case _ => fail("Game is not a TableGame")
 
   test("currentPlayers returns the current players that are in the game"):

@@ -11,7 +11,7 @@ import org.cge.dsl.SyntacticBuilder.PlayerBuilder
 import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.engine.model.GameModel.WinCondition
 import org.cge.dsl.SyntacticBuilder.CardSyntSugarBuilder
-import org.cge.engine.model.TableModel.PlayingRule
+import org.cge.engine.model.PlayingRule
 import org.cge.engine.model.TableModel.HandRule
 
 class CardGameEngineDSLTest extends AnyTest with BeforeAndAfterEach:  

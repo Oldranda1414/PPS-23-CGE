@@ -19,11 +19,15 @@ object Main:
     game has player called "Player 4"
     game gives 10 cards to each player
     game starts from player "Player 1"
-    game suitsAre ("Clubs", "Diamonds", "Hearts", "Spades")
+    game suitsAre ("Bastoni", "Denari", "Spade", "Coppe")
     game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
-    game trumpIs "Spades"
-    // game playing rules are:
-    //   (table, cardPlayed) => ???
+    game trumpIs "Bastoni"
+    game playing rules are:
+      (table, player, playerCard) => 
+        player.hand.cards.contains(playerCard) &&
+        (table.cardsOnTable.isEmpty || 
+        (table.cardsOnTable.head.suit == playerCard.suit || player.hand.cards.filter(_.suit == table.cardsOnTable.head.suit).isEmpty))
+        
     game hand rules are:
       (hand, cardPlayed, trump, ranks) => 
         val handSuit = hand.head.suit

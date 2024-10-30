@@ -100,11 +100,9 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
       case _ => fail(wrongClassText)
 
   test("game playing rules are should add a playing rule"):
-    val rule = (table: TableModel, card: CardModel) =>
+    val rule = (table: TableModel, player: PlayerModel, card: CardModel) =>
       table.deck.getHighestCard(table.cardsOnTable :+ card) == card
-    val g = game playing rules are (
-      rule
-    )
+    val g = game playing rules are (rule)
     val builder = new PuppetBuilder()
     builder.addPlayingRule(rule)
     g match

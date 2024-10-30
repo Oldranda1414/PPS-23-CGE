@@ -3,7 +3,6 @@ package org.cge.engine.model
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.cge.engine.model.TableModel.PlayingRule
 import org.cge.engine.model.TableModel.HandRule
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:
@@ -11,11 +10,6 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
   val card1: CardModel = CardModel("Ace", "Spades")
   val card2: CardModel = CardModel("2", "Spades")
   val card3: CardModel = CardModel("3", "Clubs")
-
-  // This rule is respected if on the table there are only cards of spades
-  val playingRule: PlayingRule = (table: TableModel, card: CardModel) =>
-    table.cardsOnTable.filterNot(card => card.suit == Suit("Spades")).size == 0
-      && card.suit == Suit("Spades")
 
   override def beforeEach(): Unit =
     table = TableModel()
@@ -46,30 +40,6 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
   test("TableModel takeCards should return an empty list if no card has been played"):
     val takenCards: List[CardModel] = table.takeCards()
     takenCards should be (List[CardModel]())
-
-  test("In TableModel it is possible to add playing rules"):
-    table.addPlayingRule(playingRule)
-    table.playingRules should be (List(playingRule))
-
-  test("TableModel should mark a playable card as playable"):
-    table.addPlayingRule(playingRule)
-    table.canPlayCard(card2) should be (true)
-
-  test("TableModel should mark a non-playable card as non-playable"):
-    table.addPlayingRule(playingRule)
-    table.canPlayCard(card3) should be (false)
-
-  test("TableModel sholud accept playing cards following the added rules"):
-    table.addPlayingRule(playingRule)
-    table.playCard(card1)
-    table.playCard(card2)
-    table.cardsOnTable should be (List(card1, card2))
-
-  test("TableModel sholud reject playing cards not following the added rules"):
-    table.addPlayingRule(playingRule)
-    table.playCard(card1)
-    table.playCard(card3)
-    table.cardsOnTable should be (List(card1))
 
   test("In TableModel it is possible to add a hand rule"):
     val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>

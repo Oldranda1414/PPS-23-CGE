@@ -16,10 +16,15 @@ trait GameModel:
   def addWinCondition(winCondition: WinCondition): Unit
   def winConditions: List[WinCondition]
   def winners: List[PlayerModel]
+  def addPlayingRule(rule: PlayingRule): Unit
+  def playingRules: List[PlayingRule]
+  def canPlayCard(player: PlayerModel, card: CardModel): Boolean
   def playCard(player: PlayerModel, card: CardModel): Boolean
   def computeHandEnd(): Unit
 
+type PlayingRule = (TableModel, PlayerModel, CardModel) => Boolean
 object GameModel:
+
   def apply(name: String): GameModel = TableGameWithWinConditions(name)
 
   abstract class SimpleGame(val name: String) extends GameModel:
@@ -53,14 +58,22 @@ object GameModel:
   class TableGameWithWinConditions(name:String) extends SimpleGame(name):
     val table: TableModel = TableModel()
     var winConditions: List[WinCondition] = List.empty
+    var playingRules: List[PlayingRule] = List.empty
+
+    def addPlayingRule(rule: PlayingRule): Unit = playingRules = playingRules :+ rule
+
+    def canPlayCard(player: PlayerModel, card: CardModel): Boolean =
+      player.hand.cards.contains(card) && playingRules
+        .map[Boolean](r =>
+          r(table, player, card)
+        ).forall(identity)
 
     override def playCard(player: PlayerModel, card: CardModel): Boolean = 
-      if table.canPlayCard(card) then super.playCard(player, card)
+      if canPlayCard(player, card) then super.playCard(player, card)
       else false
 
     def computeHandEnd(): Unit = 
       val winningCard = table.cardsOnTable.find(table.doesCardWinHand)
-      println(s"winningCard: $winningCard")
       winningCard match
         case Some(card) => 
           val handWinner = players.find(_.playedCards.cards.contains(card))
@@ -80,7 +93,3 @@ object GameModel:
     
     private def satisfyEveryWinCondition(player: PlayerModel) =
       winConditions.forall(cond => cond(this, player))
-
-
-
-

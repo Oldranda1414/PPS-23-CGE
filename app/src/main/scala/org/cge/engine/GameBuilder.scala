@@ -4,9 +4,9 @@ import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
 import org.cge.engine.data._
+import org.cge.engine.model.PlayingRule
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
-import org.cge.engine.model.TableModel.PlayingRule
 import org.cge.engine.model.GameModel.WinCondition
 import org.cge.engine.model.TableModel.HandRule
 import org.cge.engine.model.TableModel
@@ -224,7 +224,7 @@ object GameBuilder:
           game.table.trump = suit
         case None => ()
 
-      tableRules.foreach(game.table.addPlayingRule)
+      tableRules.foreach(game.addPlayingRule)
       availableCards.foreach(game.table.deck.addCard)
       table.handRules.foreach(game.table.addHandRule)
       players.foreach { name =>
