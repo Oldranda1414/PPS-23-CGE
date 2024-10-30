@@ -1,5 +1,13 @@
 # Requirements
 
+- [Business Requirements](#business-requirements)
+- [Domain Requirements](#domain-requirements)
+- [Functional Requirements](#functional-requirements)
+  - [User Functional Requirements](#user-functional-requirements)
+  - [System Functional Requirements](#system-functional-requirements)
+- [Non-Functional Requirements](#non-functional-requirements)
+- [Implementation Requirements](#implementation-requirements)
+
 During project analysis the following requirements have been identified.
 
 ## Business Requirements
@@ -53,6 +61,6 @@ During project analysis the following requirements have been identified.
 - The DSL should provide a clear separation between the DSL definition and the game logic.
 - The codebase should be well-organized, documented, and maintainable.
 
-[Back to index](../index.md) | 
-[Previous Chapter](../development_process/index.md) | 
-[Next Chapter](../architectural_design/index.md)
+[Back to index](../index.md) |
+[Previous Chapter](../2_development_process/index.md) |
+[Next Chapter](../4_architectural_design/index.md)
