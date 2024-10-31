@@ -62,9 +62,7 @@ object GameController:
             case s if game.players.map(_.name).contains(eventName) =>
               handleCardPlayed(s, parsedEvent(1))
             case _ =>
-              throw new IllegalStateException(
-                s"Event $eventName not recognized"
-              )
+              doNothing()
         ))
       yield ()
 
@@ -101,7 +99,7 @@ object GameController:
       gameView.clearPlayerHand(tablePlayerName)
 
     private def moveCardToTable(player: PlayerModel, card: CardModel): State[Window, Unit] =
-      gameView
+      val state = gameView
         .removeCardFromPlayer(
           player.name,
           card.rank.toString(),
@@ -113,10 +111,12 @@ object GameController:
               tablePlayerName,
               card.rank.toString(),
               card.suit.toString()
-            )
-            .flatMap(_ =>
-              if game.winners.nonEmpty then
-                gameView.endGame(game.winners.map(_.name))
-              else doNothing()
-            )
-        )
+            ))
+      if game.players.forall(_.hand.cards.isEmpty) then
+          state.flatMap(_ =>
+            if game.winners.nonEmpty then
+              gameView.endGame(game.winners.map(_.name))
+            else doNothing()
+          )
+      else
+        state

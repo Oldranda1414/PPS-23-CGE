@@ -21,9 +21,6 @@ object ButtonViewManager:
       case Some(buttons) => Some(button :: buttons)
       case None => Some(List(button))
 
-    if panelName == "table" then
-      println(panelButtons(panelName).size)
-
     for
       _ <- windowState
       _ <- WindowState.addButton(button, eventName)
@@ -51,7 +48,6 @@ object ButtonViewManager:
         // yield()
         panelButtons = panelButtons - panelName
         buttons.foreach(button =>
-          println(button.getText())
           newWindowState = for
             _ <- newWindowState
             _ <- WindowState.removeComponentFromPanel(panelName, button)
