@@ -40,12 +40,6 @@ object ButtonViewManager:
     var newWindowState: State[Window, Unit] = windowState
     panelButtons.get(panelName) match
       case Some(buttons) =>
-        // val button = buttons.head
-        // for 
-        //   _ <- windowState
-        //   _ <- WindowState.removeComponentFromPanel(panelName, button)
-        //   _ <- WindowState.removeButton(button)
-        // yield()
         panelButtons = panelButtons - panelName
         buttons.foreach(button =>
           newWindowState = for
