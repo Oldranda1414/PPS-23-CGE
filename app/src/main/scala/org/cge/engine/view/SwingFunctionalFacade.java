@@ -25,8 +25,6 @@ class SwingFunctionalFacade {
         Frame addComponent(String name, Component component);
         Frame removeComponent(String name);
         Frame setComponentBounds(String name, int x, int y, int width, int height);
-        Frame repaint();
-        Frame dispose();
     }
 
     public static Frame createFrame() {
@@ -117,6 +115,7 @@ class SwingFunctionalFacade {
             if (component != null) {
                 component.setBounds(x, y, width, height);
             }
+            this.repaint();
             return this;
         }
 
@@ -176,15 +175,8 @@ class SwingFunctionalFacade {
             return events;
         }
 
-        @Override
-        public Frame repaint() {
+        private Frame repaint() {
             this.jframe.repaint();
-            return this;
-        }
-
-        @Override
-        public Frame dispose() {
-            this.jframe.dispose();
             return this;
         }
     }

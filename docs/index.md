@@ -8,6 +8,7 @@
 - [Architectural Design](4_architectural_design/index.md)
 - [Detailed Design](5_detailed_design/index.md)
 - [Implementation](6_implementation/index.md)
-- [Conclusion](7_conclusion/index.md)
+- [Testing](7_testing/index.md)
+- [Conclusion](8_conclusion/index.md)
 
 The development process artifacts can be found [here](process/index.md).

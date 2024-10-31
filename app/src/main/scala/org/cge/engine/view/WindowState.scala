@@ -52,14 +52,8 @@ object WindowState:
   def show(): State[Window, Unit] =
     State { w => (w.show(), {}) }
 
-  def repaint(): State[Window, Unit] =
-    State { w => (w.repaint(), {}) }
-
   def eventStream(): State[Window, Stream[String]] =
     State { w => (w, Stream.generate(() => w.events().get)) }
-
-  def dispose(): State[Window, Unit] =
-    State { w => (w.dispose(), {}) }
   
   def exec(cmd: =>Unit): State[Window, Unit] =
     State(w => (w, cmd))
