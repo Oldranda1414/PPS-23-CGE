@@ -42,8 +42,7 @@ class TableModelTest extends AnyTest with BeforeAndAfterEach:
     takenCards should be (List[CardModel]())
 
   test("In TableModel it is possible to add a hand rule"):
-    val handRule: HandRule = (cardsOnTable, card, trump, ranks) =>
-      true || cardsOnTable == card || card == trump
+    val handRule: HandRule = (cardsOnTable, card, trump, ranks) => true
     table.addHandRule(handRule)
     table.handRules should be (List(handRule))
 

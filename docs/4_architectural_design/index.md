@@ -24,7 +24,15 @@ The DSL provides a Domain Specific Language to enable the user to define a card 
 
 The game being defined is them created using the Engine and run, allowing the user to play the card game.
 
+The DSL uses a builder pattern to interact with engine (explain better pls).
+
+TODO small uml of dsl structure
+
 ## Engine
+
+The Controller and View communicate using a publish-subscribe pattern. The View publishes events, which correspond to user interactions. The Controller will then subscribe to the events and react by updating the Model and the View accordingly.
+
+TODO small uml of the engine
 
 ### Model
 

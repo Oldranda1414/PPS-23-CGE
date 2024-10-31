@@ -69,8 +69,7 @@ object GameModel:
         ).forall(identity)
 
     override def playCard(player: PlayerModel, card: CardModel): Boolean = 
-      if canPlayCard(player, card) then super.playCard(player, card)
-      else false
+      canPlayCard(player, card) && super.playCard(player, card)
 
     def computeHandEnd(): Unit = 
       val winningCard = table.cardsOnTable.find(table.doesCardWinHand)
