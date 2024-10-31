@@ -11,13 +11,34 @@ Partendo dal fatto che il model prevede un `GameModel`, ovvero una struttura dat
 Essendo la sfida non banale si è deciso di suddividere il lavoro in due parti:
 
 - `GameBuilder`: il vero e proprio builder che incapsula la logica per costruire un `GameModel`;
-- `CardGameEngineDSL`: un elenco di _extension methods_ in grado di estendere la classe `GameBuilder` tramite parole il più vicine possibile al linguaggio naturale.
+- `CardGameEngineDSL`: _extension methods_ per `GameBuilder` che sfruttano il _fluent interface pattern_ e altri espedienti per creare frasi in linguaggio umano.
 
 Un primo schema di massima viene riportato di seguito:
 
-![Game Builder overview](./uml/DSL-Overview.png)
+![Game Builder Overview](./uml/DSL-Overview.png)
 
-Volendo avvicinarci il più possibile al linguaggio naturale, i metodi all'interno del DSL non risultano espressivi se elencati in un diagramma delle classi come il precedente. Per capirne meglio le funzionalità, preferisco prima portare un esempio di codice che utilizzi il DSL e poi spiegare come è stato realizzato.
+### GameBuilder
+
+Il `GameBuilder` è la classe in grado di creare una istanza del GameModel coerente e pronta all'uso.
+
+Seguendo le linee guida del _builder pattern_ si sono costruite funzionalità che fossero il più semplici possibile potendo customizzare il GameModel un tassello alla volta.
+
+Per questo motivo sono stati stilati i metodi riportati nell'UML seguente.
+
+![Game Builder](./uml/Game-Builder.png)
+
+Note importanti fatte a livello di design sono:
+
+- è molto frequente che giochi di carte distribuiscano lo stesso numero di carte ai giocatori per questo motivo si è creato il metodo `cardsInHand` che fa esattamente questo.
+- per evitare la difficoltà di definire un ordinamento tra le carte, si è deciso di richiedere i _rank_ già ordinati, esplicitando questa cosa con il metodo `addOrderedRanks`.
+
+### CardGameEngineDSL
+
+Il design del Domain Specific Language si differenzia dal classico design associato ad un diagramma delle classi. In questo caso il design si è concentrato maggiormente sul come scrivere certe frasi piuttosto che sul come organizzare metodi e relazioni tra le classi.
+
+Il DSL non ha infatti stato modificabile, quello che fa è fare _parsing_ delle frasi espresse traducendole in comandi per il builder sottostante.
+
+Si lascia quindi una frase d'esempio da cui si sono stilate le parole chiave del DSL.
 
 ```scala
 game is "Simple Game"
@@ -31,19 +52,16 @@ game ranksAre ("Asso", "2", "3", "4", "5", "6", "7", "Fante", "Cavallo", "Re")
 game trumpIs "Bastoni"
 ```
 
-Ognuna di queste frasi doveva quindi chiamare uno o più metodi del `GameBuilder` in modo tale che fosse possibile costruire un `GameModel` in modo incrementale. Si è arrivati dunque alla soluzione seguente:
+Note importanti fatte a livello di design sono:
 
-![DSL Game Builder](./uml/DSL-Game-Builder.png)
+- affinchè il DSL potesse accedere al `GameBuilder` si è deciso di definire i suoi metodi come _extension methods_ del builder;
+- essendo _extension methods_ del builder, la prima parola di ogni frase del DSL deve poter restituire il `GameBuilder`;
+- affinchè si possa usare la notazione infissa e fare chiamate a metodo senza la necessità dell'utilizzo di parentesi è necessario che i metodi abbiano esattamente un parametro in input;
+- al fine di forzare la corretta sintassi si è utilizzato il _fluent interface pattern_;
+- per sopperire alla necessità di avere sempre un parametro in input per ogni metodo, si sono costruiti degli `object` che potessero essere passsati per poter continuare le frasi.
 
-## Implementazione
+Dopo queste analisi si è quindi stilato il dsl come segue:
 
-Il design è partito proprio da questo tipo di frasi e da qui si sono sviluppati i concetti chiave.
+![DSL](./uml/DSL.png)
 
-Sin da subito si è notato che c'era bisogno di tanti costrutti che facessero da riempitivi, in modo tale da fare frasi di senso compiuto, anche se di fatto non aggiungevano informazioni al modello. Tali costrutti sono stati raggruppati all'interno della categoria `SyntacticSugar`.
-
-Ne sono stati costruiti due tipi:
-
-- `SyntacticBuilders` - classi con uno o pochi metodi che servono a costruire parti di frasi (similmente a come fa il _fluent interface pattern_);
-- `SyntacticSugars` - oggetti definiti come impliciti e senza metodi, utilizzati come parametri da passare ai metodi del DSL.
-
-La base da cui parte ogni cosa è `game`.
+Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
