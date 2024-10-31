@@ -62,13 +62,13 @@ Note importanti fatte a livello di design sono:
 
 Dopo queste analisi si è quindi stilato il dsl come segue:
 
-![DSL](../../uml/DSL.png)
+![DSL](../uml/DSL.png)
 
 Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
 
 ## Conclusioni
 
-Credo che il prossimo sprint avrebbe riguardato un refactor 
+Credo che il prossimo sprint avrebbe riguardato un refactor del game builder per spezzarlo in più parti. Di coseguenza, essendo che il DSL mappa il builder, si sarebbe applicata una soluzione del genere anche ad esso.
 
 ## PENSIERI
 
@@ -78,5 +78,11 @@ Quindi:
 
 - design di dettaglio: quanto detto prima
 - implementazione, quello che ho riportato in questo documento e magari qualcosina sul controller. Non ho messo niente perchè non so come vogliate dividervelo ma gardirei mi fosse riconosciuto qualcosina.
+
+Io direi nelle conclusioni anche il fatto che non ci siamo resi conto che nessuno stesse facendo il controller. Lo riporto qui e non direttamente nelle mie conclusioni perchè
+
+1. non so se vada bene la sezione (non è relativo agli sviluppi futuri ma a come stavamo facendo le cose);
+2. non so se siete d'accordo
+
 [Back to index](../../index.md) |
 [Back to implementation](../index.md)
