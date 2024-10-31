@@ -40,5 +40,10 @@ object Main:
           leadingSuitsInHand.maxBy(c => ranks.indexOf(c.rank))
         cardPlayed == winningCard
     game win conditions are:
-      (g, p) => p.hand.cards.isEmpty
+      (g, p) => 
+        val nordSudCouple = List(g.players(0), g.players(2))
+        val eastWestCouple = List(g.players(1), g.players(3))
+        val playerCouple = if nordSudCouple.contains(p) then nordSudCouple else eastWestCouple
+        val enemyCouple = if nordSudCouple.contains(p) then eastWestCouple else nordSudCouple
+        playerCouple.map(_.points).sum > enemyCouple.map(_.points).sum
     GameController(game.build).startGame
