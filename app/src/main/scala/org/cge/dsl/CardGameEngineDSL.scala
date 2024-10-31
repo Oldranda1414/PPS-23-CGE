@@ -7,9 +7,9 @@ import org.cge.dsl.SyntacticBuilder.CountCardBuilder
 import org.cge.dsl.SyntacticBuilder.StarterBuilder
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
-import org.cge.dsl.SyntacticBuilder.AreSyntacticSugarBuilder
+import org.cge.dsl.SyntacticBuilder.PlayingRulesBuilder
 import org.cge.dsl.SyntacticBuilder.ConditionsBuilder
-import org.cge.dsl.SyntacticBuilder.RulesBuilder
+import org.cge.dsl.SyntacticBuilder.HandRulesBuilder
 
 object CardGameEngineDSL:
 
@@ -99,9 +99,9 @@ object CardGameEngineDSL:
      * This method is used to set playing rules for the game.
      * 
      * @param rules the playing rules
-     * @return a AreSyntacticSugarBuilder instance
+     * @return a PlayingRulesBuilder instance
     */
-    infix def playing(rules: RulesSyntacticSugar): AreSyntacticSugarBuilder = AreSyntacticSugarBuilder(game)
+    infix def playing(rules: RulesSyntacticSugar): PlayingRulesBuilder = PlayingRulesBuilder(game)
 
     /**
      * This method is used to set the winning conditions for the game.
@@ -115,6 +115,6 @@ object CardGameEngineDSL:
      * This method is used to set the rules for the game.
      * 
      * @param rules the rules
-     * @return a RulesBuilder instance
+     * @return a HandRulesBuilder instance
     */
-    infix def hand(rules: RulesSyntacticSugar): RulesBuilder = RulesBuilder(game)
+    infix def hand(rules: RulesSyntacticSugar): HandRulesBuilder = HandRulesBuilder(game)

@@ -93,8 +93,9 @@ object GameController:
       if turnCounter == game.players.size then
         turnCounter = 0
         endHand()
-        println("printing points for players")
+        println("Hand ended")
         game.players.foreach(p => println(s"${p.name}: ${p.points}"))
+        println(s"This hand is starting ${game.turn.name}")
       moveCardToTable(player, card)
   
     private def endHand(): Unit =
