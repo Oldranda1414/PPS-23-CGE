@@ -1,4 +1,4 @@
-# Qui metterò tutte le informazioni riguardanti il mio lavoro (in italiano)
+# Filippo Gurioli
 
 ## Overview
 
@@ -15,7 +15,7 @@ Essendo la sfida non banale si è deciso di suddividere il lavoro in due parti:
 
 Un primo schema di massima viene riportato di seguito:
 
-![Game Builder Overview](./uml/DSL-Overview.png)
+![Game Builder Overview](../uml/DSL-Overview.png)
 
 ### GameBuilder
 
@@ -25,7 +25,7 @@ Seguendo le linee guida del _builder pattern_ si sono costruite funzionalità ch
 
 Per questo motivo sono stati stilati i metodi riportati nell'UML seguente.
 
-![Game Builder](./uml/Game-Builder.png)
+![Game Builder](../uml/Game-Builder.png)
 
 Note importanti fatte a livello di design sono:
 
@@ -62,7 +62,7 @@ Note importanti fatte a livello di design sono:
 
 Dopo queste analisi si è quindi stilato il dsl come segue:
 
-![DSL](./uml/DSL.png)
+![DSL](../../uml/DSL.png)
 
 Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
 
@@ -78,3 +78,5 @@ Quindi:
 
 - design di dettaglio: quanto detto prima
 - implementazione, quello che ho riportato in questo documento e magari qualcosina sul controller. Non ho messo niente perchè non so come vogliate dividervelo ma gardirei mi fosse riconosciuto qualcosina.
+[Back to index](../../index.md) |
+[Back to implementation](../index.md)

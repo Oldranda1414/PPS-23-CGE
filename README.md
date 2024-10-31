@@ -1,4 +1,4 @@
-# PPS-23-chess
+# PPS-23-CGE
 
 Project for the course _Paradigmi di Programmazione e Sviluppo_.
 
