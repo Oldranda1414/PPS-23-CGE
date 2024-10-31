@@ -37,19 +37,23 @@ object GameController:
 
     def startGame: Unit =
 
-      val initialState =
-        game.players.foldLeft(gameView.addPlayer(tablePlayerName)):
-          (state, player) =>
-            player.hand.cards.foldLeft(
-              state.flatMap(_ => gameView.addPlayer(player.name))
-            ): (innerState, card) =>
-              innerState.flatMap(_ =>
-                gameView.addCardToPlayer(
-                  player.name,
-                  card.rank.toString,
-                  card.suit.toString
-                )
-              )
+      val initialState = 
+        for 
+          _ <- gameView.addPlayer(tablePlayerName)
+          _ <- game.players.foldLeft(doNothing(): State[Window, Unit]):
+            (state, player) =>
+              for
+                _ <- state
+                _ <- gameView.addPlayer(player.name)
+                _ <- player.hand.cards.foldLeft(doNothing(): State[Window, Unit]):
+                  (innerState, card) =>
+                    for
+                      _ <- innerState
+                      _ <- gameView.addCardToPlayer(player.name, card.rank.toString, card.suit.toString)
+                    yield ()
+              yield ()
+        yield ()
+
 
       val windowCreation = initialState.flatMap(_ => gameView.show)
 
@@ -68,6 +72,8 @@ object GameController:
 
       windowEventsHandling.run(WindowState.initialWindow)
 
+    private def doNothing(): State[Window, Unit] = State(s => (s, ()))
+
     private def handleCardPlayed(
         playerName: String,
         cardFromEvent: String
@@ -83,8 +89,6 @@ object GameController:
         case None =>
           throw new NoSuchElementException(s"Player $playerName not found")
 
-    private def doNothing(): State[Window, Unit] = State(s => (s, ()))
-
     private def playCard(player: PlayerModel, card: CardModel) =
       turnCounter += 1
       game.playCard(player, card)
@@ -99,24 +103,17 @@ object GameController:
       gameView.clearPlayerHand(tablePlayerName)
 
     private def moveCardToTable(player: PlayerModel, card: CardModel): State[Window, Unit] =
-      val state = gameView
-        .removeCardFromPlayer(
-          player.name,
-          card.rank.toString(),
-          card.suit.toString()
-        )
-        .flatMap(_ =>
-          gameView
-            .addCardToPlayer(
-              tablePlayerName,
-              card.rank.toString(),
-              card.suit.toString()
-            ))
-      if game.players.forall(_.hand.cards.isEmpty) then
-          state.flatMap(_ =>
-            if game.winners.nonEmpty then
-              gameView.endGame(game.winners.map(_.name))
-            else doNothing()
-          )
-      else
-        state
+      val rank = card.rank.toString
+      val suit = card.suit.toString
+
+      for
+        _ <- gameView.removeCardFromPlayer(player.name, rank, suit)
+        _ <- gameView.addCardToPlayer(tablePlayerName, rank, suit)
+        _ <- if game.players.forall(_.hand.cards.isEmpty) then
+              if game.winners.nonEmpty then
+                gameView.endGame(game.winners.map(_.name))
+              else
+                gameView.endGame(List("no one :P"))
+        else
+          doNothing()
+      yield ()
