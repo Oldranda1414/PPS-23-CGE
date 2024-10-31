@@ -111,18 +111,16 @@ class CGEDSLFirstRuleSetExpansionTest extends CardGameEngineDSLTest:
       case _ => fail(wrongClassText)
 
   test("win conditions are should set win conditions"):
-    val wc1: WinCondition = (game, player) => true
-    val wc2: WinCondition = (game, player) => true
+    val wc1: WinCondition = (_, _) => true
+    val wc2: WinCondition = (_, _) => true
     val g = game win conditions are (wc1, wc2)
     g match
       case g: PuppetBuilder => g.winConditions should be (List(wc1, wc2))
       case _ => fail("game is not a PuppetBuilder")
 
   test("hand rules are should set hand rules"):
-    val hr1: HandRule = (cardsOnTable, card, trump, ranks) =>
-      true
-    val hr2: HandRule = (cardsOnTable, card, trump, ranks) =>
-      true
+    val hr1: HandRule = (_, _, _, _) => true
+    val hr2: HandRule = (_, _, _, _) => true
     val g = game hand rules are (hr1, hr2)
     g match
       case g: PuppetBuilder => g.table.handRules should be (List(hr1, hr2))

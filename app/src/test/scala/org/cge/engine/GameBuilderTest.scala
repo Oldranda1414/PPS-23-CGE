@@ -153,7 +153,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     a [IllegalArgumentException] should be thrownBy gameBuilder.build
 
   test("a win condition can be added"):
-    val wc1: WinCondition = (game, player) => true
+    val wc1: WinCondition = (_, _) => true
     gameBuilder.addSuit("Clubs")
       .setName("Game name")
       .addPlayer("Player 1")
@@ -164,7 +164,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
     game.winConditions should be (List(wc1))
 
   test("a hand rule can be added"):
-    val hr1: HandRule = (cardsOnTable, card, trump, ranks) => true
+    val hr1: HandRule = (_, _, _, _) => true
     gameBuilder.addSuit(suits(1))
       .setName("Game name")
       .addPlayer("Player 1")
