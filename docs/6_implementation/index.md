@@ -19,4 +19,4 @@ The following parts have been developed in pair programming.
 
 [Back to index](../index.md) |
 [Previous Chapter](../5_detailed_design/index.md) |
-[Next Chapter](../7_conclusion/index.md)
+[Next Chapter](../7_testing/index.md)
