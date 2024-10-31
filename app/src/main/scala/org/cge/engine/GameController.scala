@@ -92,13 +92,11 @@ object GameController:
       game.playCard(player, card)
       if turnCounter == game.players.size then
         turnCounter = 0
-        endHand()
-        println("Hand ended")
-        game.players.foreach(p => println(s"${p.name}: ${p.points}"))
-        println(s"This hand is starting ${game.turn.name}")
-      moveCardToTable(player, card)
+        moveCardToTable(player, card).flatMap(_ =>
+          endHand())
+      else moveCardToTable(player, card)
   
-    private def endHand(): Unit =
+    private def endHand(): State[Window, Unit] =
       game.computeHandEnd()
       gameView.clearPlayerHand(tablePlayerName)
 

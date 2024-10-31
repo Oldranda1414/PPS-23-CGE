@@ -21,6 +21,9 @@ object ButtonViewManager:
       case Some(buttons) => Some(button :: buttons)
       case None => Some(List(button))
 
+    if panelName == "table" then
+      println(panelButtons(panelName).size)
+
     for
       _ <- windowState
       _ <- WindowState.addButton(button, eventName)
@@ -36,15 +39,28 @@ object ButtonViewManager:
       _ <- WindowState.removeButton(button)
     yield ()
 
-  def clearPanel(panelName: String): Unit =
+  def clearPanel(windowState: State[Window, Unit], panelName: String): State[Window, Unit] =
+    var newWindowState: State[Window, Unit] = windowState
     panelButtons.get(panelName) match
       case Some(buttons) =>
+        // val button = buttons.head
+        // for 
+        //   _ <- windowState
+        //   _ <- WindowState.removeComponentFromPanel(panelName, button)
+        //   _ <- WindowState.removeButton(button)
+        // yield()
         panelButtons = panelButtons - panelName
         buttons.foreach(button =>
-          WindowState.removeComponentFromPanel(panelName, button)
-          WindowState.removeButton(button)
+          println(button.getText())
+          newWindowState = for
+            _ <- newWindowState
+            _ <- WindowState.removeComponentFromPanel(panelName, button)
+            _ <- WindowState.removeButton(button)
+          yield ()
         )
-      case None => ()
+      case None => throw new Exception("something is wrong")
+
+    newWindowState
   
   private def createButton(name: String, text: String, x: Int, y: Int, width: Int, height: Int): JButton =
     val jb: JButton = new JButton(text);
