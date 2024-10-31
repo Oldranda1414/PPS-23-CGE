@@ -65,3 +65,16 @@ Dopo queste analisi si è quindi stilato il dsl come segue:
 ![DSL](./uml/DSL.png)
 
 Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
+
+## Conclusioni
+
+Credo che il prossimo sprint avrebbe riguardato un refactor 
+
+## PENSIERI
+
+Guardando come hanno fatto la doc quelli di _chess_ credo sia meglio mettere nel design di dettaglio tutta la logica di cos'è una "hand", cos'è una "win condition", cos'è un "table" etc etc. Qui non ne ho parlato per questo motivo.
+
+Quindi:
+
+- design di dettaglio: quanto detto prima
+- implementazione, quello che ho riportato in questo documento e magari qualcosina sul controller. Non ho messo niente perchè non so come vogliate dividervelo ma gardirei mi fosse riconosciuto qualcosina.
