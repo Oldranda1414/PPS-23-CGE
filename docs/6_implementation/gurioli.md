@@ -2,43 +2,37 @@
 
 ## Overview
 
-Il mio lavoro si concentra sull'implementare il DSL in modo che l'utente possa esprimere in linguaggio naturale definizioni, regole e comportamenti di un gioco di carte.
+My work focuses on implementing a Domain-Specific Language (DSL) that allows users to naturally express the definitions, rules, and behaviors of a card game.
 
 ## Design
 
-Partendo dal fatto che il model prevede un `GameModel`, ovvero una struttura dati che contiene tutte le informazioni necessarie per definire un gioco di carte, il DSL deve di fatto rappresentare un _builder_ per questa classe. Per builder si intende un oggetto in grado di costruire un'altra classe, in questo caso `GameModel`, in modo incrementale.
+Based on the fact that the model includes a `GameModel`, which is a data structure containing all the necessary information to define a card game, the DSL must essentially act as a builder for this class. A builder is an object capable of incrementally constructing another class, in this case, `GameModel`.
 
-Essendo la sfida non banale si è deciso di suddividere il lavoro in due parti:
+Given the complexity of this task, the work has been divided into two parts:
 
-- `GameBuilder`: il vero e proprio builder che incapsula la logica per costruire un `GameModel`;
-- `CardGameEngineDSL`: _extension methods_ per `GameBuilder` che sfruttano il _fluent interface pattern_ e altri espedienti per creare frasi in linguaggio umano.
+- `GameBuilder`: The actual builder that encapsulates the logic to construct a `GameModel`.
+- `CardGameEngineDSL`: Extension methods for `GameBuilder` that utilize the fluent interface pattern and other techniques to create human-readable sentences.
 
-Un primo schema di massima viene riportato di seguito:
-
+Below is an initial schematic:
 ![Game Builder Overview](../uml/DSL-Overview.png)
 
 ### GameBuilder
 
-Il `GameBuilder` è la classe in grado di creare una istanza del GameModel coerente e pronta all'uso.
+The `GameBuilder` class is capable of creating a consistent and ready-to-use instance of the `GameModel`. Following the guidelines of the builder pattern, functionalities were designed to be as simple as possible, allowing the `GameModel` to be customized piece by piece.
 
-Seguendo le linee guida del _builder pattern_ si sono costruite funzionalità che fossero il più semplici possibile potendo customizzare il GameModel un tassello alla volta.
-
-Per questo motivo sono stati stilati i metodi riportati nell'UML seguente.
-
+For this reason, the methods shown in the following UML diagram were created.
 ![Game Builder](../uml/Game-Builder.png)
 
-Note importanti fatte a livello di design sono:
+Important design notes:
 
-- è molto frequente che giochi di carte distribuiscano lo stesso numero di carte ai giocatori per questo motivo si è creato il metodo `cardsInHand` che fa esattamente questo.
-- per evitare la difficoltà di definire un ordinamento tra le carte, si è deciso di richiedere i _rank_ già ordinati, esplicitando questa cosa con il metodo `addOrderedRanks`.
+- It is common for card games to deal the same number of cards to players, so the `cardsInHand` method was created to do just that.
+- To avoid the complexity of defining an order among cards, it was decided to require pre-ordered ranks, explicitly addressed by the `addOrderedRanks` method.
 
 ### CardGameEngineDSL
 
-Il design del Domain Specific Language si differenzia dal classico design associato ad un diagramma delle classi. In questo caso il design si è concentrato maggiormente sul come scrivere certe frasi piuttosto che sul come organizzare metodi e relazioni tra le classi.
+The design of the Domain-Specific Language (DSL) differs from the classic design associated with a class diagram. In this case, the design focused more on how to write certain sentences rather than how to organize methods and relationships between classes. The DSL does not have a mutable state; instead, it parses the expressed sentences and translates them into commands for the underlying builder.
 
-Il DSL non ha infatti stato modificabile, quello che fa è fare _parsing_ delle frasi espresse traducendole in comandi per il builder sottostante.
-
-Si lascia quindi una frase d'esempio da cui si sono stilate le parole chiave del DSL.
+Here is an example sentence from which the DSL keywords were derived:
 
 ```scala
 game is "Simple Game"
@@ -52,33 +46,32 @@ game ranksAre ("Asso", "2", "3", "4", "5", "6", "7", "Fante", "Cavallo", "Re")
 game trumpIs "Bastoni"
 ```
 
-Note importanti fatte a livello di design sono:
+Important design notes include:
 
-- affinchè il DSL potesse accedere al `GameBuilder` si è deciso di definire i suoi metodi come _extension methods_ del builder;
-- essendo _extension methods_ del builder, la prima parola di ogni frase del DSL deve poter restituire il `GameBuilder`;
-- affinchè si possa usare la notazione infissa e fare chiamate a metodo senza la necessità dell'utilizzo di parentesi è necessario che i metodi abbiano esattamente un parametro in input;
-- al fine di forzare la corretta sintassi si è utilizzato il _fluent interface pattern_;
-- per sopperire alla necessità di avere sempre un parametro in input per ogni metodo, si sono costruiti degli `object` che potessero essere passsati per poter continuare le frasi.
+- To enable the DSL to access the `GameBuilder`, its methods are defined as extension methods of the builder.
+- As extension methods of the builder, the first word of each DSL sentence must return the `GameBuilder`.
+- To use infix notation and allow method calls without parentheses, methods must accept exactly one input parameter.
+- The fluent interface pattern is used to enforce correct syntax.
+- To satisfy the requirement of having exactly one input parameter for each method, objects were created to continue sentences.
 
-Dopo queste analisi si è quindi stilato il dsl come segue:
+Following these analyses, the DSL was designed as follows:
+![DSL](../uml/DSL.png)
 
-![DSL](./../uml/DSL.png)
+The diagram represents only the classes that form the sentences `game is "Simple Game"`, `game has player called "Filippo"`, and `game gives 5 cards to each player`. Subsequent sentences follow the same logic and are omitted for brevity and clarity.
 
-Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
+For example, to form the sentence `game gives 5 cards to each player`, the user will execute the following calls:
 
-Ad esempio, per formare la frase `game gives 5 cards to each player` l'utente eseguirà le seguenti chiamate:
-
-- `game` metodo implicito all'interno del DSL che restituisce il `GameBuilder`;
-- `gives` extension method definito dal DSL per il `GameBuilder` che restituisce un `CountCardBuilder`;
-- `5` parametro del metodo `gives`;
-- `cards` unico metodo del `CountCardBuilder` che restituisce un `CardSyntacticSugarBuilder` (mentre setta anche il numero di carte al builder);
-- `to` valore implicito definito nell'oggetto `SyntacticSugar` e parametro richiesto dal metodo `cards`;
-- `each` unico metodo del `CardSyntacticSugarBuilder` che restituisce il `GameBuilder`;
-- `player` valore implicito definito nell'oggetto `SyntacticSugar` e parametro richiesto dal metodo `each`.
+- `game`: An implicit method within the DSL that returns the `GameBuilder`.
+- `gives`: An extension method defined by the DSL for `GameBuilder` that returns a `CountCardBuilder`.
+- `5`: The parameter for the `gives` method.
+- `cards`: The only method of `CountCardBuilder` that returns a `CardSyntacticSugarBuilder` (while also setting the number of cards in the builder).
+- `to`: An implicit value defined in the `SyntacticSugar` object and required parameter for the `cards` method.
+- `each`: The only method of `CardSyntacticSugarBuilder` that returns the `GameBuilder`.
+- `player`: An implicit value defined in the `SyntacticSugar` object and required parameter for the `each` method.
 
 ## Conclusioni
 
-Credo che il prossimo sprint avrebbe riguardato un refactor del game builder per spezzarlo in più parti. Di coseguenza, essendo che il DSL mappa il builder, si sarebbe applicata una soluzione del genere anche ad esso.
+I believe the next sprint will involve refactoring the game builder to break it into smaller parts. Consequently, since the DSL maps to the builder, a similar solution would be applied to it as well.
 
 ## PENSIERI
 
