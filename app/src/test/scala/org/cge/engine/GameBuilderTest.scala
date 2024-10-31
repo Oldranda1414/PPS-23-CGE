@@ -155,8 +155,8 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("a win condition can be added"):
     val wc1: WinCondition = (_, _) => true
     gameBuilder.addSuit("Clubs")
-      .setName("Game name")
-      .addPlayer("Player 1")
+      .setName(gameName)
+      .addPlayer(playerName)
       .cardsInHand(() => 5)
       .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
       .addWinCondition(wc1)
@@ -166,8 +166,8 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("a hand rule can be added"):
     val hr1: HandRule = (_, _, _, _) => true
     gameBuilder.addSuit(suits(1))
-      .setName("Game name")
-      .addPlayer("Player 1")
+      .setName(gameName)
+      .addPlayer(playerName)
       .cardsInHand(() => 5)
       .addSortedRanks(List("Two", "Three", "Jack", "Queen", "King"))
       .addHandRule(hr1)
@@ -229,7 +229,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("starter player sets the player that starts the game"):
     gameBuilder.addSortedRanks(ranks)
       .addSuit(suits(0)).addSuit(suits(1))
-      .setName("Game name")
+      .setName(gameName)
       .addPlayer(playerName)
       .cardsInHandPerPlayer(() => 5, playerName)
       .addPlayer(player2Name)
@@ -244,7 +244,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("starter player cannot be set twice"):
     gameBuilder.addSortedRanks(ranks)
       .addSuit(suits(0)).addSuit(suits(1))
-      .setName("Game name")
+      .setName(gameName)
       .addPlayer(playerName)
       .cardsInHandPerPlayer(() => 5, playerName)
       .starterPlayer(playerName)
@@ -253,7 +253,7 @@ class GameBuilderTest extends AnyTest with BeforeAndAfterEach:
   test("starter player cannot be someone that is not in the game"):
     gameBuilder.addSortedRanks(ranks)
       .addSuit(suits(0)).addSuit(suits(1))
-      .setName("Game name")
+      .setName(gameName)
       .addPlayer(playerName)
       .cardsInHandPerPlayer(() => 5, playerName)
     a [IllegalArgumentException] should be thrownBy gameBuilder.starterPlayer(player2Name)
