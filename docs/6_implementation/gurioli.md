@@ -62,9 +62,19 @@ Note importanti fatte a livello di design sono:
 
 Dopo queste analisi si è quindi stilato il dsl come segue:
 
-![DSL](../uml/DSL.png)
+![DSL](./../uml/DSL.png)
 
 Nel diagramma sono state rappresentate solo le classi che permettono di formare le frasi `game is "Simple Game"`, `game has player called "Filippo"` e `game gives 5 cards to each player`. Tutte le frasi successive seguono la stessa logica per cui si è deciso volontariamente di ometterle per brevità e chiarezza dello schema.
+
+Ad esempio, per formare la frase `game gives 5 cards to each player` l'utente eseguirà le seguenti chiamate:
+
+- `game` metodo implicito all'interno del DSL che restituisce il `GameBuilder`;
+- `gives` extension method definito dal DSL per il `GameBuilder` che restituisce un `CountCardBuilder`;
+- `5` parametro del metodo `gives`;
+- `cards` unico metodo del `CountCardBuilder` che restituisce un `CardSyntacticSugarBuilder` (mentre setta anche il numero di carte al builder);
+- `to` valore implicito definito nell'oggetto `SyntacticSugar` e parametro richiesto dal metodo `cards`;
+- `each` unico metodo del `CardSyntacticSugarBuilder` che restituisce il `GameBuilder`;
+- `player` valore implicito definito nell'oggetto `SyntacticSugar` e parametro richiesto dal metodo `each`.
 
 ## Conclusioni
 
