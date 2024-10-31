@@ -74,13 +74,11 @@ object GameController:
 
     private def doNothing(): State[Window, Unit] = State(s => (s, ()))
 
-    private def handleCardPlayed(
-        playerName: String,
-        cardFromEvent: String
-    ): State[Window, Unit] =
+    private def handleCardPlayed(playerName: String, cardFromEvent: String): State[Window, Unit] =
       val rank = cardFromEvent.split(" ")(0)
       val suit = cardFromEvent.split(" ")(1)
       val card = CardModel(rank, suit)
+
       game.players.find(_.name == playerName) match
         case Some(player) =>
           if game.turn.name != playerName || !game.canPlayCard(game.turn, card) then
