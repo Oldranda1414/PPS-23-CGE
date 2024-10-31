@@ -1,4 +1,4 @@
-package org.cge.engine.data
+package org.cge.engine.model
 
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._

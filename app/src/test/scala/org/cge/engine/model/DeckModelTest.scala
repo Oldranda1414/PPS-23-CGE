@@ -3,7 +3,7 @@ package org.cge.engine.model
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.cge.engine.data.StandardDeck
+import org.cge.engine.model.StandardDeck
 
 class DeckModelTest extends AnyTest with BeforeAndAfterEach:
   private var deck: DeckModel = DeckModel()

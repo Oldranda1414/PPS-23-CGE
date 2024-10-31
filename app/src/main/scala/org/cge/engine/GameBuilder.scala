@@ -3,7 +3,7 @@ package org.cge.engine
 import org.cge.engine.model.GameModel
 import org.cge.engine.model.PlayerModel
 import org.cge.engine.model.CardModel
-import org.cge.engine.data._
+import org.cge.engine.model.StandardDeck
 import org.cge.engine.model.PlayingRule
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
