@@ -11,6 +11,9 @@ case object Down extends PlayerPosition
 case object Left extends PlayerPosition
 case object Right extends PlayerPosition
 
+/**
+  * Defines methods to manage the player in the GUI.
+  */
 object PlayerViewManager:
 
   private val horizontalPlayerDims = (windowWidth / 2, windowHeight / 10)
@@ -34,6 +37,13 @@ object PlayerViewManager:
   private val possiblePositions = Seq(Center, Up, Right, Down, Left)
   private var playerPositions: Map[String, PlayerPosition] = Map.empty[String, PlayerPosition]
 
+  /**
+    * Adds a player to the GUI
+    *
+    * @param windowState the current GUI state
+    * @param playerName the name of the player to be added
+    * @return the updated window state.
+    */
   def addPlayer(windowState: State[Window, Unit], playerName: String): State[Window, Unit] =
     if (playerPositions.size >= possiblePositions.length)
       throw new IllegalArgumentException(s"Cannot add player $playerName: A maximum of 4 players is allowed")

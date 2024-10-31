@@ -5,15 +5,41 @@ import org.cge.engine.view.monads.States.State
 
 import javax.swing.JButton
 
+/**
+  * Defines methods to manage buttons in the GUI.
+  */
 object ButtonViewManager:
   var panelButtons: Map[String, List[JButton]] = Map.empty
 
+  /**
+    * Adds a button to the GUI.
+    *
+    * @param windowState the current window state.
+    * @param eventName the event that should be published on the button being pressed.
+    * @param buttonText the button text.
+    * @param x the buttons x position.
+    * @param y the buttons y position.
+    * @param width the width of the button.
+    * @param height the height of the button.
+    * @return the updated window state.
+    */
   def addButton(windowState: State[Window, Unit], eventName: String, buttonText: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
     for
       _ <- windowState
       _ <- WindowState.addButton(createButton(eventName, buttonText, x, y, width, height), eventName)
     yield ()
 
+  /**
+    * Adds a button to a panel in the GUI.
+    *
+    * @param windowState the current window state.
+    * @param panelName the panel the button should be added to.
+    * @param eventName the event that should be published on the button being pressed.
+    * @param buttonText the button text.
+    * @param width the width of the button.
+    * @param height the height of the button.
+    * @return the updated window state.
+    */
   def addButtonToPanel(windowState: State[Window, Unit], panelName: String, eventName: String, buttonText: String, width: Int, height: Int): State[Window, Unit] =
     val button: JButton = createButton(eventName, buttonText, 0, 0, width, height)
 
@@ -27,6 +53,14 @@ object ButtonViewManager:
       _ <- WindowState.addComponentToPanel(panelName, button)
     yield ()
   
+  /**
+    * Removes a button from a panel in the GUI.
+    *
+    * @param windowState the current window state.
+    * @param panelName the panel the button should be removed from.
+    * @param buttonText the text of the button to be removed.
+    * @return the updated window state.
+    */
   def removeButtonFromPanel(windowState: State[Window, Unit], panelName: String, buttonText: String): State[Window, Unit] =
     val button: JButton = popButtonFromPanelButtons(panelName, buttonText)
 
@@ -36,6 +70,13 @@ object ButtonViewManager:
       _ <- WindowState.removeButton(button)
     yield ()
 
+  /**
+    * Removes all buttons from a panel in the GUI.
+    *
+    * @param windowState the current window state.
+    * @param panelName the panel to be cleared.
+    * @return the updated window state.
+    */
   def clearPanel(windowState: State[Window, Unit], panelName: String): State[Window, Unit] =
     var newWindowState: State[Window, Unit] = windowState
     panelButtons.get(panelName) match
