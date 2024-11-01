@@ -3,7 +3,6 @@ package org.cge.engine.model
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.cge.engine.model._
 
 class StandardDeckTest extends AnyTest with BeforeAndAfterEach:
   
