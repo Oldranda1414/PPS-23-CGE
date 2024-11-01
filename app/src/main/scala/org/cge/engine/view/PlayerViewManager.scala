@@ -44,7 +44,7 @@ object PlayerViewManager:
     * @param playerName the name of the player to be added
     * @return the updated window state.
     */
-  def addPlayer(windowState: State[Window, Unit], playerName: String): State[Window, Unit] =
+  def addPlayer(playerName: String): State[Window, Unit] =
     if (playerPositions.size >= possiblePositions.length)
       throw new IllegalArgumentException(s"Cannot add player $playerName: A maximum of 4 players is allowed")
     
@@ -55,7 +55,6 @@ object PlayerViewManager:
     val playerOrientation = getPlayerOrientation(playerName)
 
     for
-      _ <- windowState
       _ <- WindowState.addPanel(playerName, playerX, playerY, playerWidth, playerHeight)
       _ <- WindowState.addGridLayout(playerName, playerOrientation)
       _ <- WindowState.addPanelTitle(playerName, playerName)

@@ -14,37 +14,34 @@ object CardViewManager:
   /**
     * Adds a card to a player in the GUI.
     *
-    * @param windowState the current GUI state.
     * @param playerName the player to add the card to.
     * @param cardValue the value of the card to be added.
     * @param cardSuit the suit of the card to be added.
     * @return the updated window state.
     */
-  def addCardToPlayer(windowState: State[Window, Unit], playerName: String, cardValue: String, cardSuit: String): State[Window, Unit] =
+  def addCardToPlayer(playerName: String, cardValue: String, cardSuit: String): State[Window, Unit] =
     val (cardEvent, cardText) = cardEventAndText(playerName, cardValue, cardSuit)
-    ButtonViewManager.addButtonToPanel(windowState, playerName, cardEvent, cardText, cardWidth, cardHeight)
+    ButtonViewManager.addButtonToPanel(playerName, cardEvent, cardText, cardWidth, cardHeight)
 
   /**
     * Removes a card to a player in the GUI.
     *
-    * @param windowState the current GUI state.
     * @param playerName the player to remove the card from.
     * @param cardValue the value of the card to be removed.
     * @param cardSuit the suit of the card to be removed.
     * @return the updated window state.
     */
-  def removeCardFromPlayer(windowState: State[Window, Unit], playerName: String, cardValue: String, cardSuit: String): State[Window, Unit] =
-    ButtonViewManager.removeButtonFromPanel(windowState, playerName, cardText(cardValue, cardSuit))
+  def removeCardFromPlayer(playerName: String, cardValue: String, cardSuit: String): State[Window, Unit] =
+    ButtonViewManager.removeButtonFromPanel(playerName, cardText(cardValue, cardSuit))
 
   /**
     * Removes all card from a player hand in the GUI
     *
-    * @param windowState the current window state.
     * @param playerName the player whos hand should be cleared.
     * @return the updated window state.
     */
-  def clearPlayerHand(windowState: State[Window, Unit], playerName: String): State[Window, Unit] =
-    ButtonViewManager.clearPanel(windowState, playerName)
+  def clearPlayerHand(playerName: String): State[Window, Unit] =
+    ButtonViewManager.clearPanel(playerName)
   
   private def cardEventAndText(playerName: String, cardValue: String, cardSuit: String): (String, String) =
     (cardEvent(playerName, cardValue, cardSuit), cardText(cardValue, cardSuit))
