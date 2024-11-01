@@ -20,6 +20,8 @@ The following parts have been developed in pair programming.
 
 ### GameController
 
+TODO
+
 [Back to index](../index.md) |
 [Previous Chapter](../5_detailed_design/index.md) |
 [Next Chapter](../7_testing/index.md)
