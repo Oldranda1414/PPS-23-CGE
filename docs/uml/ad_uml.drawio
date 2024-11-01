@@ -164,10 +164,10 @@
             <mxPoint x="10" y="410" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="usPDzhBCbG21JCDWKa8p-29" value="PlayerViewManager" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="usPDzhBCbG21JCDWKa8p-29" value="CardViewManager" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="-230" y="320" width="130" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="usPDzhBCbG21JCDWKa8p-30" value="CardViewManager" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="usPDzhBCbG21JCDWKa8p-30" value="PlayerViewManager" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="-70" y="320" width="130" height="50" as="geometry" />
         </mxCell>
         <mxCell id="usPDzhBCbG21JCDWKa8p-31" value="ButtonViewManager" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">

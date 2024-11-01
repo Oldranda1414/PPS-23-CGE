@@ -72,7 +72,7 @@ For example, to form the sentence `game gives 5 cards to each player`, the user 
 - `each`: The only method of `CardSyntacticSugarBuilder` that returns the `GameBuilder`.
 - `player`: An implicit value defined in the `SyntacticSugar` object and required parameter for the `each` method.
 
-## Conclusioni
+## Conclusion
 
 I believe the next sprint will involve refactoring the game builder to break it into smaller parts. Consequently, since the DSL maps to the builder, a similar solution would be applied to it as well.
 

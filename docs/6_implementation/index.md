@@ -4,6 +4,7 @@
 - [Gurioli Filippo](#gurioli-filippo)
 - [Randacio Leonardo](#randacio-leonardo)
 - [Pair Programming](#pair-programming)
+  - [GameController](#gamecontroller)
 
 In the following every member of the team details the parts of the project that they have developed
 
@@ -16,6 +17,8 @@ In the following every member of the team details the parts of the project that 
 ## Pair Programming
 
 The following parts have been developed in pair programming.
+
+### GameController
 
 [Back to index](../index.md) |
 [Previous Chapter](../5_detailed_design/index.md) |
