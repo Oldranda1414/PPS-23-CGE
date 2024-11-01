@@ -19,7 +19,7 @@ object Main:
     game has player called "Player 4"
     game gives 10 cards to each player
     game starts from player "Player 1"
-    game suitsAre ("Bastoni", "Denari", "Spade", "Coppe")
+    game suitsAre ("Batons", "Coins", "Cups", "Swords")
     game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
     game trumpIs "Bastoni"
     game playing rules are:

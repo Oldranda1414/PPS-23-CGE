@@ -19,7 +19,10 @@ plugins {
 
     // Add sonarqube plugin for CI pipeline
     id("org.sonarqube") version "5.1.0.4882"
-    // id("jacoco")
+
+    // Add plugin for shadow jar
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+
 }
 
 repositories {
