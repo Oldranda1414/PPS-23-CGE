@@ -21,7 +21,7 @@ object Main:
     game starts from player "Player 1"
     game suitsAre ("Batons", "Coins", "Cups", "Swords")
     game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
-    game trumpIs "Bastoni"
+    game trumpIs "Batons"
     game playing rules are:
       (table, player, playerCard) => 
         player.hand.cards.contains(playerCard) &&
