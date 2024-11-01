@@ -2,6 +2,8 @@
 
 - [DSL](#dsl)
 - [Engine](#engine)
+  - [GameModel](#gamemodel)
+  - [GameView](#gameview)
 
 ## DSL
 
@@ -9,9 +11,21 @@ TODO Big dsl uml.
 
 ## Engine
 
-Java Swing is used as a technology for the view implementation.
+Java Swing is used as technology for the view implementation.
 
-TODO Big engine uml.
+Below the UML diagram of the engine.
+
+![engine](../uml/engine.png)
+
+### GameModel
+
+The Model defines two base concepts:
+
+- `TableModel` : rappresents the table, where cards are placed once played
+- `PlayerModel`
+
+### GameView
+
 
 
 [Back to index](../index.md) |
