@@ -14,7 +14,7 @@ import org.cge.engine.model.TableModel.HandRule
 object Main:
 
   def main(args: Array[String]): Unit =
-    game is "Simple Game"
+    game is "Marafone"
     game has player called "Player 1"
     game has player called "Player 2"
     game has player called "Player 3"

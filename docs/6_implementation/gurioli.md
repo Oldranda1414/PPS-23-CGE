@@ -76,19 +76,5 @@ For example, to form the sentence `game gives 5 cards to each player`, the user 
 
 I believe the next sprint will involve refactoring the game builder to break it into smaller parts. Consequently, since the DSL maps to the builder, a similar solution would be applied to it as well.
 
-## PENSIERI
-
-Guardando come hanno fatto la doc quelli di _chess_ credo sia meglio mettere nel design di dettaglio tutta la logica di cos'è una "hand", cos'è una "win condition", cos'è un "table" etc etc. Qui non ne ho parlato per questo motivo.
-
-Quindi:
-
-- design di dettaglio: quanto detto prima
-- implementazione, quello che ho riportato in questo documento e magari qualcosina sul controller. Non ho messo niente perchè non so come vogliate dividervelo ma gardirei mi fosse riconosciuto qualcosina.
-
-Io direi nelle conclusioni anche il fatto che non ci siamo resi conto che nessuno stesse facendo il controller. Lo riporto qui e non direttamente nelle mie conclusioni perchè
-
-1. non so se vada bene la sezione (non è relativo agli sviluppi futuri ma a come stavamo facendo le cose);
-2. non so se siete d'accordo
-
 [Back to index](../../index.md) |
 [Back to implementation](../index.md)
