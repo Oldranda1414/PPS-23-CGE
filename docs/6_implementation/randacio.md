@@ -2,7 +2,16 @@
 
 I have worked indipendently on the View portion of the Engine.
 
-To implement the View using functional programming a the State pattern has been used.
+The following is a detaild uml class diagram of the View:
+
+![view](../uml/view.png)
+
+Classes are colored based on the language used for implementation:
+
+- blue : scala
+- green : java
+
+To implement the View using functional programming the State pattern is used.
 
 ## State Pattern
 

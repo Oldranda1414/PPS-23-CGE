@@ -1,22 +1,22 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.8.3" pages="4">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.14" pages="5">
   <diagram name="dsl" id="Cld8v7rSjxvDWif82-8E">
-    <mxGraphModel dx="705" dy="652" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="GGszJNQtFrYdOBU3U9Bo-1" value="CardGameEngineDSL" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="GGszJNQtFrYdOBU3U9Bo-1" value="CardGameEngineDSL" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="360" y="230" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GGszJNQtFrYdOBU3U9Bo-2" value="SyntacticSugar" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="GGszJNQtFrYdOBU3U9Bo-2" value="SyntacticSugar" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="620" y="230" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GGszJNQtFrYdOBU3U9Bo-3" value="SyntacticBuilder" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="GGszJNQtFrYdOBU3U9Bo-3" value="SyntacticBuilder" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="360" y="360" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GGszJNQtFrYdOBU3U9Bo-4" value="GameBuilder" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="GGszJNQtFrYdOBU3U9Bo-4" value="GameBuilder" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="120" y="230" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GGszJNQtFrYdOBU3U9Bo-6" value="" style="endArrow=none;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;endFill=0;" parent="1" source="GGszJNQtFrYdOBU3U9Bo-1" target="GGszJNQtFrYdOBU3U9Bo-4" edge="1">
+        <mxCell id="GGszJNQtFrYdOBU3U9Bo-6" value="" style="endArrow=none;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;endFill=0;" edge="1" parent="1" source="GGszJNQtFrYdOBU3U9Bo-1" target="GGszJNQtFrYdOBU3U9Bo-4">
           <mxGeometry x="-0.625" y="30" relative="1" as="geometry">
             <mxPoint x="310" y="600" as="sourcePoint" />
             <mxPoint x="470" y="600" as="targetPoint" />
@@ -65,7 +65,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="6xx3DvarY546FquQr2gM" name="engine">
-    <mxGraphModel dx="2261" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -333,6 +333,113 @@
         </mxCell>
         <mxCell id="8mWT4sUrz48ZE2EnQgln-5" value="GameBuilder" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="610" y="220" width="110" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="EUlaMoFW6b8zMzfR0mpd" name="View">
+    <mxGraphModel dx="1434" dy="1989" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-39" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="380" y="130" width="520" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-3" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-23" target="IYDFpY6HNvy27vdsaBwX-28">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="475" y="170" as="sourcePoint" />
+            <mxPoint x="544" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="544" y="90" />
+              <mxPoint x="544" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-7" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-23" target="IYDFpY6HNvy27vdsaBwX-24">
+          <mxGeometry x="-0.4286" y="10" relative="1" as="geometry">
+            <mxPoint x="420" y="145" as="sourcePoint" />
+            <mxPoint x="305" y="190" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-8" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-24" target="IYDFpY6HNvy27vdsaBwX-27">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="240" as="sourcePoint" />
+            <mxPoint x="230" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-10" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-28" target="IYDFpY6HNvy27vdsaBwX-31">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="544" y="350" as="sourcePoint" />
+            <mxPoint x="544" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-11" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-27" target="IYDFpY6HNvy27vdsaBwX-31">
+          <mxGeometry x="-0.5714" y="-5" relative="1" as="geometry">
+            <mxPoint x="315" y="450" as="sourcePoint" />
+            <mxPoint x="479" y="530" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="230" y="630" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-14" value="maps" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-31" target="IYDFpY6HNvy27vdsaBwX-32">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="544" y="790" as="sourcePoint" />
+            <mxPoint x="544" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-23" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ show: State[Frame, Stream[String]]&lt;/p&gt;&lt;div&gt;&amp;nbsp;+ addPlayer: State[Frame, Unit]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addCardToPlayer&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeCardFromPlayer&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ clearPlayerHand&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addButton&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ endGame&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="-80" width="260" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-24" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CardViewManager&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ addCardToPlayer: State[Frame, Unit]&lt;/p&gt;&lt;div&gt;&amp;nbsp;+ removeCardFromPlayer: State[Frame, Unit]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ clearPlayerHand&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="105" y="190" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-27" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ButtonViewManager&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ addButtonToPanel: State[Frame, Unit]&lt;/p&gt;&lt;div&gt;&amp;nbsp;+ removeButtonFromPanel: State[Frame, Unit]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ clearPanel&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Frame, Unit]&lt;/span&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="360" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-28" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PlayerViewManager&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ addPlayer: State[Frame, Unit]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="414" y="190" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-29" value="&lt;div&gt;&amp;lt;&amp;lt;enum&amp;gt;&amp;gt;&lt;/div&gt;PlayerPosition" style="html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="745" y="190" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-30" value="uses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-28" target="IYDFpY6HNvy27vdsaBwX-29">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="554" y="180" as="sourcePoint" />
+            <mxPoint x="554" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-31" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;WindowState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ setSize: State[&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/p&gt;&lt;div&gt;&amp;nbsp;+ addPanel: State[&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addGridLayout&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addPanelTitle&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addComponentToPanel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeComponentFromPanel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addComponent&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ setComponentBounds:&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeComponent:&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addButton&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeButton&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addLabel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Window&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ show&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[&lt;/span&gt;Window&lt;span style=&quot;background-color: initial;&quot;&gt;, Unit]&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ eventStream&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Window, Stream[String]]&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ exec&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: State[Window, Unit]&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="399" y="500" width="290" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-32" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SwingFunctionalFacade&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ createFrame: Frame&lt;/p&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="463.5" y="830" width="161" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-34" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Frame&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ setSize: Frame&lt;/p&gt;&lt;div&gt;&amp;nbsp;+ addPanel:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addGridLayout&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addPanelTitle&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addComponentToPanel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeComponentFromPanel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addComponent&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ setComponentBounds:&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeComponent:&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addButton&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ removeButton&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ addLabel&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ show&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frame&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;+ events&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Supplier&amp;lt;String&amp;gt;&lt;/span&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="433.5" y="950" width="221" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-35" value="" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-32" target="IYDFpY6HNvy27vdsaBwX-34">
+          <mxGeometry x="-1" y="3" relative="1" as="geometry">
+            <mxPoint x="230" y="950" as="sourcePoint" />
+            <mxPoint x="390" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-36" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" edge="1" parent="1" source="IYDFpY6HNvy27vdsaBwX-38" target="IYDFpY6HNvy27vdsaBwX-34">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="340" y="1080" as="sourcePoint" />
+            <mxPoint x="390" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-38" value="FrameImpl" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1055" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="IYDFpY6HNvy27vdsaBwX-40" value="PlayerViewManager.scala" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="140" width="160" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
