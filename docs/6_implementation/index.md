@@ -20,7 +20,11 @@ The following parts have been developed in pair programming.
 
 ### GameController
 
-TODO
+The `GameController` has been developed in Pair Programming by Filipo Gurioli and Leonardo Randacio.
+
+The Controller takes a Model and uses it to build the initial View State. It defines the methods to be run on every event published by the View and then runs the initial View State.
+
+
 
 [Back to index](../index.md) |
 [Previous Chapter](../5_detailed_design/index.md) |

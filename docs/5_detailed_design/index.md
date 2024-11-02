@@ -7,6 +7,8 @@
   - [GameController](#gamecontroller)
   - [GameBuilder](#gamebuilder)
 
+Scala 3 and Java 21 are choosen as programming languages for the project.
+
 ## DSL
 
 The main goal of the DSL part is to let the user specify parameters and settings,

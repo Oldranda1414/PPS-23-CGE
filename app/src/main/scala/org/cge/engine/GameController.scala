@@ -1,5 +1,7 @@
 package org.cge.engine
 
+import scala.language.implicitConversions
+
 import org.cge.engine.view.monads.Monads.Monad.seqN
 import org.cge.engine.view.monads.States.State
 
@@ -23,11 +25,6 @@ object GameController:
   def apply(game: GameModel): GameController = new GameControllerImpl(game)
 
   private class GameControllerImpl(val game: GameModel) extends GameController:
-
-    val buttonX: Int = 300
-    val buttonY: Int = 300
-    val buttonWidth: Int = 100
-    val buttonHeight: Int = 100
 
     val tablePlayerName: String = "table"
 

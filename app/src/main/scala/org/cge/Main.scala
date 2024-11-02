@@ -1,5 +1,7 @@
 package org.cge
 
+import scala.language.implicitConversions
+
 import org.cge.engine.GameController
 import org.cge.dsl.CardGameEngineDSL._
 import org.cge.dsl.SyntacticSugar.player

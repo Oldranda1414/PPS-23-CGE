@@ -8,8 +8,8 @@ The following is a detaild uml class diagram of the View:
 
 Classes are colored based on the language used for implementation:
 
-- blue : scala
-- green : java
+- blue : scala 3
+- green : java 21
 
 To implement the View using functional programming the State pattern is used.
 
