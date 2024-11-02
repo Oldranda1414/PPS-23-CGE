@@ -22,7 +22,7 @@ object Main:
     game gives 10 cards to each player
     game starts from player "Player 1"
     game suitsAre ("Batons", "Coins", "Cups", "Swords")
-    game ranksAre ("Three", "Two", "Ace", "King", "Knight", "Knave", "Four", "Five", "Six", "Seven")
+    game ranksAre ("Seven", "Six", "Five", "Four", "Knave", "Knight", "King", "Ace", "Two", "Three")
     game trumpIs "Batons"
     game playing rules are:
       (table, player, playerCard) => 

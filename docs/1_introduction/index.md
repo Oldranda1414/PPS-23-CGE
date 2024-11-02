@@ -28,7 +28,7 @@ The following is an example of the game marafone defined with the Card Game Engi
     game gives 10 cards to each player
     game starts from player "Player 1"
     game suitsAre ("Batons", "Coins", "Cups", "Swords")
-    game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
+    game ranksAre ("Seven", "Six", "Five", "Four", "Knave", "Knight", "King", "Ace", "Two", "Three")
     game trumpIs "Batons"
     game playing rules are:
       (table, player, playerCard) => 
@@ -129,7 +129,7 @@ Where:
 
 As a good practice ranks' order defines their relative strenght.
 
-This means that the example defines the \<rank1\> to be the strongest rank and \<rank4\> the weakest.
+This means that the example defines the \<rank4\> to be the strongest rank and \<rank1> the weakest.
 
 #### Trump
 

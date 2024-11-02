@@ -14,6 +14,10 @@ The testing could be extended to comprehend the Controller and View modules of t
 
 The current form of the game rules definition in the DSL are implemented as plain scala lambdas. This means that the user would have to understand the structure of the game Model in order to define rules. This could be improved by implementing keywords for the most common rules present in card games enabeling the DSL to be more expressive and ensurng the user does not need to have knowledge of the engine's implementation.
 
+The players currently see the other player cards. A feature could be implemented to disable the text of the cards of the players that are not currently on turn so that each player can only see his/her cards.
+
+The GUI could be updated with info about the game state such as player point and current turn.
+
 ## Git flow
 
 The team is happy of how git flow was used during project development although often feature branches where merged with the develop branch before the feature was complete due to misunderstandings on feature completenes between team members.

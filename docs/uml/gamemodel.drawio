@@ -1,31 +1,37 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.8.3" pages="2">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.8.3" pages="2">
   <diagram name="GameModel internal structure" id="o0k_oYhwbWbzoBj9GVQP">
-    <mxGraphModel dx="1234" dy="2192" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="1880" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="9z9QmxUwGLGku5ntNl6J-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;object&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ apply(name: String): GameModel&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="240" y="-620" width="205" height="80" as="geometry" />
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;object&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ apply(name: String): GameModel&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="177" y="-563" width="205" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9z9QmxUwGLGku5ntNl6J-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&amp;nbsp;+ table: TableModel&lt;br&gt;&amp;nbsp;+ addWinCondition(winCondition: WinCondition): Unit&lt;br&gt;&amp;nbsp;+ winConditions: List[WinCondition]&lt;br&gt;&amp;nbsp;+ winners: List[PlayerModel]&lt;br&gt;&amp;nbsp;+ addPlayingRule(rule: PlayingRule): Unit&lt;br&gt;&amp;nbsp;+ playingRules: List[PlayingRule]&lt;br&gt;&amp;nbsp;+ canPlayCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ playCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ computeHandEnd(): Unit&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&amp;nbsp;+ table: TableModel&lt;br&gt;&amp;nbsp;+ addWinCondition(winCondition: WinCondition): Unit&lt;br&gt;&amp;nbsp;+ winConditions: List[WinCondition]&lt;br&gt;&amp;nbsp;+ winners: List[PlayerModel]&lt;br&gt;&amp;nbsp;+ addPlayingRule(rule: PlayingRule): Unit&lt;br&gt;&amp;nbsp;+ playingRules: List[PlayingRule]&lt;br&gt;&amp;nbsp;+ canPlayCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ playCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ computeHandEnd(): Unit&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="90" y="-965" width="370" height="310" as="geometry" />
         </mxCell>
-        <mxCell id="9z9QmxUwGLGku5ntNl6J-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SimpleGame&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SimpleGame&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="550" y="-900" width="250" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="9z9QmxUwGLGku5ntNl6J-21" value="&lt;b&gt;TableGameWithWinConditios&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="575" y="-610" width="200" height="60" as="geometry" />
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-21" value="&lt;b&gt;TableGameWithWinConditios&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="-553" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="8KmiYnW0fezhgemkEJgo-3" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="9z9QmxUwGLGku5ntNl6J-21" target="9z9QmxUwGLGku5ntNl6J-4">
+        <mxCell id="8KmiYnW0fezhgemkEJgo-3" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" parent="1" source="9z9QmxUwGLGku5ntNl6J-21" target="9z9QmxUwGLGku5ntNl6J-4" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="780" y="-1020" as="sourcePoint" />
             <mxPoint x="610" y="-1020" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="8KmiYnW0fezhgemkEJgo-4" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="9z9QmxUwGLGku5ntNl6J-4" target="9z9QmxUwGLGku5ntNl6J-3">
+        <mxCell id="8KmiYnW0fezhgemkEJgo-4" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" parent="1" source="9z9QmxUwGLGku5ntNl6J-4" target="9z9QmxUwGLGku5ntNl6J-3" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="780" y="-1020" as="sourcePoint" />
             <mxPoint x="610" y="-1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nuPt2Wo6pcaPwtCGLs06-1" value="Builds" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="9z9QmxUwGLGku5ntNl6J-2" target="9z9QmxUwGLGku5ntNl6J-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="170" y="-490" as="sourcePoint" />
+            <mxPoint x="330" y="-490" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
