@@ -5,6 +5,8 @@ import org.cge.engine.model.GameModel._
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
+import scala.language.implicitConversions
+
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private val gameName = "Test"
   private var game: GameModel = GameModel(gameName)

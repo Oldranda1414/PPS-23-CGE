@@ -14,7 +14,6 @@ object ButtonViewManager:
   /**
     * Adds a button to the GUI.
     *
-    * @param windowState the current window state.
     * @param eventName the event that should be published on the button being pressed.
     * @param buttonText the button text.
     * @param x the buttons x position.
@@ -23,16 +22,14 @@ object ButtonViewManager:
     * @param height the height of the button.
     * @return the updated window state.
     */
-  def addButton(windowState: State[Window, Unit], eventName: String, buttonText: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
+  def addButton(eventName: String, buttonText: String, x: Int, y: Int, width: Int, height: Int): State[Window, Unit] =
     for
-      _ <- windowState
       _ <- WindowState.addButton(createButton(eventName, buttonText, x, y, width, height), eventName)
     yield ()
 
   /**
     * Adds a button to a panel in the GUI.
     *
-    * @param windowState the current window state.
     * @param panelName the panel the button should be added to.
     * @param eventName the event that should be published on the button being pressed.
     * @param buttonText the button text.
@@ -40,7 +37,7 @@ object ButtonViewManager:
     * @param height the height of the button.
     * @return the updated window state.
     */
-  def addButtonToPanel(windowState: State[Window, Unit], panelName: String, eventName: String, buttonText: String, width: Int, height: Int): State[Window, Unit] =
+  def addButtonToPanel(panelName: String, eventName: String, buttonText: String, width: Int, height: Int): State[Window, Unit] =
     val button: JButton = createButton(eventName, buttonText, 0, 0, width, height)
 
     panelButtons = panelButtons.updatedWith(panelName):
@@ -48,7 +45,6 @@ object ButtonViewManager:
       case None => Some(List(button))
 
     for
-      _ <- windowState
       _ <- WindowState.addButton(button, eventName)
       _ <- WindowState.addComponentToPanel(panelName, button)
     yield ()
@@ -56,42 +52,37 @@ object ButtonViewManager:
   /**
     * Removes a button from a panel in the GUI.
     *
-    * @param windowState the current window state.
     * @param panelName the panel the button should be removed from.
     * @param buttonText the text of the button to be removed.
     * @return the updated window state.
     */
-  def removeButtonFromPanel(windowState: State[Window, Unit], panelName: String, buttonText: String): State[Window, Unit] =
+  def removeButtonFromPanel(panelName: String, buttonText: String): State[Window, Unit] =
     val button: JButton = popButtonFromPanelButtons(panelName, buttonText)
 
     for
-      _ <- windowState
       _ <- WindowState.removeComponentFromPanel(panelName, button)
       _ <- WindowState.removeButton(button)
     yield ()
 
   /**
-    * Removes all buttons from a panel in the GUI.
-    *
-    * @param windowState the current window state.
-    * @param panelName the panel to be cleared.
-    * @return the updated window state.
-    */
-  def clearPanel(windowState: State[Window, Unit], panelName: String): State[Window, Unit] =
-    var newWindowState: State[Window, Unit] = windowState
+  * Removes all buttons from a panel in the GUI.
+  *
+  * @param panelName the panel to be cleared.
+  * @return the updated window state.
+  */
+  def clearPanel(panelName: String): State[Window, Unit] =
     panelButtons.get(panelName) match
       case Some(buttons) =>
         panelButtons = panelButtons - panelName
-        buttons.foreach(button =>
-          newWindowState = for
-            _ <- newWindowState
+
+        buttons.foldLeft(unitState()): (acc, button) =>
+          for
+            _ <- acc
             _ <- WindowState.removeComponentFromPanel(panelName, button)
             _ <- WindowState.removeButton(button)
           yield ()
-        )
-      case None => throw new Exception("something is wrong")
 
-    newWindowState
+      case None => unitState()
   
   private def createButton(name: String, text: String, x: Int, y: Int, width: Int, height: Int): JButton =
     val jb: JButton = new JButton(text);
@@ -111,5 +102,7 @@ object ButtonViewManager:
             throw new NoSuchElementException(s"Button with text '$buttonText' not found for panel '$panelName'.")
       case None =>
           throw new NoSuchElementException(s"Panel '$panelName' has no buttons")
+
+  private def unitState(): State[Window, Unit] = State(s => (s, ()))
 
 

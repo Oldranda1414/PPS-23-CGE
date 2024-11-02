@@ -74,6 +74,6 @@ scalafix {
 //Needed for scalfix to work
 tasks.withType<ScalaCompile>().configureEach {
     scalaCompileOptions.apply {
-        additionalParameters = listOf("-Wunused:all")
+        additionalParameters = listOf("-Wunused:all", "-feature")
     }
 }

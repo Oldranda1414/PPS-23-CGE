@@ -3,6 +3,9 @@ package org.cge.engine.model
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
+
+import scala.language.implicitConversions
+
 import org.cge.engine.model.TableModel.HandRule
 
 class TableModelTest extends AnyTest with BeforeAndAfterEach:

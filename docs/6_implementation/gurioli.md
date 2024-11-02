@@ -14,6 +14,7 @@ Given the complexity of this task, the work has been divided into two parts:
 - `CardGameEngineDSL`: Extension methods for `GameBuilder` that utilize the fluent interface pattern and other techniques to create human-readable sentences.
 
 Below is an initial schematic:
+
 ![Game Builder Overview](../uml/DSL-Overview.png)
 
 ### GameBuilder
@@ -21,6 +22,7 @@ Below is an initial schematic:
 The `GameBuilder` class is capable of creating a consistent and ready-to-use instance of the `GameModel`. Following the guidelines of the builder pattern, functionalities were designed to be as simple as possible, allowing the `GameModel` to be customized piece by piece.
 
 For this reason, the methods shown in the following UML diagram were created.
+
 ![Game Builder](../uml/Game-Builder.png)
 
 Important design notes:
@@ -55,6 +57,7 @@ Important design notes include:
 - To satisfy the requirement of having exactly one input parameter for each method, objects were created to continue sentences.
 
 Following these analyses, the DSL was designed as follows:
+
 ![DSL](../uml/DSL.png)
 
 The diagram represents only the classes that form the sentences `game is "Simple Game"`, `game has player called "Filippo"`, and `game gives 5 cards to each player`. Subsequent sentences follow the same logic and are omitted for brevity and clarity.
@@ -69,23 +72,9 @@ For example, to form the sentence `game gives 5 cards to each player`, the user 
 - `each`: The only method of `CardSyntacticSugarBuilder` that returns the `GameBuilder`.
 - `player`: An implicit value defined in the `SyntacticSugar` object and required parameter for the `each` method.
 
-## Conclusioni
+## Conclusion
 
 I believe the next sprint will involve refactoring the game builder to break it into smaller parts. Consequently, since the DSL maps to the builder, a similar solution would be applied to it as well.
-
-## PENSIERI
-
-Guardando come hanno fatto la doc quelli di _chess_ credo sia meglio mettere nel design di dettaglio tutta la logica di cos'è una "hand", cos'è una "win condition", cos'è un "table" etc etc. Qui non ne ho parlato per questo motivo.
-
-Quindi:
-
-- design di dettaglio: quanto detto prima
-- implementazione, quello che ho riportato in questo documento e magari qualcosina sul controller. Non ho messo niente perchè non so come vogliate dividervelo ma gardirei mi fosse riconosciuto qualcosina.
-
-Io direi nelle conclusioni anche il fatto che non ci siamo resi conto che nessuno stesse facendo il controller. Lo riporto qui e non direttamente nelle mie conclusioni perchè
-
-1. non so se vada bene la sezione (non è relativo agli sviluppi futuri ma a come stavamo facendo le cose);
-2. non so se siete d'accordo
 
 [Back to index](../../index.md) |
 [Back to implementation](../index.md)

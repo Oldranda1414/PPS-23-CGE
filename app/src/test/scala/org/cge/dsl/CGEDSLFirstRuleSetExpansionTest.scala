@@ -1,5 +1,7 @@
 package org.cge.dsl
 
+import scala.language.implicitConversions
+
 import org.scalatest.matchers.should.Matchers._
 import org.cge.dsl.CardGameEngineDSL.game
 import org.cge.dsl.CardGameEngineDSL.suitsAre

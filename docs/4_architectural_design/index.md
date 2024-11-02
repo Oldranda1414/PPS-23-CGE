@@ -2,9 +2,9 @@
 
 - [DSL](#dsl)
 - [Engine](#engine)
-  - [Model](#model)
-  - [View](#view)
-  - [Controller](#controller)
+  - [GameModel](#gamemodel)
+  - [GameView](#gameview)
+  - [GameController](#gamecontroller)
 
 The project can be divided into two main parts:
 
@@ -22,31 +22,33 @@ TODO add simple uml of the project.
 
 The DSL provides a Domain Specific Language to enable the user to define a card game using domain terminology.
 
-The game being defined is them created using the Engine and run, allowing the user to play the card game.
+The game being defined is then created using the Engine and run, allowing the user to play the card game.
 
-The DSL uses a builder pattern to interact with engine (explain better pls).
+The DSL uses a builder pattern to create a model that is then passed to the controller, which starts the game.
 
-TODO small uml of dsl structure
+High level UML diagram of the dsl architecture.
+
+![dsl](../uml/dslsmall.png)
 
 ## Engine
 
-The Controller and View communicate using a publish-subscribe pattern. The View publishes events, which correspond to user interactions. The Controller will then subscribe to the events and react by updating the Model and the View accordingly.
+High level UML diagram of the game engine architecture.
 
-TODO small uml of the engine
+![engine](../uml/enginesmall.png)
 
-### Model
+### GameModel
 
 The Model defines the data rappresentation for every main concept in the game.
 
 It is queried by the Controller when data is needed and it is updated to reflect changes to the data requested by the Controller.
 
-### View
+### GameView
 
 The View defines the GUI that displays the model contents to the user and allowes the players to interact with the game.
 
 A tecnology must be choosen during detailed design for the GUI implementation.
 
-### Controller
+### GameController
 
 The Controller is an intermidiary between the Model and the View.
 

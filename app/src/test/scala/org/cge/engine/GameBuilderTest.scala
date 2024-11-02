@@ -3,6 +3,9 @@ package org.cge.engine
 import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
+
+import scala.language.implicitConversions
+
 import org.cge.engine.model.Suit
 import org.cge.engine.model.Rank
 import org.cge.engine.model.GameModel.TableGameWithWinConditions

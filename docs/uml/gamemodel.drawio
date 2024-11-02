@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.8.3" pages="2">
+  <diagram name="GameModel internal structure" id="o0k_oYhwbWbzoBj9GVQP">
+    <mxGraphModel dx="1234" dy="2192" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;object&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ apply(name: String): GameModel&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="240" y="-620" width="205" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModel&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&amp;nbsp;+ table: TableModel&lt;br&gt;&amp;nbsp;+ addWinCondition(winCondition: WinCondition): Unit&lt;br&gt;&amp;nbsp;+ winConditions: List[WinCondition]&lt;br&gt;&amp;nbsp;+ winners: List[PlayerModel]&lt;br&gt;&amp;nbsp;+ addPlayingRule(rule: PlayingRule): Unit&lt;br&gt;&amp;nbsp;+ playingRules: List[PlayingRule]&lt;br&gt;&amp;nbsp;+ canPlayCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ playCard(player: PlayerModel, card: CardModel): Boolean&lt;br&gt;&amp;nbsp;+ computeHandEnd(): Unit&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="90" y="-965" width="370" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SimpleGame&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;div&gt;&amp;nbsp;+ players: List[PlayerModel]&lt;/div&gt;&lt;div&gt;&amp;nbsp;+ addPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ removePlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ setFirstPlayer(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ turn: PlayerModel&lt;br&gt;&amp;nbsp;+ nextTurn(): Unit&lt;br&gt;&amp;nbsp;+ setTurn(player: PlayerModel): Unit&lt;br&gt;&amp;nbsp;+ name: String&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="550" y="-900" width="250" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="9z9QmxUwGLGku5ntNl6J-21" value="&lt;b&gt;TableGameWithWinConditios&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="575" y="-610" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="8KmiYnW0fezhgemkEJgo-3" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="9z9QmxUwGLGku5ntNl6J-21" target="9z9QmxUwGLGku5ntNl6J-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="780" y="-1020" as="sourcePoint" />
+            <mxPoint x="610" y="-1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8KmiYnW0fezhgemkEJgo-4" value="" style="endArrow=block;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="9z9QmxUwGLGku5ntNl6J-4" target="9z9QmxUwGLGku5ntNl6J-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="780" y="-1020" as="sourcePoint" />
+            <mxPoint x="610" y="-1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="5IZuyA33Hczy-P6-kT31" name="GameModel relations">
+    <mxGraphModel dx="1073" dy="2050" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="J4zNAR1fLmNfefQJmyjk-4" value="&lt;b&gt;GameModel&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="-970" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-1" value="&lt;b&gt;PlayerModel&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="-850" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-2" value="&lt;b&gt;TableModel&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="-850" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-3" value="&lt;b&gt;DeckModel&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="-750" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-4" value="&lt;div&gt;&lt;b&gt;CardModel&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="-640" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-5" value="" style="endArrow=diamondThin;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hORo_PlvMoQFdA0975td-1" target="J4zNAR1fLmNfefQJmyjk-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="250" y="-980" as="sourcePoint" />
+            <mxPoint x="268" y="-920" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="310" y="-940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-6" value="" style="endArrow=diamondThin;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hORo_PlvMoQFdA0975td-2" target="J4zNAR1fLmNfefQJmyjk-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="400" y="-840" as="sourcePoint" />
+            <mxPoint x="260" y="-870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-8" value="" style="endArrow=diamondThin;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hORo_PlvMoQFdA0975td-3" target="hORo_PlvMoQFdA0975td-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="420" y="-670" as="sourcePoint" />
+            <mxPoint x="250" y="-670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-9" value="" style="endArrow=diamondThin;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hORo_PlvMoQFdA0975td-4" target="hORo_PlvMoQFdA0975td-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="650" y="-680" as="sourcePoint" />
+            <mxPoint x="480" y="-680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hORo_PlvMoQFdA0975td-10" value="" style="endArrow=diamondThin;endFill=0;endSize=16;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hORo_PlvMoQFdA0975td-3" target="hORo_PlvMoQFdA0975td-2">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="680" y="-1020" as="sourcePoint" />
+            <mxPoint x="510" y="-1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

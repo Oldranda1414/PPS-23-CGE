@@ -1,5 +1,7 @@
 package org.cge
 
+import scala.language.implicitConversions
+
 import org.cge.engine.GameController
 import org.cge.dsl.CardGameEngineDSL._
 import org.cge.dsl.SyntacticSugar.player
@@ -12,7 +14,7 @@ import org.cge.engine.model.TableModel.HandRule
 object Main:
 
   def main(args: Array[String]): Unit =
-    game is "Simple Game"
+    game is "Marafone"
     game has player called "Player 1"
     game has player called "Player 2"
     game has player called "Player 3"
@@ -20,7 +22,7 @@ object Main:
     game gives 10 cards to each player
     game starts from player "Player 1"
     game suitsAre ("Batons", "Coins", "Cups", "Swords")
-    game ranksAre ("Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
+    game ranksAre ("Three", "Two", "Ace", "King", "Knight", "Knave", "Four", "Five", "Six", "Seven")
     game trumpIs "Batons"
     game playing rules are:
       (table, player, playerCard) => 

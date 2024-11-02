@@ -4,6 +4,8 @@ import org.cge.AnyTest
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.BeforeAndAfterEach
 
+import scala.language.implicitConversions
+
 class PlayerModelTest extends AnyTest with BeforeAndAfterEach:
   private var player: PlayerModel = PlayerModel("name")
   private val card: CardModel = CardModel("Ace", "Spades")

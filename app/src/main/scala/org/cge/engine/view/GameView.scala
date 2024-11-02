@@ -52,25 +52,39 @@ object GameView:
 
     /** Adds a player to the game view. */
     override def addPlayer(name: String): State[Frame, Unit] =
-      PlayerViewManager.addPlayer(initialWindowCreation, name)
+      PlayerViewManager.addPlayer(name)
 
     /** Adds a card to a player. */
     override def addCardToPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
-      CardViewManager.addCardToPlayer(initialWindowCreation, player, cardValue, cardSuit)
+      CardViewManager.addCardToPlayer(player, cardValue, cardSuit)
 
     /** Removes a card from a player. */
     override def removeCardFromPlayer(player: String, cardValue: String, cardSuit: String): State[Frame, Unit] =
-      CardViewManager.removeCardFromPlayer(initialWindowCreation, player, cardValue, cardSuit)
+      CardViewManager.removeCardFromPlayer(player, cardValue, cardSuit)
 
     /** Clears a player's hand. */
     override def clearPlayerHand(player: String): State[Frame, Unit] =
-      CardViewManager.clearPlayerHand(initialWindowCreation, player)
+      CardViewManager.clearPlayerHand(player)
 
-    /** Adds a button to the GUI. */
+    /**
+      * Adds a button to the GUI.
+      *
+      * @param text the text of the button
+      * @param name
+      * @param x
+      * @param y
+      * @param width
+      * @param height
+      */
     override def addButton(text: String, name: String, x: Int, y: Int, width: Int, height: Int): State[Frame, Unit] =
-      ButtonViewManager.addButton(initialWindowCreation, name, text, x, y, width, height)
+      ButtonViewManager.addButton(name, text, x, y, width, height)
 
-    /** Ends the game, displaying the winners. */
+    /**
+     * Ends the game, displaying the winners. 
+     * 
+     * @param winners a list of the names of the winning players
+     * @return the updated state of GUI
+     */
     def endGame(winners: List[String]) =
       if winners.size == 0 then
         throw new IllegalArgumentException("No winners provided.")
