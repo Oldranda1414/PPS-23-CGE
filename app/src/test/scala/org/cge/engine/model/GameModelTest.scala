@@ -10,7 +10,8 @@ import scala.language.implicitConversions
 class GameModelTest extends AnyTest with BeforeAndAfterEach:
   private val gameName = "Test"
   private var game: GameModel = GameModel(gameName)
-  private val testPlayer = PlayerModel("Test")
+  private val testPlayer1: PlayerModel = PlayerModel("Test")
+  private val testPlayer2: PlayerModel = PlayerModel("Test2")
   private val winner1 = PlayerModel("winner1")
   private val winner2 = PlayerModel("winner2")
   private val looser1 = PlayerModel("looser1")
@@ -30,26 +31,33 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game = GameModel(gameName)
 
   test("GameModel should be able to add a named player"):
-    game.addPlayer(testPlayer)
-    game.players should be (List(testPlayer))
+    game.addPlayer(testPlayer1)
+    game.players should be (List(testPlayer1))
 
   test("GameModel should be able to remove a named player"):
-    game.addPlayer(testPlayer)
-    game.removePlayer(testPlayer)
+    game.addPlayer(testPlayer1)
+    game.removePlayer(testPlayer1)
     game.players should be (List[PlayerModel]())
 
   test("GameModel should be able to add multiple named players"):
-    val testPlayer2: PlayerModel = PlayerModel("Test2")
 
-    game.addPlayer(testPlayer)
+    game.addPlayer(testPlayer1)
     game.addPlayer(testPlayer2)
-    game.players should be (List(testPlayer, testPlayer2))
+    game.players should be (List(testPlayer1, testPlayer2))
 
   test("GameModel should have initialized name"):
     game.name should be (gameName)
 
   test("GameModel should have a table"):
-      game.table mustBe a[TableModel]
+    game.table mustBe a[TableModel]
+
+  test("GameModel setTurn should change the turn to the given player"):
+    game.addPlayer(testPlayer1)
+    game.addPlayer(testPlayer2)
+    game.setTurn(testPlayer1)
+    game.turn should be (testPlayer1)
+    game.setTurn(testPlayer2)
+    game.turn should be (testPlayer2)
 
   test("TableGameWithWinConditions should start with an empty list of win conditions"):
     game.winConditions should be (List[WinCondition]())
@@ -88,7 +96,18 @@ class GameModelTest extends AnyTest with BeforeAndAfterEach:
     game.nextTurn()
     game.turn should be (winner1)
 
-  test("In ModelModel it is possible to add playing rules"):
+  test("A player inside GameModel can play a card"):
+    testPlayer1.hand.addCard(card1)
+    game.addPlayer(testPlayer1)
+    game.playCard(testPlayer1, card1) should be (true)
+    testPlayer1.hand.cards should be (List.empty[CardModel])
+
+  test("A player inside GameModel can't play a card that is not in its hand"):
+    testPlayer1.hand.addCard(card1)
+    game.addPlayer(testPlayer1)
+    game.playCard(testPlayer1, card2) should be (false)
+
+  test("In GameModel it is possible to add playing rules"):
     game.addPlayingRule(playingRule)
     game.playingRules should be (List(playingRule))
 

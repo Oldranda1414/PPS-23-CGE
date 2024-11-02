@@ -12,7 +12,7 @@ Scala Test has been used for unit testing.
 
 ## Coverage
 
-Using Scoverege the test coverage has been calculated to be 67.72%.
+Using Scoverege the test coverage has been calculated to be 70.71%.
 
 The team had set the goal to keep the test coverage of the project over 80% but due to time constrains this could not be achieved before the final deadline.
 
