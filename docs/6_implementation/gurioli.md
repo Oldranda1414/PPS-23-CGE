@@ -77,4 +77,4 @@ For example, to form the sentence `game gives 5 cards to each player`, the user 
 I believe the next sprint will involve refactoring the game builder to break it into smaller parts. Consequently, since the DSL maps to the builder, a similar solution would be applied to it as well.
 
 [Back to index](../../index.md) |
-[Back to implementation](../index.md)
+[Back to implementation](./index.md)

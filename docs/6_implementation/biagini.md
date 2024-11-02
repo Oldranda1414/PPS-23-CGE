@@ -43,4 +43,4 @@ With `PlayingRule`, it’s possible to specify a rule that determines whether a 
 and returns `true` if the specified player is permitted to play the specified card, `false` otherwise.
 
 [Back to index](../../index.md) |
-[Back to implementation](../index.md)
+[Back to implementation](./index.md)
