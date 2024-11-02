@@ -37,12 +37,12 @@ object GameController:
       val initialState = 
         for 
           _ <- gameView.addPlayer(tablePlayerName)
-          _ <- game.players.foldLeft(doNothing(): State[Window, Unit]):
+          _ <- game.players.foldLeft(unitState(): State[Window, Unit]):
             (state, player) =>
               for
                 _ <- state
                 _ <- gameView.addPlayer(player.name)
-                _ <- player.hand.cards.foldLeft(doNothing(): State[Window, Unit]):
+                _ <- player.hand.cards.foldLeft(unitState(): State[Window, Unit]):
                   (innerState, card) =>
                     for
                       _ <- innerState
@@ -63,13 +63,13 @@ object GameController:
             case s if game.players.map(_.name).contains(eventName) =>
               handleCardPlayed(s, parsedEvent(1))
             case _ =>
-              doNothing()
+              unitState()
         ))
       yield ()
 
       windowEventsHandling.run(WindowState.initialWindow)
 
-    private def doNothing(): State[Window, Unit] = State(s => (s, ()))
+    private def unitState(): State[Window, Unit] = State(s => (s, ()))
 
     private def handleCardPlayed(playerName: String, cardFromEvent: String): State[Window, Unit] =
       val rank = cardFromEvent.split(" ")(0)
@@ -79,7 +79,7 @@ object GameController:
       game.players.find(_.name == playerName) match
         case Some(player) =>
           if game.turn.name != playerName || !game.canPlayCard(game.turn, card) then
-            doNothing()
+            unitState()
           else playCard(player, card)
         case None =>
           throw new NoSuchElementException(s"Player $playerName not found")
@@ -110,5 +110,5 @@ object GameController:
               else
                 gameView.endGame(List("no one :P"))
         else
-          doNothing()
+          unitState()
       yield ()

@@ -37,5 +37,45 @@ The `GameView` singleton defines high level methods that the Controller can use 
 
 Every method returns a `State[Window, Unit]` so that it may be called by the Controller as part of a `for-yield` construct to compose the initial state of the View.
 
+## CardView
+
+The cards are rappresented in the GUI using buttons.
+
+If a card button is pressed it triggers an event structured as follows:
+
+```scala
+"<playerName>:<rank> <suit>"
+```
+
+Where:
+
+- \<playerName\> is the name of the player that has that card in it's hand;
+- \<rank\> is the rank of the card;
+- \<suit\> is the suit of the card.
+
+## ButtonView
+
+The `clearPanel` method uses the List.foldLeft() method to build a state update composed by states removing one-by-one very button present in the given panel.
+
+A `val unitState(): State[Window, Unit]` is defined that rappresents a state that keeps track of the current window but does not apply any update to it, in other words it is a state that "does nothing".
+
+```scala
+  def clearPanel(panelName: String): State[Window, Unit] =
+    panelButtons.get(panelName) match
+      case Some(buttons) =>
+        panelButtons = panelButtons - panelName
+
+        // Using List.foldLeft().
+        buttons.foldLeft(unitState()): (acc, button) =>
+          // Removing every button, prepending the state obtained by the previous button removal.
+          for
+            _ <- acc
+            _ <- WindowState.removeComponentFromPanel(panelName, button)
+            _ <- WindowState.removeButton(button)
+          yield ()
+
+      case None => unitState()
+```
+
 [Back to index](../../index.md) |
 [Back to implementation](../index.md)

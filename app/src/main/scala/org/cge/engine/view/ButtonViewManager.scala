@@ -75,14 +75,14 @@ object ButtonViewManager:
       case Some(buttons) =>
         panelButtons = panelButtons - panelName
 
-        buttons.foldLeft(doNothing()): (acc, button) =>
+        buttons.foldLeft(unitState()): (acc, button) =>
           for
             _ <- acc
             _ <- WindowState.removeComponentFromPanel(panelName, button)
             _ <- WindowState.removeButton(button)
           yield ()
 
-      case None => doNothing()
+      case None => unitState()
   
   private def createButton(name: String, text: String, x: Int, y: Int, width: Int, height: Int): JButton =
     val jb: JButton = new JButton(text);
@@ -103,6 +103,6 @@ object ButtonViewManager:
       case None =>
           throw new NoSuchElementException(s"Panel '$panelName' has no buttons")
 
-  private def doNothing(): State[Window, Unit] = State(s => (s, ()))
+  private def unitState(): State[Window, Unit] = State(s => (s, ()))
 
 
